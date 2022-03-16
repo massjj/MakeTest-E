@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>MakeTest</title>
+
+    <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+    <script src="./node_modules/blockly/blockly_compressed.js"></script>
+    <script src="./node_modules/blockly/blocks_compressed.js"></script>
+    <script src="./node_modules/blockly/msg/en.js"></script>
+
+    <script src="./blocks/test.js"></script>
+</head>
+
+<body>
+    <div id="blocklyDiv" style="height: 600px; width: 800px;"></div>
+    <script>
+        var workspace = Blockly.inject('blocklyDiv', {
+            media: 'https://unpkg.com/blockly/media/',
+            toolbox: toolbox
+                //toolbox: document.getElementById('toolbox')
+        });
+    </script>
+
+</body>
+
+</html>
