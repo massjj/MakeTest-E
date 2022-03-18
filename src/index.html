@@ -154,6 +154,12 @@
   function saveFile() {
     const path = require('path');
     const fs = require("fs");
+    const smalltalk = require('smalltalk');
+    smalltalk.prompt('Question', 'How old are you?', '10').then((value) => {
+        console.log(value);
+    }).catch(() => {
+        console.log('cancel');
+    });
     fs.writeFile(path.join(__dirname, '../cypress/integration/test1.spec.js'),
       codeTosave,
       function (err) {
