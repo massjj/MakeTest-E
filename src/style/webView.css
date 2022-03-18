@@ -1,0 +1,57 @@
+.webview-container {
+    display: absolute;
+    height: 410px;
+    width: 500px;
+    line-height: 0%;
+}
+
+.webview-container>webview {
+    display: inline-flex;
+    width: 500px;
+    /* height: 120px; */
+    height: 320px
+}
+
+.selector-container {
+    display: grid;
+    background-color: #EEEEFA;
+    justify-content: center;
+}
+
+.selector-container>button {
+    display: inline;
+    align-items: center;
+    width: 120px;
+    background-color: #EEEEFA;
+    color: #000000;
+}
+
+.selector-button {
+    color: #EEEEFA;
+    background-color: #000;
+    border-radius: 5%;
+    padding: 1em 2em;
+}
+
+[aria-pressed="true"]:focus {
+    background-color: #00ACB8;
+    border: 1px solid #777;
+}
+
+
+/* Remove the default outline and 
+add the outset shadow */
+
+
+/* [aria-pressed]:focus {
+    outline: none;
+} */
+
+
+/* Make sure both the inset and 
+  outset shadow are present */
+
+
+/* [aria-pressed="true"]:focus {
+    background-color: #000000;
+} */
