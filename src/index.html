@@ -35,11 +35,6 @@
   <script src="./blocks/Advance/Math.js"></script>
   <script src="./blocks/XML.js"></script>
   <script src="./script/custom_renderer.js"></script>
-  <script>
-    // Custom requires for the playground.
-    goog.require('Blockly.WorkspaceCommentSvg');
-    goog.require('Blockly.WorkspaceCommentSvg.render');
-</script>
 
   <!-- codemirror -->
   <script src="../node_modules/codemirror/lib/codemirror.js"></script>
@@ -58,8 +53,13 @@
       <button class="w3-bar-item w3-button w3-border"><img id="Import" src="assets/image/Import.png" /></button>
       <button class="w3-bar-item w3-button w3-border"><img id="Save" src="assets/image/Save.png" onclick="saveFile()" /></button>
       <button class="w3-bar-item w3-button w3-border"><img id="RecordWeb" src="assets/image/RecordWeb.png" /></button>
-
-      <button class="w3-bar-item w3-button w3-border"><img id="Run" src="assets/image/Run.png" /></button>
+      <button class="w3-bar-item w3-button w3-border"><img id="Run" src="assets/image/Run.png" onclick="runFile()"/></button>
+      <script>
+        function runFile(){
+          const { exec } = require('child_process');
+          exec(`cypress run --spec "cypress/integration/test1.spec.js"`)
+        };
+      </script>
     </nav>
   </div>
 
@@ -148,6 +148,7 @@
         }
         
     });
+
     // var result = download(codeTosave);
     // if(result===true){
     //   alert("Successfully Saved !");

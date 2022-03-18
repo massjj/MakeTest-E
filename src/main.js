@@ -21,7 +21,7 @@ const createWindow = () => {
     mainWindow.loadFile(path.join(__dirname, 'index.html'))
 
     // Open the DevTools.
-    // mainWindow.webContents.openDevTools()
+    mainWindow.webContents.openDevTools()
 }
 
 // This method will be called when Electron has finished
@@ -44,6 +44,81 @@ app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit()
 })
 
+const mainMenuTemplate = [
+    {
+        label: 'File',
+        submenu: [
+            { role: 'quit' },
+            { label: 'New File' },
+            { label: 'Open File' },
+            {
+                label: 'Save As',
+                click() {
+                   
+                }
+            },
+            {
+                label: 'Save',
+                click() {
 
+                }
+            }
+        ]
+    },
+    // { role: 'editMenu' }
+    {
+        label: 'Edit',
+        submenu: [
+            { role: 'undo' },
+            { role: 'redo' },
+            { type: 'separator' },
+            { role: 'cut' },
+            { role: 'copy' },
+            { role: 'paste' },
+            { role: 'delete' },
+            { type: 'separator' },
+            { role: 'selectAll' }
+        ]
+    },
+    // { role: 'viewMenu' }
+    {
+        label: 'View',
+        submenu: [
+            { role: 'reload' },
+            { role: 'forceReload' },
+            { role: 'toggleDevTools' },
+            { type: 'separator' },
+            { role: 'resetZoom' },
+            { role: 'zoomIn' },
+            { role: 'zoomOut' },
+            { type: 'separator' },
+            { role: 'togglefullscreen' }
+        ]
+    },
+    // { role: 'windowMenu' }
+    {
+        label: 'Run',
+        submenu: [
+            {
+                label: 'Run',
+                accelerator: 'F5',
+                click() {
+                }
+            }
+        ]
+    },
+    {
+        role: 'help',
+        submenu: [
+            {
+                label: 'Learn More',
+                click: async () => {
+                    const { shell } = require('electron')
+                    await shell.openExternal('https://electronjs.org')
+                }
+            }
+        ]
+    }
+]
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
