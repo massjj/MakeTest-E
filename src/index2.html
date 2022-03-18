@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>MakeTest</title>
+
+    <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+    <script src="./node_modules/blockly/blockly_compressed.js"></script>
+    <script src="./node_modules/blockly/blocks_compressed.js"></script>
+    <script src="./node_modules/blockly/msg/en.js"></script>
+
+    <script src="./blocks/test.js"></script>
+    <script src="./blocks/Action.js"></script>
+    <script src="./blocks/File.js"></script>
+    <script src="./blocks/ID_Element.js"></script>
+    <script src="./blocks/Logic.js"></script>
+    <script src="./blocks/Loop.js"></script>
+    <script src="./blocks/Starting-Ending.js"></script>
+    <script src="./blocks/URL.js"></script>
+    <script src="./blocks/XML.js"></script>
+</head>
+
+<body>
+    <div id="blocklyDiv" style="height: 600px; width: 800px;"></div>
+    <script>
+        var workspace = Blockly.inject('blocklyDiv', {
+            comments: true,
+              collapse: true,
+              disable: true,
+              grid:
+              {
+                  spacing: 25,
+                  length: 3,
+                  colour: '#ccc',
+                  snap: true
+              },
+              horizontalLayout: false,
+              maxBlocks: Infinity,
+              maxInstances: { 'test_basic_limit_instances': 3 },
+              maxTrashcanContents: 256,
+              // media: '../media/',
+              oneBasedIndex: true,
+              readOnly: false,
+              //rtl: rtl,
+              move: {
+                  scrollbars: true,
+                  drag: true,
+                  wheel: false,
+              },
+              toolbox: codelabToolbox1,
+              toolboxPosition: 'start',
+              // renderer: 'geras',
+              zoom:
+              {
+                  controls: true,
+                  wheel: true,
+                  startScale: 1.0,
+                  maxScale: 4,
+                  minScale: 0.25,
+                  scaleSpeed: 1.1
+              }
+        });
+    </script>
+    
+</body>
+
+</html>

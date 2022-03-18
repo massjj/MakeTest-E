@@ -2,7 +2,7 @@
     "name": "maketest-e",
     "version": "1.0.0",
     "description": "",
-    "main": "main.js",
+    "main": "./src/main.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "electron ."
@@ -10,9 +10,12 @@
     "author": "",
     "license": "ISC",
     "devDependencies": {
+        "cypress": "^9.5.2",
         "electron": "^17.1.2"
     },
     "dependencies": {
-        "blockly": "^7.20211209.4"
-    }
+        "blockly": "^7.20211209.4",
+        "codemirror": "^5.65.2"
+    },
+    "type":"commonjs"
 }
