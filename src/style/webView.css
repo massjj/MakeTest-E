@@ -1,18 +1,20 @@
 .webview-container {
     display: grid;
-    height: 410px;
+    max-height: fit-content;
     max-width: calc(500 - 900);
     line-height: 0%;
 }
 
-.input-web {
-    height: 45.5px;
-}
+
+/* .input-web {
+    height: fit-content;
+} */
 
 .webview-c {
     /* display: grid;
     justify-content: center; */
     max-width: inherit;
+    height: fit-content;
 }
 
 .webview-c>webview {

@@ -9,7 +9,7 @@ body {
 
 #blocklyDiv {
     text-align: left;
-    height: 95vh;
+    height: 92vh;
     width: 100%;
 }
 
@@ -30,9 +30,9 @@ body {
     flex: 1 1 0;
 }
 
-.codeDiv {
+
+/* .codeDiv {
     padding: 0%;
-    height: flex;
+    height: fit-content;
     width: calc(500- 900);
-    ;
-}
+} */
