@@ -1,3 +1,5 @@
+// const prompt = require('electron-prompt');
+
 var renameVar = function(name) {
     return name;
 };
