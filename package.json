@@ -17,5 +17,5 @@
         "blockly": "^7.20211209.4",
         "codemirror": "^5.65.2"
     },
-    "type":"commonjs"
+    "type": "commonjs"
 }
