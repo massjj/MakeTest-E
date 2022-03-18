@@ -1,15 +1,24 @@
 .webview-container {
-    display: absolute;
+    display: grid;
     height: 410px;
-    width: 500px;
+    max-width: calc(500 - 900);
     line-height: 0%;
 }
 
-.webview-container>webview {
-    display: inline-flex;
-    width: 500px;
+.input-web {
+    height: 45.5px;
+}
+
+.webview-c {
+    /* display: grid;
+    justify-content: center; */
+    max-width: inherit;
+}
+
+.webview-c>webview {
+    width: inherit;
     /* height: 120px; */
-    height: 320px
+    height: 320px;
 }
 
 .selector-container {

@@ -37,6 +37,8 @@
     <script src="./blocks/Advance/Text.js"></script>
     <script src="./blocks/Advance/Math.js"></script>
     <script src="./blocks/XML.js"></script>
+    <script src="./blocks/variables.js"></script>
+    <script src="./blocks/variables_dynamic.js"></script>
     <script src="./script/custom_renderer.js"></script>
     <script>
         // Custom requires for the playground.
@@ -79,7 +81,9 @@
                       search
                     </button>
                     </div>
-                    <webview id="foo" src="https://www.github.com"></webview>
+                    <div class="webview-c">
+                        <webview id="foo" src="https://www.github.com"></webview>
+                    </div>
                     <div class="selector-container" id="selector-container">
                         <button id="selector-button" class="selector w3-button w3-border" type="button" aria-pressed="true">
                         <img id="selector-img" src="./assets/image/Selector.svg" width="23"/>
