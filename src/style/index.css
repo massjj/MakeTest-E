@@ -9,13 +9,14 @@ body {
 
 #blocklyDiv {
     text-align: left;
-    height: 710px;
+    height: 95vh;
     width: 100%;
 }
 
 .layout-container {
     display: flex;
-    height: 100%;
+    height: 100vh;
+    width: auto;
 }
 
 .workspace-container {
@@ -31,6 +32,7 @@ body {
 
 .codeDiv {
     padding: 0%;
-    height: 200px;
-    width: 500px;
+    height: flex;
+    width: calc(500- 900);
+    ;
 }

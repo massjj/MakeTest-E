@@ -2,184 +2,183 @@
 <html>
 
 <head>
-  <meta charset="UTF-8" />
-  <!-- style -->
-  <link rel="stylesheet" href="./style/index.css" />
-  <link rel="stylesheet" href="../node_modules/codemirror/lib/codemirror.css" />
-  <link rel="stylesheet" href="./style/nav.css" />
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-  <link rel="stylesheet" href="https://unpkg.com/tachyons@4.8.0/css/tachyons.min.css">
-  <link rel="stylesheet" href="./style/webView.css">
-  <script src="https://kit.fontawesome.com/ea3fb95b41.js" crossorigin="anonymous"></script>
+    <meta charset="UTF-8" />
+    <!-- style -->
+    <link rel="stylesheet" href="./style/index.css" />
+    <link rel="stylesheet" href="../node_modules/codemirror/lib/codemirror.css" />
+    <link rel="stylesheet" href="./style/nav.css" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://unpkg.com/tachyons@4.8.0/css/tachyons.min.css">
+    <link rel="stylesheet" href="./style/webView.css">
+    <script src="https://kit.fontawesome.com/ea3fb95b41.js" crossorigin="anonymous"></script>
 
-  <!-- blockly -->
-  <script src="https://unpkg.com/blockly/blockly.min.js"></script>
-  <script src="../node_modules/blockly/blockly_compressed.js"></script>
-  <script src="../node_modules/blockly/blocks_compressed.js"></script>
-  <script src="../node_modules/blockly/msg/en.js"></script>
-  <script src="../node_modules/blockly/javascript.js"></script>
-  <script src="../node_modules/blockly/javascript_compressed.js"></script>
-  <!-- <script>
+    <!-- blockly -->
+    <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+    <script src="../node_modules/blockly/blockly_compressed.js"></script>
+    <script src="../node_modules/blockly/blocks_compressed.js"></script>
+    <script src="../node_modules/blockly/msg/en.js"></script>
+    <script src="../node_modules/blockly/javascript.js"></script>
+    <script src="../node_modules/blockly/javascript_compressed.js"></script>
+    <!-- <script>
       window.nodeRequire = require;
       delete window.require;
       delete window.exports;
       delete window.module;
     </script> -->
+    <!-- custom block -->
+    <script src="./blocks/Action.js"></script>
+    <script src="./blocks/File.js"></script>
+    <script src="./blocks/ID_Element.js"></script>
+    <script src="./blocks/Logic.js"></script>
+    <script src="./blocks/Loop.js"></script>
+    <script src="./blocks/Starting-Ending.js"></script>
+    <script src="./blocks/URL.js"></script>
+    <script src="./blocks/Advance/Text.js"></script>
+    <script src="./blocks/Advance/Math.js"></script>
+    <script src="./blocks/XML.js"></script>
+    <!-- <script src="./blocks/variables.js"></script>
+    <script src="./blocks/variables_dynamic.js"></script> -->
+    <script src="./script/custom_renderer.js"></script>
+    <script>
+        // Custom requires for the playground.
+        goog.require('Blockly.WorkspaceCommentSvg');
+        goog.require('Blockly.WorkspaceCommentSvg.render');
+    </script>
+    <!-- codemirror -->
+    <script src="../node_modules/codemirror/lib/codemirror.js"></script>
+    <script src="../node_modules/codemirror/mode/javascript/javascript.js"></script>
+    <script type="text/javascript">
+        var codeTosave
+    </script>
 
-  <!-- custom block -->
-  <script src="./blocks/Action.js"></script>
-  <script src="./blocks/File.js"></script>
-  <script src="./blocks/ID_Element.js"></script>
-  <script src="./blocks/Logic.js"></script>
-  <script src="./blocks/Loop.js"></script>
-  <script src="./blocks/Starting-Ending.js"></script>
-  <script src="./blocks/URL.js"></script>
-  <script src="./blocks/Advance/Text.js"></script>
-  <script src="./blocks/Advance/Math.js"></script>
-  <script src="./blocks/XML.js"></script>
-  <script src="./script/custom_renderer.js"></script>
-
-  <!-- codemirror -->
-  <script src="../node_modules/codemirror/lib/codemirror.js"></script>
-  <script src="../node_modules/codemirror/mode/javascript/javascript.js"></script>
-  <script type="text/javascript">
-    var codeTosave
-  </script>
-
-  <!-- <script src="./main.js"></script> -->
+    <!-- <script src="./main.js"></script> -->
 </head>
 
 <body>
-  <div class="app-bar">
-    <nav class="tool-bar">
-      <button class="w3-bar-item w3-button "><img id="NewFile" src="assets/image/NewFile.svg" /></button>
-      <button class="w3-bar-item w3-button "><img id="Import" src="assets/image/Import.svg" /></button>
-      <button class="w3-bar-item w3-button "><img id="Save" src="assets/image/Save.svg" onclick="saveFile()" /></button>
-      <button class="w3-bar-item w3-button "><img id="RecordWeb" src="assets/image/Recorder.svg" /></button>
-      <button class="w3-bar-item w3-button "><img id="Run" src="assets/image/Run.svg" onclick="runFile()" /></button>
-      <script>
-        function runFile() {
-          const { exec } = require('child_process');
-          exec(`npm run cy:run -- --headed --no-exit --spec "cypress/integration/test1.spec.js"`)
-        };
-      </script>
-    </nav>
-  </div>
+    <div class="app-bar">
+        <nav class="tool-bar">
+            <button class="w3-bar-item w3-button "><img id="NewFile" src="assets/image/NewFile.svg"/></button>
+            <button class="w3-bar-item w3-button "><img id="Import" src="assets/image/Import.svg" /></button>
+            <button class="w3-bar-item w3-button "><img id="Save" src="assets/image/Save.svg" /></button>
+            <button class="w3-bar-item w3-button "><img id="RecordWeb" src="assets/image/Recorder.svg" /></button>
+            <button class="w3-bar-item w3-button "><img id="Run" src="assets/image/Run.svg" /></button>
+            <script>
+                function runFile() {
+                    const {
+                        exec
+                    } = require('child_process');
+                    exec(`npm run cy:run -- --headed --no-exit --spec "cypress/integration/test1.spec.js"`)
+                };
+            </script>
+        </nav>
+    </div>
 
-  <div class="main">
-    <div class="layout-container">
-      <div class="workspace-container">
-        <div id="blocklyDiv"></div>
-      </div>
-      <div class="output">
-        <div class="webview-container">
-          <div class="input-web">
-            <input
-              class="f6 f5-l input-reset bn fl black-80 bg-white pa3 lh-solid w-60 w-75-m w-80-l br2-ns br--left-ns"
-              value="https://www.github.com" type="url" id="URL">
-            <button
-              class="f6 f5-l button-reset fl pv3 tc bn bg-black hover-bg-green white pointer w-100 w-25-m w-20-l br2-ns br--right-ns"
-              type="submit" id="submit" onclick="getUrl()">
-              <i class="fa-solid fa-magnifying-glass"></i>
-              search
-            </button>
-          </div>
-          <webview id="foo" src="https://www.github.com"></webview>
-          <div class="selector-container" id="selector-container">
-            <button id="selector-button" class="selector w3-button w3-border" type="button" aria-pressed="true">
-              <img id="selector-img" src="./assets/image/Selector.svg" width="23" />
-              Selector
-            </button>
-          </div>
+    <div class="main">
+        <div class="layout-container">
+            <div class="workspace-container">
+                <div id="blocklyDiv"></div>
+            </div>
+            <div class="output">
+                <div class="webview-container">
+                    <div class="input-web">
+                        <input class="f6 f5-l input-reset bn fl black-80 bg-white pa3 lh-solid w-60 w-75-m w-80-l br2-ns br--left-ns" value="https://www.github.com" type="url" id="URL">
+                        <button class="f6 f5-l button-reset fl pv3 tc bn bg-black hover-bg-green white pointer w-100 w-25-m w-20-l br2-ns br--right-ns" type="submit" id="submit" onclick="getUrl()">
+                      <i class="fa-solid fa-magnifying-glass"></i>
+                      search
+                    </button>
+                    </div>
+                    <div class="webview-c">
+                        <webview id="foo" src="https://www.github.com"></webview>
+                    </div>
+                    <div class="selector-container" id="selector-container">
+                        <button id="selector-button" class="selector w3-button w3-border" type="button" aria-pressed="true">
+                        <img id="selector-img" src="./assets/image/Selector.svg" width="23"/>
+                        Selector
+                      </button>
+                    </div>
+                </div>
+                <div class="codeDiv">
+                    <textarea id="showCode"></textarea>
+                    <script type="text/javascript" src="./script/showcode.js"></script>
+                </div>
+            </div>
         </div>
-        <div class="codeDiv">
-          <textarea id="showCode"></textarea>
-          <script type="text/javascript" src="./script/showcode.js"></script>
-        </div>
-
-      </div>
     </div>
 </body>
 <!-- <script type="text/javascript" src="./script/saveFile.js"></script> -->
-<footer>5</footer>
 
 <script>
-  // var {download} = require('main.js');
-  var workspace = Blockly.inject("blocklyDiv", {
-    comments: true,
-    collapse: true,
-    disable: true,
-    grid: {
-      spacing: 25,
-      length: 3,
-      colour: "#ccc",
-      snap: true,
-    },
-    horizontalLayout: false,
-    maxBlocks: Infinity,
-    maxInstances: {
-      test_basic_limit_instances: 3
-    },
-    maxTrashcanContents: 256,
-    // media: '../media/',
-    oneBasedIndex: true,
-    readOnly: false,
-    //rtl: rtl,
-    move: {
-      scrollbars: true,
-      drag: true,
-      wheel: false,
-    },
-    toolbox: codelabToolbox1,
-    toolboxPosition: "start",
-    renderer: 'custom_renderer',
-    zoom: {
-      controls: true,
-      wheel: true,
-      startScale: 1.0,
-      maxScale: 4,
-      minScale: 0.25,
-      scaleSpeed: 1.1,
-    },
-  });
-
-  function myUpdateFunction() {
-    var code = Blockly.JavaScript.workspaceToCode(workspace);
-    //codeArea is in showcode.js
-    codeArea.getDoc().setValue(code);
-    codeTosave = code;
-  }
-  workspace.addChangeListener(myUpdateFunction);
-
-  function saveFile() {
-    const path = require('path');
-    const fs = require("fs");
-    const smalltalk = require('smalltalk');
-    smalltalk.prompt('Question', 'How old are you?', '10').then((value) => {
-        console.log(value);
-    }).catch(() => {
-        console.log('cancel');
+    // var {download} = require('main.js');
+    var workspace = Blockly.inject("blocklyDiv", {
+        comments: true,
+        collapse: true,
+        disable: true,
+        grid: {
+            spacing: 25,
+            length: 3,
+            colour: "#ccc",
+            snap: true,
+        },
+        horizontalLayout: false,
+        maxBlocks: Infinity,
+        maxInstances: {
+            test_basic_limit_instances: 3
+        },
+        maxTrashcanContents: 256,
+        // media: '../media/',
+        oneBasedIndex: true,
+        readOnly: false,
+        //rtl: rtl,
+        move: {
+            scrollbars: true,
+            drag: true,
+            wheel: false,
+        },
+        toolbox: codelabToolbox1,
+        toolboxPosition: "start",
+        renderer: 'custom_renderer',
+        zoom: {
+            controls: true,
+            wheel: true,
+            startScale: 1.0,
+            maxScale: 4,
+            minScale: 0.25,
+            scaleSpeed: 1.1,
+        },
     });
-    fs.writeFile(path.join(__dirname, '../cypress/integration/test1.spec.js'),
-      codeTosave,
-      function (err) {
-        if (err) {
-          throw err
-          alert("Cancelled");;
-        } else {
-          console.log('Saved!');
-          alert("Successfully Saved !");
-        }
 
-      });
-    // var result = download(codeTosave);
-    // if(result===true){
-    //   alert("Successfully Saved !");
-    // }
-    // else{
-    //   alert("Cancelled");
-    // }
-  }
+
+    function myUpdateFunction() {
+        var code = Blockly.JavaScript.workspaceToCode(workspace);
+        //codeArea is in showcode.js
+        codeArea.getDoc().setValue(code);
+        codeTosave = code;
+    }
+    workspace.addChangeListener(myUpdateFunction);
+
+    function saveFile() {
+        const path = require('path');
+        const fs = require("fs");
+        fs.writeFile(path.join(__dirname, '../cypress/integration/test1.spec.js'),
+            codeTosave,
+            function(err) {
+                if (err) {
+                    throw err
+                    alert("Cancelled");;
+                } else {
+                    console.log('Saved!');
+                    alert("Successfully Saved !");
+                }
+
+            });
+        // var result = download(codeTosave);
+        // if(result===true){
+        //   alert("Successfully Saved !");
+        // }
+        // else{
+        //   alert("Cancelled");
+        // }
+    }
 </script>
 
 </html>
