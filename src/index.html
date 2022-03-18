@@ -36,27 +36,14 @@
     <script src="./blocks/Advance/Text.js"></script>
     <script src="./blocks/Advance/Math.js"></script>
     <script src="./blocks/XML.js"></script>
-    <script src="./blocks/variables.js"></script>
-    <script src="./blocks/variables_dynamic.js"></script>
+    <!-- <script src="./blocks/variables.js"></script>
+    <script src="./blocks/variables_dynamic.js"></script> -->
     <script src="./script/custom_renderer.js"></script>
     <script>
         // Custom requires for the playground.
         goog.require('Blockly.WorkspaceCommentSvg');
         goog.require('Blockly.WorkspaceCommentSvg.render');
     </script>
-    <!-- custom block -->
-    <script src="./blocks/Action.js"></script>
-    <script src="./blocks/File.js"></script>
-    <script src="./blocks/ID_Element.js"></script>
-    <script src="./blocks/Logic.js"></script>
-    <script src="./blocks/Loop.js"></script>
-    <script src="./blocks/Starting-Ending.js"></script>
-    <script src="./blocks/URL.js"></script>
-    <script src="./blocks/Advance/Text.js"></script>
-    <script src="./blocks/Advance/Math.js"></script>
-    <script src="./blocks/XML.js"></script>
-    <script src="./script/custom_renderer.js"></script>
-
     <!-- codemirror -->
     <script src="../node_modules/codemirror/lib/codemirror.js"></script>
     <script src="../node_modules/codemirror/mode/javascript/javascript.js"></script>
@@ -159,6 +146,7 @@
             scaleSpeed: 1.1,
         },
     });
+
 
     function myUpdateFunction() {
         var code = Blockly.JavaScript.workspaceToCode(workspace);
