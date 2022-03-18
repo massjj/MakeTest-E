@@ -1,5 +1,5 @@
 describe('a' , () => {
-  it('s', () => {
+  it('b', () => {
     cy.visit('www.youtube.com')
   })
 })
