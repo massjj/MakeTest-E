@@ -9,7 +9,7 @@ body {
 
 #blocklyDiv {
     text-align: left;
-    height: 95vh;
+    height: 92vh;
     width: 100%;
 }
 
@@ -32,7 +32,7 @@ body {
 
 .codeDiv {
     padding: 0%;
-    height: flex;
-    width: calc(500- 900);
-    ;
+    height: 50vh;
+    /* width: calc(500- 900);  */
+    
 }
