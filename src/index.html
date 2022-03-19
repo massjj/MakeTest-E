@@ -40,7 +40,7 @@
     <!-- <script src="./blocks/variables.js"></script>
     <script src="./blocks/variables_dynamic.js"></script> -->
     <script src="./script/custom_renderer.js"></script>
-    
+
     <!-- codemirror -->
     <script src="../node_modules/codemirror/lib/codemirror.js"></script>
     <script src="../node_modules/codemirror/mode/javascript/javascript.js"></script>
@@ -50,36 +50,39 @@
 
     <!-- <script src="./main.js"></script> -->
 </head>
+<!-- Body  -->
 
 <body>
-  <script>
-    function getUrl(){
-          let message = document.getElementById("URL").value
+    <script>
+        function getUrl() {
+            let message = document.getElementById("URL").value
 
-          console.log(message);
-          //check url
-          if (message.includes("http\:\/\/", 0)) {
-            document.getElementById("foo").src = message;
-            document.getElementById("URL").value = message;
-       } else if (message.includes("https\:\/\/", 0)) {
-            document.getElementById("foo").src = message;
-            document.getElementById("URL").value = message;
-      //   this.url = message;
-      //   this.message = message;
-      } else {
-        let suffix = "https\:\/\/";
-        document.getElementById("foo").src = suffix.concat(message);
-        document.getElementById("URL").value = suffix.concat(message);
-      }
-      // this.message = this.url;
+            console.log(message);
+            //check url
+            if (message.includes("http\:\/\/", 0)) {
+                document.getElementById("foo").src = message;
+                document.getElementById("URL").value = message;
+            } else if (message.includes("https\:\/\/", 0)) {
+                document.getElementById("foo").src = message;
+                document.getElementById("URL").value = message;
+                //   this.url = message;
+                //   this.message = message;
+            } else {
+                let suffix = "https\:\/\/";
+                document.getElementById("foo").src = suffix.concat(message);
+                document.getElementById("URL").value = suffix.concat(message);
+            }
+            // this.message = this.url;
         }
 
         function runFile() {
-                    const {exec} = require('child_process');
-                    console.log("in running proxess");
-                    exec(`npm run cy:run -- --headed --no-exit --spec "cypress/integration/test1.spec.js"`)
-                };
-  </script>
+            const {
+                exec
+            } = require('child_process');
+            console.log("in running proxess");
+            exec(`npm run cy:run -- --headed --no-exit --spec "cypress/integration/test1.spec.js"`)
+        };
+    </script>
     <div class="app-bar">
         <nav class="tool-bar">
             <button class="w3-bar-item w3-button "><img id="NewFile" src="assets/image/NewFile.svg"/></button>
