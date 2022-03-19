@@ -267,25 +267,6 @@ var codelabToolbox1 = `
       <field name="GO_POSITION">back</field>
     </block>
   </category>
-  <category name="File" colour="#4C384D">
-    <block type="_044">
-      <field name="ATTACH_FILE">OPTIONNAME</field>
-      <value name="ATTACH_FILE_ID">
-        <shadow type="_027">
-          <field name="ID_ELE">ID element</field>
-        </shadow>
-      </value>
-    </block>
-    <block type="_045">
-		  <value name="FILE_NAME">
-        <shadow type="text">
-          <field name="TEXT"></field>
-        </shadow>
-      </value>
-	</block>
-  </category>
-
-  
   <sep gap="32"></sep>
   <category name="Text" colour="#8D4CAB">
     <block type="text"></block>
