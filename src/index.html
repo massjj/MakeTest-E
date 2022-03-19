@@ -40,11 +40,7 @@
     <!-- <script src="./blocks/variables.js"></script>
     <script src="./blocks/variables_dynamic.js"></script> -->
     <script src="./script/custom_renderer.js"></script>
-    <script>
-        // Custom requires for the playground.
-        goog.require('Blockly.WorkspaceCommentSvg');
-        goog.require('Blockly.WorkspaceCommentSvg.render');
-    </script>
+    
     <!-- codemirror -->
     <script src="../node_modules/codemirror/lib/codemirror.js"></script>
     <script src="../node_modules/codemirror/mode/javascript/javascript.js"></script>
@@ -56,21 +52,49 @@
 </head>
 
 <body>
+  <script>
+    function getUrl(){
+          let message = document.getElementById("URL").value
+
+          console.log(message);
+          //check url
+          if (message.includes("http\:\/\/", 0)) {
+            document.getElementById("foo").src = message;
+            document.getElementById("URL").value = message;
+       } else if (message.includes("https\:\/\/", 0)) {
+            document.getElementById("foo").src = message;
+            document.getElementById("URL").value = message;
+      //   this.url = message;
+      //   this.message = message;
+      } else {
+        let suffix = "https\:\/\/";
+        document.getElementById("foo").src = suffix.concat(message);
+        document.getElementById("URL").value = suffix.concat(message);
+      }
+      // this.message = this.url;
+        }
+
+        function runFile() {
+                    const {exec} = require('child_process');
+                    console.log("in running proxess");
+                    exec(`npm run cy:run -- --headed --no-exit --spec "cypress/integration/test1.spec.js"`)
+                };
+  </script>
     <div class="app-bar">
         <nav class="tool-bar">
             <button class="w3-bar-item w3-button "><img id="NewFile" src="assets/image/NewFile.svg"/></button>
             <button class="w3-bar-item w3-button "><img id="Import" src="assets/image/Import.svg" /></button>
-            <button class="w3-bar-item w3-button "><img id="Save" src="assets/image/Save.svg" /></button>
-            <button class="w3-bar-item w3-button "><img id="RecordWeb" src="assets/image/Recorder.svg" /></button>
-            <button class="w3-bar-item w3-button "><img id="Run" src="assets/image/Run.svg" /></button>
-            <script>
+            <button class="w3-bar-item w3-button "><img id="Save" src="assets/image/Save.svg" onclick="saveFile()" /></button>
+            <button class="w3-bar-item w3-button "><img id="RecordWeb" src="assets/image/Recorder.svg"  /></button>
+            <button class="w3-bar-item w3-button "><img id="Run" src="assets/image/Run.svg" onclick="runFile()" /></button>
+            <!-- <script>
                 function runFile() {
                     const {
                         exec
                     } = require('child_process');
                     exec(`npm run cy:run -- --headed --no-exit --spec "cypress/integration/test1.spec.js"`)
                 };
-            </script>
+            </script> -->
         </nav>
     </div>
 
@@ -179,6 +203,7 @@
         // else{
         //   alert("Cancelled");
         // }
+
     }
 </script>
 

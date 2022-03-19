@@ -5,3 +5,5 @@ const codeArea = CodeMirror.fromTextArea(textareaElement,{
     mode:"javascript"
 });
 
+codeArea.setSize("100%","100%")
+
