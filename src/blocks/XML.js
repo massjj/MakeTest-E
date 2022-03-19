@@ -33,9 +33,9 @@ var codelabToolbox1 = `
         </shadow>
       </value>
       <value name="LOGIC">
-        <shadow type="_013">
+        <block type="_013">
           <field name="PROPERTY">be.exist</field>
-        </shadow>
+        </block>
       </value>
     </block>
     <block type="_009">
@@ -292,7 +292,7 @@ var codelabToolbox1 = `
   </category>  
 
   <category name="Math" colour="#A5A824">
-    <block type="_063"></block>
+    <block type="math_number"></block>
   </category>
 </xml>
 `

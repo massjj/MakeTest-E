@@ -8,8 +8,8 @@ Blockly.defineBlocksWithJsonArray([{
             },
             {
                 "type": "input_value",
-                "name": "LOGIC"
-
+                "name": "LOGIC",
+                "check": "Logic"
             }
         ],
         "inputsInline": true,
@@ -172,6 +172,37 @@ Blockly.defineBlocksWithJsonArray([{
         "helpUrl": ""
     }
 ]);
+
+// Blockly.defineBlocksWithJsonArray([ // Mutator blocks. Do not extract.
+//     // Block representing the if statement in the controls_if mutator.
+//     {
+//         "type": "controls_if_if",
+//         "message0": "if",
+//         "nextStatement": null,
+//         "enableContextMenu": false,
+//         "colour": "#5DA688",
+//         "tooltip": ""
+//     },
+//     // Block representing the else-if statement in the controls_if mutator.
+//     {
+//         "type": "controls_if_elseif",
+//         "message0": "else if",
+//         "previousStatement": null,
+//         "nextStatement": null,
+//         "enableContextMenu": false,
+//         "colour": "#5DA688",
+//         "tooltip": ""
+//     },
+//     // Block representing the else statement in the controls_if mutator.
+//     {
+//         "type": "controls_if_else",
+//         "message0": "else",
+//         "previousStatement": null,
+//         "enableContextMenu": false,
+//         "colour": "#5DA688",
+//         "tooltip": ""
+//     }
+// ]);
 
 Blockly.Blocks['_006'] = {
     init: function() {

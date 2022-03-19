@@ -30,9 +30,8 @@ body {
     flex: 1 1 0;
 }
 
-
-/* .codeDiv {
+.codeDiv {
     padding: 0%;
-    height: fit-content;
-    width: calc(500- 900);
-} */
+    height: 50vh;
+    /* width: calc(500- 900);  */
+}
