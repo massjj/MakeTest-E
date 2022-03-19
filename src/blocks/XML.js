@@ -257,9 +257,9 @@ var codelabToolbox1 = `
     </block>
     <block type="_041">
       <value name="URL_LOGIC">
-        <shadow type="_013">
+        <block type="_013">
           <field name="PROPERTY">be.exist</field>
-        </shadow>
+        </block>
       </value>
     </block>
     <block type="_042"></block>

@@ -70,9 +70,9 @@ Blockly.JavaScript['_040'] = function(block) {
 };
 
 Blockly.JavaScript['_041'] = function(block) {
-    var value_url_logic = Blockly.JavaScript.valueToCode(block, 'URL_LOGIC', Blockly.JavaScript.ORDER_ATOMIC);
+    var value_url_logic = Blockly.JavaScript.valueToCode(block, 'URL_LOGIC', Blockly.JavaScript.ORDER_NONE);
     // TODO: Assemble JavaScript into code variable.
-    var code = '\ncy.url().should(' + value_url_logic + ')';
+    var code = '\ncy.url().should' + value_url_logic;
     return code;
 };
 
