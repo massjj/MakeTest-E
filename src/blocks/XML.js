@@ -66,6 +66,14 @@ var codelabToolbox1 = `
         </shadow>
       </value>
     </block>
+    <block type="_023">
+      <field name="POPUP_CHECK">alert</field>
+      <value name="POPUP_TEXT">
+        <shadow type="text">
+          <field name="TEXT"></field>
+        </shadow>
+      </value>
+    </block>
   </category>
   <category name="Action" colour="#0071DE">
     <block type="_015">
@@ -136,14 +144,6 @@ var codelabToolbox1 = `
       <value name="VIEW_HEIGHT">
         <shadow type="math_number">
           <field name="NUM">0</field>
-        </shadow>
-      </value>
-    </block>
-    <block type="_023">
-      <field name="POPUP_CHECK">alert</field>
-      <value name="POPUP_TEXT">
-        <shadow type="text">
-          <field name="TEXT"></field>
         </shadow>
       </value>
     </block>

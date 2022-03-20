@@ -170,6 +170,42 @@ Blockly.defineBlocksWithJsonArray([{
         "colour": "#5DA688",
         "tooltip": "",
         "helpUrl": ""
+    },
+    {
+        "type": "_023",
+        "message0": "check %1 %2 have %3",
+        "args0": [{
+                "type": "field_dropdown",
+                "name": "POPUP_CHECK",
+                "options": [
+                    [
+                        "alert",
+                        "window:alert"
+                    ],
+                    [
+                        "confirm",
+                        "window:confirm"
+                    ]
+                ]
+            },
+            {
+                "type": "input_dummy"
+            },
+            {
+                "type": "input_value",
+                "name": "POPUP_TEXT",
+                "check": [
+                    "String",
+                    "Var"
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": "Action",
+        "nextStatement": "Action",
+        "colour": "#5DA688",
+        "tooltip": "",
+        "helpUrl": ""
     }
 ]);
 
@@ -572,4 +608,12 @@ Blockly.JavaScript['_014'] = function(block) {
     }
     // TODO: Change ORDER_NONE to the correct strength.
     return code
+};
+
+Blockly.JavaScript['_023'] = function(block) {
+    var dropdown_popup_check = block.getFieldValue('POPUP_CHECK');
+    var value_popup_text = Blockly.JavaScript.valueToCode(block, 'POPUP_TEXT', Blockly.JavaScript.ORDER_ATOMIC);
+    // TODO: Assemble JavaScript into code variable.
+    var code = '\ncy.on(\'' + dropdown_popup_check + '\'\, (text) => { \n expect(text).to.contain(' + value_popup_text + ') \n})';
+    return code;
 };
