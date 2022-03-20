@@ -160,7 +160,7 @@ var codelabToolbox1 = `
       </value>
     </block>
   </category>
-  <category name="Variables" categorystyle="variable_category" custom="VARIABLE"></category>
+  <category name="Variables" colour="330" custom="VARIABLE"></category>
   <category name="Identify Element" colour="#006583">
     <block type="_027"></block>
     <block type="_028">

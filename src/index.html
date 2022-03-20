@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://unpkg.com/tachyons@4.8.0/css/tachyons.min.css">
     <link rel="stylesheet" href="./style/webView.css">
     <script src="https://kit.fontawesome.com/ea3fb95b41.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="lib/codemirror.css">
+
 
     <!-- blockly -->
     <script src="https://unpkg.com/blockly/blockly.min.js"></script>
@@ -34,6 +34,7 @@
     <script src="./blocks/Loop.js"></script>
     <script src="./blocks/Starting-Ending.js"></script>
     <script src="./blocks/URL.js"></script>
+    <script src="./blocks/Variables.js"></script>
     <script src="./blocks/Advance/Text.js"></script>
     <script src="./blocks/Advance/Math.js"></script>
     <script src="./blocks/XML.js"></script>
@@ -174,6 +175,37 @@
             scaleSpeed: 1.1,
         },
     });
+    // Variable function
+
+    workspace.registerButtonCallback("createNumberVariableButtonPressed", () => {
+        const name = window.prompt("Enter Variable :");
+        if (name && name !== "") {
+            workspace.createVariable(name, ["Number", "String"]);
+        }
+    });
+
+    workspace.registerToolboxCategoryCallback("VARIABLE", (workspace) => {
+        const xmlStringList = ["<button text=\"Add Variable\" callbackKey=\"createNumberVariableButtonPressed\"></button>"];
+
+        const Variables = workspace.getVariablesOfType(["Number", "String"]);
+
+        if (Variables.length > 0) {
+            let field = "<field name=\"VAR\" id=\"" + Variables[0].getId() + "\" variabletype=\"Number\"></field>";
+            xmlStringList.push("<block type=\"variables_set\">" + field + "</block>");
+            for (const Variable of Variables) {
+                field = "<field name=\"VAR\" id=\"" + Variable.getId() + "\" variabletype=\"Number\"></field>";
+                xmlStringList.push("<block type=\"variables_get\">" + field + "</block>");
+            }
+        }
+
+        // xmlStringListをElement型にする
+        const xmlElementList = xmlStringList.map((item) => {
+            return Blockly.Xml.textToDom(item);
+        });
+        return xmlElementList;
+    });
+
+    // Variable function
 
 
     function myUpdateFunction() {
