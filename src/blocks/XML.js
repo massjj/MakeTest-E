@@ -26,6 +26,11 @@ var codelabToolbox1 = `
     </block>
   </category>
   <category name="Logic" colour="#5DA688">
+    <block type="_008">
+      <value name="EXPECT_PARAM">
+        <shadow type="param"></shadow>
+      </value>
+    </block>
     <block type="_007">
       <value name="ID">
         <shadow type="_027">
