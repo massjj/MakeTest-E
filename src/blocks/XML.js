@@ -272,13 +272,191 @@ var codelabToolbox1 = `
       <field name="GO_POSITION">back</field>
     </block>
   </category>
-  <sep gap="32"></sep>
-  <category name="Text" colour="#8D4CAB">
-    <block type="text"></block>
-  </category>  
 
-  <category name="Math" colour="#A5A824">
-    <block type="math_number"></block>
+  <sep gap="32"></sep>
+
+  <category name="Advance">
+
+    <category name="Text" colour="#8D4CAB">
+      <block type="text"></block>
+      <block type="_069">
+        <value name="STRING">
+          <shadow type="text">
+            <field name="TEXT"></field>
+          </shadow>
+        </value>
+      </block>
+      <block type="_071">
+        <value name="STRING_PARSE">
+          <shadow type="text">
+            <field name="TEXT"></field>
+          </shadow>
+        </value>
+      </block>
+      <block type="_072">
+        <value name="STRING">
+          <shadow type="text">
+            <field name="TEXT"></field>
+          </shadow>
+        </value>
+        <value name="SEP">
+          <shadow type="text">
+            <field name="TEXT"></field>
+          </shadow>
+        </value>
+      </block>
+      <block type="_074">
+        <value name="NUMBER">
+          <shadow type="_063">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+      </block>
+    </category>  
+
+    <category name="Math" colour="#A5A824">
+      <block type="_063"></block>
+      <block type="_064">
+        <value name="MIN_NUMBER">
+          <shadow type="_063">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="MAX_NUMBER">
+          <shadow type="_063">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="_065">
+        <value name="NUMBER_1">
+          <shadow type="_063">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="NUMBER_2">
+          <shadow type="_063">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="_066">
+        <value name="NUMBER">
+          <shadow type="_063">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="_067">
+        <value name="NUMBER_1">
+        <shadow type="_063">
+          <field name="NUM">0</field>
+        </shadow>
+        </value>
+        <value name="NUMBER_2">
+          <shadow type="_063">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+      </block>
+    </category>
+
+    <category name="Time" colour="#9F1158">
+      <block type="_075">
+        <value name="TIME">
+          <shadow type="_063">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="_076">
+        <value name="TIME">
+          <shadow type="_063">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+      </block>  
+    </category>
+
+    <category name="Console" colour="#8B8383">
+      <block type="_077">
+        <value name="CONSOLE_STRING">
+          <shadow type="text">
+            <field name="TEXT"></field>
+          </shadow>
+        </value>
+      </block>
+      <block type="_078">
+      </block>
+    </category>
+    <category name="Array" colour="#0D929B">
+      <block type="_047"></block>
+      <block type="_048"></block>
+      <block type="_049">
+        <value name="INDEX">
+          <shadow type="_063">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="_050">
+        <value name="INDEX">
+          <shadow type="_063">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="_051"></block>
+      <block type="_052"></block>
+      <block type="_053"></block>
+      <block type="_054">
+        <value name="INDEX">
+          <shadow type="_063">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="SET_VALUE">
+          <shadow type="text">
+            <field name="TEXT"></field>
+          </shadow>
+        </value>
+      </block>
+      <block type="_055">
+        <value name="SET_VALUE">
+          <shadow type="text">
+            <field name="TEXT"></field>
+          </shadow>
+        </value>
+      </block>
+      <block type="_058">
+        <value name="INDEX">
+          <shadow type="_063">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="_060">
+        <value name="INDEX">
+          <shadow type="_063">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="SET_VALUE">
+          <shadow type="text">
+            <field name="TEXT"></field>
+          </shadow>
+        </value>
+      </block>
+      <block type="_061">
+        <value name="GET_VALUE">
+          <shadow type="text">
+            <field name="TEXT"></field>
+          </shadow>
+        </value>
+      </block>
+      <block type="_062"></block>
+    </category>
   </category>
+
 </xml>
 `
