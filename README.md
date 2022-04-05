@@ -16,6 +16,9 @@
 ### electron live reload
 ```npm install electron-reload```
 
+### app installer
+``` npm install electron-builder --dev```
+
 in main.js 
 ```const electron = require('electron')```
 // Enable live reload for all the files inside your project directory

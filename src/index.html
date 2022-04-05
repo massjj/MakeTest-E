@@ -43,8 +43,21 @@
     <!-- codemirror -->
     <script src="../node_modules/codemirror/lib/codemirror.js"></script>
     <script src="../node_modules/codemirror/mode/javascript/javascript.js"></script>
-    <script type="text/javascript">
+    <script>
         var codeTosave
+        const cypress = require('cypress')
+        // const electron = require('electron');
+        // const ipcRenderer = electron.ipcRenderer;
+
+        // ipcRenderer.on('cpu',(event,data)=>{
+        //     console.log('cpu %' + data);
+        // });
+        // ipcRenderer.on('mem',(event,data)=>{
+        //     console.log('mem %' + data);
+        // });
+        // ipcRenderer.on('total-mem',(event,data)=>{
+        //     console.log('total mem GB' + data);
+        // });
     </script>
 
     <!-- <script src="./main.js"></script> -->
@@ -74,29 +87,19 @@
             // this.message = this.url;
         }
 
-        function runFile() {
-            const {
-                exec
-            } = require('child_process');
-            console.log("in running proxess");
-            exec(`npm run cy:run -- --headed --no-exit --spec "cypress/integration/test1.spec.js"`)
-        };
     </script>
+
     <div class="app-bar">
         <nav class="tool-bar">
-            <button class="w3-bar-item w3-button "><img id="NewFile" src="assets/image/NewFile.svg"/></button>
-            <button class="w3-bar-item w3-button "><img id="Import" src="assets/image/Import.svg" /></button>
-            <button class="w3-bar-item w3-button "><img id="Save" src="assets/image/Save.svg" onclick="saveFile()" /></button>
-            <button class="w3-bar-item w3-button "><img id="RecordWeb" src="assets/image/Recorder.svg"  /></button>
-            <button class="w3-bar-item w3-button "><img id="Run" src="assets/image/Run.svg" onclick="runFile()" /></button>
-            <!-- <script>
-                function runFile() {
-                    const {
-                        exec
-                    } = require('child_process');
-                    exec(`npm run cy:run -- --headed --no-exit --spec "cypress/integration/test1.spec.js"`)
-                };
-            </script> -->
+            <button class="w3-bar-item w3-button "><img id="NewFile" src="assets/image/NewFile.svg" /></button>
+            <button class="w3-bar-item w3-button "><img id="Import" src="assets/image/Import.svg"
+                    onclick="openFile()" /></button>
+            <button class="w3-bar-item w3-button "><img id="Save" src="assets/image/Save.svg"
+                    onclick="saveAs()" /></button>
+            <!-- <script src="./script/saveFile.js"></script> -->
+            <button class="w3-bar-item w3-button "><img id="RecordWeb" src="assets/image/Recorder.svg" /></button>
+            <button class="w3-bar-item w3-button "><img id="Run" src="assets/image/Run.svg"
+                    onclick="toSpecFile()" /></button>
         </nav>
     </div>
 
@@ -108,20 +111,25 @@
             <div class="output">
                 <div class="webview-container">
                     <div class="input-web">
-                        <input class="f6 f5-l input-reset bn fl black-80 bg-white pa3 lh-solid w-60 w-75-m w-80-l br2-ns br--left-ns" value="https://www.github.com" type="url" id="URL">
-                        <button class="f6 f5-l button-reset fl pv3 tc bn bg-black hover-bg-green white pointer w-100 w-25-m w-20-l br2-ns br--right-ns" type="submit" id="submit" onclick="getUrl()">
-                      <i class="fa-solid fa-magnifying-glass"></i>
-                      search
-                    </button>
+                        <input
+                            class="f6 f5-l input-reset bn fl black-80 bg-white pa3 lh-solid w-60 w-75-m w-80-l br2-ns br--left-ns"
+                            value="https://www.github.com" type="url" id="URL">
+                        <button
+                            class="f6 f5-l button-reset fl pv3 tc bn bg-black hover-bg-green white pointer w-100 w-25-m w-20-l br2-ns br--right-ns"
+                            type="submit" id="submit" onclick="getUrl()">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            search
+                        </button>
                     </div>
                     <div class="webview-c">
                         <webview id="foo" src="https://www.github.com"></webview>
                     </div>
                     <div class="selector-container" id="selector-container">
-                        <button id="selector-button" class="selector w3-button w3-border" type="button" aria-pressed="true">
-                        <img id="selector-img" src="./assets/image/Selector.svg" width="23"/>
-                        Selector
-                      </button>
+                        <button id="selector-button" class="selector w3-button w3-border" type="button"
+                            aria-pressed="true">
+                            <img id="selector-img" src="./assets/image/Selector.svg" width="23" />
+                            Selector
+                        </button>
                     </div>
                 </div>
                 <div class="codeDiv">
@@ -132,10 +140,9 @@
         </div>
     </div>
 </body>
-<!-- <script type="text/javascript" src="./script/saveFile.js"></script> -->
 
 <script>
-    // var {download} = require('main.js');
+    let fileHandle;
     var workspace = Blockly.inject("blocklyDiv", {
         comments: true,
         collapse: true,
@@ -174,7 +181,6 @@
         },
     });
 
-
     function myUpdateFunction() {
         var code = Blockly.JavaScript.workspaceToCode(workspace);
         //codeArea is in showcode.js
@@ -183,30 +189,127 @@
     }
     workspace.addChangeListener(myUpdateFunction);
 
-    function saveFile() {
+    function runFile() {
+        console.log("in running process !!")
+        const cypress = require('cypress')
+
+        cypress.run({
+            // the path is relative to the current working directory
+            headed: true,
+            spec: './cypress/integration/2-advanced-examples/actions.spec.js',
+        })
+            .then((results) => {
+                console.log(results)
+            })
+            .catch((err) => {
+                console.error(err)
+            })
+    };
+
+    function toSpecFile() {
         const path = require('path');
         const fs = require("fs");
         fs.writeFile(path.join(__dirname, '../cypress/integration/test1.spec.js'),
             codeTosave,
-            function(err) {
+            function (err) {
                 if (err) {
                     throw err
-                    alert("Cancelled");;
+                    console.log("Cancelled");;
                 } else {
                     console.log('Saved!');
-                    alert("Successfully Saved !");
+                    runFile();
+                    //alert("Successfully Saved !");
                 }
-
             });
-        // var result = download(codeTosave);
-        // if(result===true){
-        //   alert("Successfully Saved !");
-        // }
-        // else{
-        //   alert("Cancelled");
-        // }
-
     }
+
+    // function download(data, filename, type) {
+    //     var file = new Blob([data], { type: type });
+    //     if (window.navigator.msSaveOrOpenBlob){
+    //       // IE10+
+    //       console.log("HA1");
+    //       window.navigator.msSaveOrOpenBlob(file, filename);
+    //       }
+    //     else {
+    //       // Others
+    //       var a = document.createElement("a"),
+    //         url = URL.createObjectURL(file);
+    //       a.href = url;
+    //       a.download = filename;
+    //       document.body.appendChild(a);
+    //       a.click();
+    //       console.log("HA2");
+    //       setTimeout(function () {
+    //         console.log("HA3");
+    //         document.body.removeChild(a);
+    //         window.URL.revokeObjectURL(url);
+    //       }, 0);
+    //     }
+    //     console.log(filename)
+    //   }
+
+    async function openFile() {
+        [fileHandle] = await window.showOpenFilePicker(
+            {
+                types: [
+                    {
+                        description: 'XML',
+                        accept: {
+                            'text/xml': ['.xml']
+                        }
+                    }
+                ],
+                excludeAcceptAllOption: true,
+                multiple: false
+            }
+        );
+        let fileData = await fileHandle.getFile();
+        let text = await fileData.text();
+        var xml = Blockly.Xml.textToDom(text);
+        Blockly.Xml.domToWorkspace(xml, workspace);
+    }
+
+    async function save() {
+        let stream = await fileHandle.createWritable();
+        console.log('st1')
+        var xml = Blockly.Xml.workspaceToDom(workspace);
+        console.log('st2')
+        await stream.write(xml);
+        console.log('st3')
+        await stream.close();
+    }
+
+    async function saveAs() {
+        console.log('st0.1')
+        fileHandle = await window.showSaveFilePicker();
+        console.log('st0.2')
+        let stream = await fileHandle.createWritable();
+        var xml = Blockly.Xml.workspaceToDom(workspace);
+        console.log('st2')
+        await stream.write(xml);
+        console.log('st3')
+        await stream.close();
+        //save();
+    }
+
+    function toXML() {
+        var xml = Blockly.Xml.workspaceToDom(workspace);
+        document.getElementById("Save").value = xml
+        console.log("Hi XML")
+        console.log(document.getElementById("Save").value)
+        // download(xml, "maketest.xml", "text/xml")
+    }
+
+    function fromXml() { //ยังไม่แก้
+        var input = document.getElementById('importExport');
+        if (!input.value) {
+            return;
+        }
+        var xml = Blockly.Xml.textToDom(input.value);
+        Blockly.Xml.domToWorkspace(xml, workspace);
+        taChange();
+    }
+
 </script>
 
 </html>
