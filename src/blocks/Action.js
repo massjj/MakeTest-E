@@ -144,42 +144,42 @@ Blockly.defineBlocksWithJsonArray([{
         "tooltip": "",
         "helpUrl": ""
     },
-    {
-        "type": "_023",
-        "message0": "check %1 %2 have %3",
-        "args0": [{
-                "type": "field_dropdown",
-                "name": "POPUP_CHECK",
-                "options": [
-                    [
-                        "alert",
-                        "window:alert"
-                    ],
-                    [
-                        "confirm",
-                        "window:confirm"
-                    ]
-                ]
-            },
-            {
-                "type": "input_dummy"
-            },
-            {
-                "type": "input_value",
-                "name": "POPUP_TEXT",
-                "check": [
-                    "String",
-                    "Var"
-                ]
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": "Action",
-        "nextStatement": "Action",
-        "colour": "#0071DE",
-        "tooltip": "",
-        "helpUrl": ""
-    },
+    // {
+    //     "type": "_023",
+    //     "message0": "check %1 %2 have %3",
+    //     "args0": [{
+    //             "type": "field_dropdown",
+    //             "name": "POPUP_CHECK",
+    //             "options": [
+    //                 [
+    //                     "alert",
+    //                     "window:alert"
+    //                 ],
+    //                 [
+    //                     "confirm",
+    //                     "window:confirm"
+    //                 ]
+    //             ]
+    //         },
+    //         {
+    //             "type": "input_dummy"
+    //         },
+    //         {
+    //             "type": "input_value",
+    //             "name": "POPUP_TEXT",
+    //             "check": [
+    //                 "String",
+    //                 "Var"
+    //             ]
+    //         }
+    //     ],
+    //     "inputsInline": true,
+    //     "previousStatement": "Action",
+    //     "nextStatement": "Action",
+    //     "colour": "#0071DE",
+    //     "tooltip": "",
+    //     "helpUrl": ""
+    // },
     {
         "type": "_024",
         "message0": "select value %1 from selector %2",
@@ -265,13 +265,13 @@ Blockly.JavaScript['_022'] = function(block) {
     return code;
 };
 
-Blockly.JavaScript['_023'] = function(block) {
-    var dropdown_popup_check = block.getFieldValue('POPUP_CHECK');
-    var value_popup_text = Blockly.JavaScript.valueToCode(block, 'POPUP_TEXT', Blockly.JavaScript.ORDER_ATOMIC);
-    // TODO: Assemble JavaScript into code variable.
-    var code = '\ncy.on(\'' + dropdown_popup_check + '\'\, (text) => { \n expect(text).to.contain(' + value_popup_text + ') \n})';
-    return code;
-};
+// Blockly.JavaScript['_023'] = function(block) {
+//     var dropdown_popup_check = block.getFieldValue('POPUP_CHECK');
+//     var value_popup_text = Blockly.JavaScript.valueToCode(block, 'POPUP_TEXT', Blockly.JavaScript.ORDER_ATOMIC);
+//     // TODO: Assemble JavaScript into code variable.
+//     var code = '\ncy.on(\'' + dropdown_popup_check + '\'\, (text) => { \n expect(text).to.contain(' + value_popup_text + ') \n})';
+//     return code;
+// };
 
 Blockly.JavaScript['_024'] = function(block) {
     var value_select_value = Blockly.JavaScript.valueToCode(block, 'SELECT_VALUE', Blockly.JavaScript.ORDER_ATOMIC);
