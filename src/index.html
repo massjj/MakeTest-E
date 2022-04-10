@@ -101,7 +101,7 @@
             <button class="w3-bar-item w3-button "><img id="Import" src="assets/image/Import.svg"
                     onclick="openFile()" /></button>
             <button class="w3-bar-item w3-button "><img id="Save" src="assets/image/Save.svg"
-                    onclick="saveAs()" /></button>
+                    onclick="toXML()" /></button>
             <!-- <script src="./script/saveFile.js"></script> -->
             <button class="w3-bar-item w3-button "><img id="RecordWeb" src="assets/image/Recorder.svg" /></button>
             <button class="w3-bar-item w3-button "><img id="Run" src="assets/image/Run.svg"
@@ -128,7 +128,8 @@
                         </button>
                     </div>
                     <div class="webview-c">
-                        <webview id="foo" src="https://www.github.com"></webview>
+                        <iframe id="foo" src="https://www.github.com"></iframe>
+                        <!-- <webview id="foo" src="https://www.github.com"></webview> -->
                     </div>
                     <div class="selector-container" id="selector-container">
                         <button id="selector-button" class="selector w3-button w3-border" type="button"
@@ -146,6 +147,16 @@
         </div>
     </div>
 </body>
+<xml id="starter">
+    <block type="_001" x="88" y="88">
+    <value name="DESCRIBE_TEXT">
+      <shadow type="text">
+        <field name="TEXT"></field>
+      </shadow>
+    </value>
+  </block>
+</xml>
+
 
 <script>
     let fileHandle;
@@ -186,6 +197,7 @@
             scaleSpeed: 1.1,
         },
     });
+    Blockly.Xml.domToWorkspace(document.getElementById("starter"), workspace);
     // Variable function
 
     workspace.registerButtonCallback("createNumberVariableButtonPressed", () => {
@@ -229,11 +241,10 @@
     function runFile() {
         console.log("in running process !!")
         const cypress = require('cypress')
-
         cypress.run({
             // the path is relative to the current working directory
             headed: true,
-            spec: './cypress/integration/2-advanced-examples/actions.spec.js',
+            spec: './cypress/integration/test1.spec.js',
         })
             .then((results) => {
                 console.log(results)
@@ -260,30 +271,30 @@
             });
     }
 
-    // function download(data, filename, type) {
-    //     var file = new Blob([data], { type: type });
-    //     if (window.navigator.msSaveOrOpenBlob){
-    //       // IE10+
-    //       console.log("HA1");
-    //       window.navigator.msSaveOrOpenBlob(file, filename);
-    //       }
-    //     else {
-    //       // Others
-    //       var a = document.createElement("a"),
-    //         url = URL.createObjectURL(file);
-    //       a.href = url;
-    //       a.download = filename;
-    //       document.body.appendChild(a);
-    //       a.click();
-    //       console.log("HA2");
-    //       setTimeout(function () {
-    //         console.log("HA3");
-    //         document.body.removeChild(a);
-    //         window.URL.revokeObjectURL(url);
-    //       }, 0);
-    //     }
-    //     console.log(filename)
-    //   }
+    function download(data, filename, type) {
+        var file = new Blob([data], { type: type });
+        if (window.navigator.msSaveOrOpenBlob){
+          // IE10+
+          console.log("HA1");
+          window.navigator.msSaveOrOpenBlob(file, filename);
+          }
+        else {
+          // Others
+          var a = document.createElement("a"),
+            url = URL.createObjectURL(file);
+          a.href = url;
+          a.download = filename;
+          document.body.appendChild(a);
+          a.click();
+          console.log("HA2");
+          setTimeout(function () {
+            console.log("HA3");
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+          }, 0);
+        }
+        console.log(filename)
+      }
 
     async function openFile() {
         [fileHandle] = await window.showOpenFilePicker(
@@ -306,46 +317,46 @@
         Blockly.Xml.domToWorkspace(xml, workspace);
     }
 
-    async function save() {
-        let stream = await fileHandle.createWritable();
-        console.log('st1')
-        var xml = Blockly.Xml.workspaceToDom(workspace);
-        console.log('st2')
-        await stream.write(xml);
-        console.log('st3')
-        await stream.close();
-    }
+    // async function save() {
+    //     let stream = await fileHandle.createWritable();
+    //     console.log('st1')
+    //     var xml = Blockly.Xml.workspaceToDom(workspace);
+    //     console.log('st2')
+    //     await stream.write(xml);
+    //     console.log('st3')
+    //     await stream.close();
+    // }
 
-    async function saveAs() {
-        console.log('st0.1')
-        fileHandle = await window.showSaveFilePicker();
-        console.log('st0.2')
-        let stream = await fileHandle.createWritable();
-        var xml = Blockly.Xml.workspaceToDom(workspace);
-        console.log('st2')
-        await stream.write(xml);
-        console.log('st3')
-        await stream.close();
-        //save();
-    }
+    // async function saveAs() {
+    //     console.log('st0.1')
+    //     fileHandle = await window.showSaveFilePicker();
+    //     console.log('st0.2')
+    //     let stream = await fileHandle.createWritable();
+    //     var xml = Blockly.Xml.workspaceToDom(workspace);
+    //     console.log('st2')
+    //     await stream.write(xml);
+    //     console.log('st3')
+    //     await stream.close();
+    //     //save();
+    // }
 
     function toXML() {
         var xml = Blockly.Xml.workspaceToDom(workspace);
         document.getElementById("Save").value = xml
         console.log("Hi XML")
         console.log(document.getElementById("Save").value)
-        // download(xml, "maketest.xml", "text/xml")
+        download(xml, "script.xml", "text/xml")
     }
 
-    function fromXml() { //ยังไม่แก้
-        var input = document.getElementById('importExport');
-        if (!input.value) {
-            return;
-        }
-        var xml = Blockly.Xml.textToDom(input.value);
-        Blockly.Xml.domToWorkspace(xml, workspace);
-        taChange();
-    }
+    // function fromXml() { //ยังไม่แก้
+    //     var input = document.getElementById('importExport');
+    //     if (!input.value) {
+    //         return;
+    //     }
+    //     var xml = Blockly.Xml.textToDom(input.value);
+    //     Blockly.Xml.domToWorkspace(xml, workspace);
+    //     taChange();
+    // }
 
 </script>
 
