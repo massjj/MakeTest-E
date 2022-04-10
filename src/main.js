@@ -1,8 +1,9 @@
 // main.js
 // Modules to control application life and create native browser window
-
-const { app, BrowserWindow, Menu, webContents, remote } = require('electron')
-const path = require('path')
+const { app, BrowserWindow, Menu, ipcMain, dialog, webContents, remote } = require('electron');
+const os = require('os-utils');
+const path = require('path');
+const fs = require('fs');
 const createWindow = () => {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
@@ -44,8 +45,18 @@ const createWindow = () => {
 
 
     // Open the DevTools.
-    //mainWindow.webContents.openDevTools()
-    //childWindow.webContents.openDevTools();
+    mainWindow.webContents.openDevTools()
+
+    //setInterval(()=>{
+    os.cpuUsage(function(v) {
+        console.log('CPU Usage (%): ' + v * 100);
+        // mainMenuTemplate.webContents.send('cpu',v*100)
+        console.log('Mem Usage (%): ' + os.freememPercentage() * 100);
+        // mainMenuTemplate.webContents.send('mem',os.freememPercentage()*100)
+        console.log('CPU Usage (%): ' + os.totalmem() / 1024);
+        // mainMenuTemplate.webContents.send('total-mem',os.totalmem()/1024)
+    });
+    // },1000)
 }
 
 
@@ -62,6 +73,41 @@ app.whenReady().then(() => {
         // dock icon is clicked and there are no other windows open.
         if (BrowserWindow.getAllWindows().length === 0) createWindow()
     })
+
+    var save = document.getElementById('Save');
+
+    // save.addEventListener('click', (event) => {
+    //     // Resolves to a Promise<Object>
+    //     console.log("Hey")
+    //     dialog.showSaveDialog({
+    //         title: 'Select the File Path to save',
+    //         defaultPath: path.join(__dirname, 'sample.xml'),
+    //         // defaultPath: path.join(__dirname, '../assets/'),
+    //         buttonLabel: 'Save',
+    //         // Restricting the user to only Text Files.
+    //         filters: [
+    //             {
+    //                 name: 'Block code',
+    //                 extensions: ['xml']
+    //             }, ],
+    //         properties: []
+    //     }).then(file => {
+    //         // Stating whether dialog operation was cancelled or not.
+    //         console.log(file.canceled);
+    //         if (!file.canceled) {
+    //             console.log(file.filePath.toString());
+
+    //             // Creating and Writing to the sample.txt file
+    //             fs.writeFile(file.filePath.toString(), 
+    //             document.getElementById('Save').value, function (err) {
+    //                 if (err) throw err;
+    //                 console.log('Saved!');
+    //             });
+    //         }
+    //     }).catch(err => {
+    //         console.log(err)
+    //     });
+    // });
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
@@ -79,6 +125,12 @@ const mainMenuTemplate = [{
                 { label: 'Open File' },
                 {
                     label: 'Save As',
+                    click() {
+
+                    }
+                },
+                {
+                    label: 'Save',
                     click() {
 
                     }
