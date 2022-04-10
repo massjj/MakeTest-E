@@ -121,7 +121,7 @@
                     </button>
                     </div>
                     <div class="webview-c">
-                        <webview id="foo" src="https://www.github.com"></webview>
+                        <webview id="foo" src="https://www.github.com" allowpopups disableguestresize></webview>
                     </div>
                     <div class="selector-container" id="selector-container">
                         <button id="selector-button" class="selector w3-button w3-border" type="button" aria-pressed="true">
@@ -244,6 +244,22 @@
         // }
 
     }
+
+    // const webview = document.querySelector('webview')
+    // webview.addEventListener('dom-ready', () => {
+    //     webview.getWebContentsId()
+    //     webview.openDevTools();
+    //     // console.log('URL : ' + webview.getURL());
+    //     // webview.inspectElement(10, 10);
+    // })
+
+    const webview = document.querySelector('webview')
+    webview.addEventListener('found-in-page', (e) => {
+        webview.stopFindInPage('keepSelection')
+    })
+
+    const requestId = webview.getWebContentsId()
+    console.log(requestId)
 </script>
 
 </html>
