@@ -17,7 +17,8 @@ const createWindow = () => {
             preload: path.join(__dirname, 'preload.js')
         },
     })
-    
+
+
     // const view = new BrowserView()
     // mainWindow.setBrowserView(view)
     // view.setBounds({ x: 305, y: 124, width: 420, height: 420 }) //1113 111
@@ -30,7 +31,7 @@ const createWindow = () => {
     //                 console.log(err)
     //             })
     // })
-    
+
     // const childWindow = new BrowserWindow({
     //     width: 420,
     //     height: 420,
@@ -46,7 +47,7 @@ const createWindow = () => {
 
     // and load the index.html of the app.
     mainWindow.loadFile(path.join(__dirname, 'index.html'))
-    // childWindow.loadURL('https://www.google.com');
+        // childWindow.loadURL('https://www.google.com');
 
 
     //load HTML from child window
@@ -67,15 +68,15 @@ const createWindow = () => {
     mainWindow.webContents.openDevTools()
 
     //setInterval(()=>{
-    os.cpuUsage(function(v) {
-        console.log('CPU Usage (%): ' + v * 100);
-        // mainMenuTemplate.webContents.send('cpu',v*100)
-        console.log('Mem Usage (%): ' + os.freememPercentage() * 100);
-        // mainMenuTemplate.webContents.send('mem',os.freememPercentage()*100)
-        console.log('CPU Usage (%): ' + os.totalmem() / 1024);
-        // mainMenuTemplate.webContents.send('total-mem',os.totalmem()/1024)
-    });
-    // },1000)
+    // os.cpuUsage(function(v) {
+    //     console.log('CPU Usage (%): ' + v * 100);
+    //     // mainMenuTemplate.webContents.send('cpu',v*100)
+    //     console.log('Mem Usage (%): ' + os.freememPercentage() * 100);
+    //     // mainMenuTemplate.webContents.send('mem',os.freememPercentage()*100)
+    //     console.log('CPU Usage (%): ' + os.totalmem() / 1024);
+    //     // mainMenuTemplate.webContents.send('total-mem',os.totalmem()/1024)
+    // });
+    // // },1000)
 }
 
 
@@ -86,35 +87,35 @@ app.whenReady().then(() => {
     createWindow()
     const mainMenu = Menu.buildFromTemplate(mainMenuTemplate);
     Menu.setApplicationMenu(mainMenu);
-    const cypress = require("cypress");    
+    const cypress = require("cypress");
     const firstTimeFilePath = path.resolve(app.getPath('userData'), '.first-time-huh');
     let isFirstTime;
     try {
-      fs.closeSync(fs.openSync(firstTimeFilePath, 'wx'));
-      isFirstTime = true;
-    } catch(e) {
-      if (e.code === 'EEXIST') {
-        isFirstTime = false;
-      } else {
-        // something gone wrong
-        throw e;
-      }
+        fs.closeSync(fs.openSync(firstTimeFilePath, 'wx'));
+        isFirstTime = true;
+    } catch (e) {
+        if (e.code === 'EEXIST') {
+            isFirstTime = false;
+        } else {
+            // something gone wrong
+            throw e;
+        }
     }
-    if(isFirstTime){
+    if (isFirstTime) {
         //add guide window na ja dee
         cypress.open()
     }
-    
+
     app.on('activate', () => {
         // On macOS it's common to re-create a window in the app when the
         // dock icon is clicked and there are no other windows open.
         if (BrowserWindow.getAllWindows().length === 0) createWindow()
-    
+
     })
 
-    
 
-   
+
+
 
     // save.addEventListener('click', (event) => {
     //     // Resolves to a Promise<Object>
