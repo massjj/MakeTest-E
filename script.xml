@@ -1,0 +1,27 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <block type="_001" id="Ua5-DBp]hG~.o2Gn;XEn" x="88" y="88">
+    <value name="DESCRIBE_TEXT">
+      <shadow type="text" id="|!ckPDN[FA$~p#gKkk;r">
+        <field name="TEXT"></field>
+      </shadow>
+    </value>
+    <statement name="IT">
+      <block type="_002" id="{0lcl%ytc:SuJh9#Pj4W">
+        <value name="IT_TEXT">
+          <shadow type="text" id="?WL@L#VdSKFb~fio]_;a">
+            <field name="TEXT"></field>
+          </shadow>
+        </value>
+        <statement name="ACTION">
+          <block type="_040" id="d-o1xzIOexpI}3oJENcw">
+            <value name="VISIT_TEXT">
+              <shadow type="text" id="m?XR^S|f184:;Z4@*m#3">
+                <field name="TEXT">www.google.com</field>
+              </shadow>
+            </value>
+          </block>
+        </statement>
+      </block>
+    </statement>
+  </block>
+</xml>

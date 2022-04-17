@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 <html>
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <!-- style -->
     <link rel="stylesheet" href="./style/index.css" />
-    <link rel="stylesheet" href="../node_modules/codemirror/lib/codemirror.css" />
+    <link
+      rel="stylesheet"
+      href="../node_modules/codemirror/lib/codemirror.css"
+    />
     <link rel="stylesheet" href="./style/nav.css" />
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://unpkg.com/tachyons@4.8.0/css/tachyons.min.css">
-    <link rel="stylesheet" href="./style/webView.css">
-    <script src="https://kit.fontawesome.com/ea3fb95b41.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/tachyons@4.8.0/css/tachyons.min.css"
+    />
+    <link rel="stylesheet" href="./style/webView.css" />
+    <script
+      src="https://kit.fontawesome.com/ea3fb95b41.js"
+      crossorigin="anonymous"
+    ></script>
 
     <!-- blockly -->
     <script src="https://unpkg.com/blockly/blockly.min.js"></script>
@@ -50,262 +58,360 @@
     <script src="../node_modules/codemirror/lib/codemirror.js"></script>
     <script src="../node_modules/codemirror/mode/javascript/javascript.js"></script>
     <script>
-        var codeTosave
-        const cypress = require('cypress')
-            // const electron = require('electron');
-            // const ipcRenderer = electron.ipcRenderer;
+      var codeTosave;
+      const cypress = require("cypress");
+      // const electron = require('electron');
+      // const ipcRenderer = electron.ipcRenderer;
 
-        // ipcRenderer.on('cpu',(event,data)=>{
-        //     console.log('cpu %' + data);
-        // });
-        // ipcRenderer.on('mem',(event,data)=>{
-        //     console.log('mem %' + data);
-        // });
-        // ipcRenderer.on('total-mem',(event,data)=>{
-        //     console.log('total mem GB' + data);
-        // });
+      // ipcRenderer.on('cpu',(event,data)=>{
+      //     console.log('cpu %' + data);
+      // });
+      // ipcRenderer.on('mem',(event,data)=>{
+      //     console.log('mem %' + data);
+      // });
+      // ipcRenderer.on('total-mem',(event,data)=>{
+      //     console.log('total mem GB' + data);
+      // });
+    </script>
+    <script type="module">
+      import {finder} from 'https://medv.io/finder/finder.js'
+      document.addEventListener('click', event => {
+      var element = finder(event.target)
+      console.log(element)  
+    })
     </script>
 
     <!-- <script src="./main.js"></script> -->
-</head>
-<!-- Body  -->
+  </head>
+  <!-- Body  -->
 
-<body>
+  <body>
     <script>
-        function getUrl() {
-            let message = document.getElementById("URL").value
+      function getUrl() {
+        let message = document.getElementById("URL").value;
 
-            console.log(message);
-            //check url
-            if (message.includes("http\:\/\/", 0)) {
-                document.getElementById("foo").src = message;
-                document.getElementById("URL").value = message;
-            } else if (message.includes("https\:\/\/", 0)) {
-                document.getElementById("foo").src = message;
-                document.getElementById("URL").value = message;
-                //   this.url = message;
-                //   this.message = message;
-            } else {
-                let suffix = "https\:\/\/";
-                document.getElementById("foo").src = suffix.concat(message);
-                document.getElementById("URL").value = suffix.concat(message);
-            }
-            // this.message = this.url;
+        console.log(message);
+        //check url
+        if (message.includes("http\:\/\/", 0)) {
+          document.getElementById("foo").src = message;
+          document.getElementById("URL").value = message;
+        } else if (message.includes("https\:\/\/", 0)) {
+          document.getElementById("foo").src = message;
+          document.getElementById("URL").value = message;
+          //   this.url = message;
+          //   this.message = message;
+        } else {
+          let suffix = "https\:\/\/";
+          document.getElementById("foo").src = suffix.concat(message);
+          document.getElementById("URL").value = suffix.concat(message);
         }
+        // this.message = this.url;
+      }
     </script>
 
     <div class="app-bar">
-        <nav class="tool-bar">
-            <button class="w3-bar-item w3-button "><img id="NewFile" src="assets/image/NewFile.svg" /></button>
-            <button class="w3-bar-item w3-button "><img id="Import" src="assets/image/Import.svg"
-                    onclick="openFile()" /></button>
-            <button class="w3-bar-item w3-button "><img id="Save" src="assets/image/Save.svg"
-                    onclick="toXML()" /></button>
-            <!-- <script src="./script/saveFile.js"></script> -->
-            <button class="w3-bar-item w3-button "><img id="RecordWeb" src="assets/image/Recorder.svg" /></button>
-            <button class="w3-bar-item w3-button "><img id="Run" src="assets/image/Run.svg"
-                    onclick="toSpecFile()" /></button>
-        </nav>
+      <nav class="tool-bar">
+        <button class="w3-bar-item w3-button">
+          <img id="NewFile" src="assets/image/NewFile.svg" />
+        </button>
+        <button class="w3-bar-item w3-button">
+          <img id="Import" src="assets/image/Import.svg" onclick="openFile()" />
+        </button>
+        <button class="w3-bar-item w3-button">
+          <img id="Save" src="assets/image/Save.svg" onclick="toXML()" />
+        </button>
+        <!-- <script src="./script/saveFile.js"></script> -->
+        <button class="w3-bar-item w3-button">
+          <img id="RecordWeb" src="assets/image/Recorder.svg" />
+        </button>
+        <button class="w3-bar-item w3-button">
+          <img id="Run" src="assets/image/Run.svg" onclick="toSpecFile()" />
+        </button>
+      </nav>
     </div>
 
     <div class="main">
-        <div class="layout-container">
-            <div class="workspace-container">
-                <div id="blocklyDiv"></div>
-            </div>
-            <div class="output">
-                <div class="webview-container">
-                    <div class="input-web">
-                        <input class="f6 f5-l input-reset bn fl black-80 bg-white pa3 lh-solid w-60 w-75-m w-80-l br2-ns br--left-ns" value="https://www.github.com" type="url" id="URL">
-                        <button class="f6 f5-l button-reset fl pv3 tc bn bg-black hover-bg-green white pointer w-100 w-25-m w-20-l br2-ns br--right-ns" type="submit" id="submit" onclick="getUrl()">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                            search
-                        </button>
-                    </div>
-                    <div class="webview-c">
-                        <webview id="foo" src="https://www.github.com" allowpopups disableguestresize></webview>
-                    </div>
-                    <div class="selector-container" id="selector-container">
-                        <button id="selector-button" class="selector w3-button w3-border" type="button" aria-pressed="true">
-                            <img id="selector-img" src="./assets/image/Selector.svg" width="23" />
-                            Selector
-                        </button>
-                    </div>
-                </div>
-                <div class="codeDiv">
-                    <textarea id="showCode"></textarea>
-                    <script type="text/javascript" src="./script/showcode.js"></script>
-                </div>
-            </div>
+      <div class="layout-container">
+        <div class="workspace-container">
+          <div id="blocklyDiv"></div>
         </div>
+        <div class="output">
+          <div class="webview-container">
+            <div class="input-web">
+              <input
+                class="f6 f5-l input-reset bn fl black-80 bg-white pa3 lh-solid w-60 w-75-m w-80-l br2-ns br--left-ns"
+                value="https://www.github.com"
+                type="url"
+                id="URL"
+              />
+              <button
+                class="f6 f5-l button-reset fl pv3 tc bn bg-black hover-bg-green white pointer w-100 w-25-m w-20-l br2-ns br--right-ns"
+                type="submit"
+                id="submit"
+                onclick="getUrl()"
+              >
+                <i class="fa-solid fa-magnifying-glass"></i>
+                search
+              </button>
+            </div>
+            <div class="webview-c">
+              <webview
+                id="foo"
+                src="https://www.github.com"
+                allowpopups
+                disableguestresize
+              ></webview>
+            </div>
+            <div class="selector-container" id="selector-container">
+              <button
+                id="selector-button"
+                class="selector w3-button w3-border"
+                type="button"
+                aria-pressed="true"
+              >
+                <img
+                  id="selector-img"
+                  src="./assets/image/Selector.svg"
+                  width="23"
+                />
+                Selector
+              </button>
+            </div>
+          </div>
+          <div class="codeDiv">
+            <textarea id="showCode"></textarea>
+            <script type="text/javascript" src="./script/showcode.js"></script>
+          </div>
+        </div>
+      </div>
     </div>
-</body>
-<xml id="starter">
+  </body>
+  <xml id="starter">
     <block type="_001" x="88" y="88">
-        <value name="DESCRIBE_TEXT">
-            <shadow type="text">
-                <field name="TEXT"></field>
-            </shadow>
-        </value>
+      <value name="DESCRIBE_TEXT">
+        <shadow type="text">
+          <field name="TEXT"></field>
+        </shadow>
+      </value>
     </block>
-</xml>
+  </xml>
 
-
-<script>
+  <script>
     let fileHandle;
     var workspace = Blockly.inject("blocklyDiv", {
-        comments: true,
-        collapse: true,
-        disable: true,
-        grid: {
-            spacing: 25,
-            length: 3,
-            colour: "#ccc",
-            snap: true,
-        },
-        horizontalLayout: false,
-        maxBlocks: Infinity,
-        maxInstances: {
-            test_basic_limit_instances: 3
-        },
-        maxTrashcanContents: 256,
-        // media: '../media/',
-        oneBasedIndex: true,
-        readOnly: false,
-        //rtl: rtl,
-        move: {
-            scrollbars: true,
-            drag: true,
-            wheel: false,
-        },
-        toolbox: codelabToolbox1,
-        toolboxPosition: "start",
-        renderer: 'custom_renderer',
-        zoom: {
-            controls: true,
-            wheel: true,
-            startScale: 1.0,
-            maxScale: 4,
-            minScale: 0.25,
-            scaleSpeed: 1.1,
-        },
+      comments: true,
+      collapse: true,
+      disable: true,
+      grid: {
+        spacing: 25,
+        length: 3,
+        colour: "#ccc",
+        snap: true,
+      },
+      horizontalLayout: false,
+      maxBlocks: Infinity,
+      maxInstances: {
+        test_basic_limit_instances: 3,
+      },
+      maxTrashcanContents: 256,
+      // media: '../media/',
+      oneBasedIndex: true,
+      readOnly: false,
+      //rtl: rtl,
+      move: {
+        scrollbars: true,
+        drag: true,
+        wheel: false,
+      },
+      toolbox: codelabToolbox1,
+      toolboxPosition: "start",
+      renderer: "custom_renderer",
+      zoom: {
+        controls: true,
+        wheel: true,
+        startScale: 1.0,
+        maxScale: 4,
+        minScale: 0.25,
+        scaleSpeed: 1.1,
+      },
     });
     Blockly.Xml.domToWorkspace(document.getElementById("starter"), workspace);
     // Variable function
 
-    workspace.registerButtonCallback("createNumberVariableButtonPressed", () => {
+    workspace.registerButtonCallback(
+      "createNumberVariableButtonPressed",
+      () => {
         const name = window.prompt("Enter Variable :");
         if (name && name !== "") {
-            workspace.createVariable(name, ["Number", "String"]);
+          workspace.createVariable(name, ["Number", "String"]);
         }
-    });
+      }
+    );
 
     workspace.registerToolboxCategoryCallback("VARIABLE", (workspace) => {
-        const xmlStringList = ["<button text=\"Add Variable\" callbackKey=\"createNumberVariableButtonPressed\"></button>"];
+      const xmlStringList = [
+        '<button text="Add Variable" callbackKey="createNumberVariableButtonPressed"></button>',
+      ];
 
-        const Variables = workspace.getVariablesOfType(["Number", "String"]);
+      const Variables = workspace.getVariablesOfType(["Number", "String"]);
 
-        if (Variables.length > 0) {
-            let field = "<field name=\"VAR\" id=\"" + Variables[0].getId() + "\" variabletype=\"Number\"></field>";
-            xmlStringList.push("<block type=\"variables_set\">" + field + "</block>");
-            for (const Variable of Variables) {
-                field = "<field name=\"VAR\" id=\"" + Variable.getId() + "\" variabletype=\"Number\"></field>";
-                xmlStringList.push("<block type=\"variables_get\">" + field + "</block>");
-            }
+      if (Variables.length > 0) {
+        let field =
+          '<field name="VAR" id="' +
+          Variables[0].getId() +
+          '" variabletype="Number"></field>';
+        xmlStringList.push('<block type="variables_set">' + field + "</block>");
+        for (const Variable of Variables) {
+          field =
+            '<field name="VAR" id="' +
+            Variable.getId() +
+            '" variabletype="Number"></field>';
+          xmlStringList.push(
+            '<block type="variables_get">' + field + "</block>"
+          );
         }
+      }
 
-        // xmlStringListをElement型にする
-        const xmlElementList = xmlStringList.map((item) => {
-            return Blockly.Xml.textToDom(item);
-        });
-        return xmlElementList;
+      // xmlStringListをElement型にする
+      const xmlElementList = xmlStringList.map((item) => {
+        return Blockly.Xml.textToDom(item);
+      });
+      return xmlElementList;
     });
 
     // Variable function
 
     function myUpdateFunction() {
-        var code = Blockly.JavaScript.workspaceToCode(workspace);
-        //codeArea is in showcode.js
-        codeArea.getDoc().setValue(code);
-        codeTosave = code;
+      var code = Blockly.JavaScript.workspaceToCode(workspace);
+      //codeArea is in showcode.js
+      codeArea.getDoc().setValue(code);
+      codeTosave = code;
     }
     workspace.addChangeListener(myUpdateFunction);
 
     function runFile() {
-        console.log("in running process !!")
-        const cypress = require('cypress')
-        cypress.run({
-                // the path is relative to the current working directory
-                headed: true,
-                spec: './cypress/integration/test1.spec.js',
-            })
-            .then((results) => {
-                console.log(results)
-            })
-            .catch((err) => {
-                console.error(err)
-            })
-    };
-
+      var path = require('path');
+      console.log("in running process !!");
+      cypress
+        .run({
+          // the path is relative to the current working directory
+          headed: true,
+          spec: "./cypress/integration/test1.spec.js",
+          exit: false
+        })
+        .then((results) => {
+          console.log(results);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
     function toSpecFile() {
-        const path = require('path');
-        const fs = require("fs");
-        fs.writeFile(path.join(__dirname, '../cypress/integration/test1.spec.js'),
-            codeTosave,
-            function(err) {
-                if (err) {
-                    throw err
-                    console.log("Cancelled");;
-                } else {
-                    console.log('Saved!');
-                    runFile();
-                    //alert("Successfully Saved !");
-                }
-            });
+      const path = require("path");
+      const fs = require("fs");
+      fs.writeFile(
+        "./cypress/integration/test1.spec.js",
+        codeTosave,
+        function (err) {
+          if (err) {
+            throw err;
+            console.log("Cancelled");
+          } else {
+            console.log("Saved!");
+            runFile();
+            //alert("Successfully Saved !");
+          }
+        }
+      );
     }
 
     function download(data, filename, type) {
-        var file = new Blob([data], {
-            type: type
-        });
-        if (window.navigator.msSaveOrOpenBlob) {
-            // IE10+
-            console.log("HA1");
-            window.navigator.msSaveOrOpenBlob(file, filename);
-        } else {
-            // Others
-            var a = document.createElement("a"),
-                url = URL.createObjectURL(file);
-            a.href = url;
-            a.download = filename;
-            document.body.appendChild(a);
-            a.click();
-            console.log("HA2");
-            setTimeout(function() {
-                console.log("HA3");
-                document.body.removeChild(a);
-                window.URL.revokeObjectURL(url);
-            }, 0);
-        }
-        console.log(filename)
+      var file = new Blob([data], {
+        type: type,
+      });
+      if (window.navigator.msSaveOrOpenBlob) {
+        // IE10+
+        console.log("HA1");
+        window.navigator.msSaveOrOpenBlob(file, filename);
+      } else {
+        // Others
+        var a = document.createElement("a"),
+          url = URL.createObjectURL(file);
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        console.log("HA2");
+        setTimeout(function () {
+          console.log("HA3");
+          document.body.removeChild(a);
+          window.URL.revokeObjectURL(url);
+        }, 0);
+      }
+      console.log(filename);
     }
 
     async function openFile() {
-        [fileHandle] = await window.showOpenFilePicker({
-            types: [{
-                description: 'XML',
-                accept: {
-                    'text/xml': ['.xml']
-                }
-            }],
-            excludeAcceptAllOption: true,
-            multiple: false
-        });
-        let fileData = await fileHandle.getFile();
-        let text = await fileData.text();
-        var xml = Blockly.Xml.textToDom(text);
-        Blockly.Xml.domToWorkspace(xml, workspace);
+      [fileHandle] = await window.showOpenFilePicker({
+        types: [
+          {
+            description: "XML",
+            accept: {
+              "text/xml": [".xml"],
+            },
+          },
+        ],
+        excludeAcceptAllOption: true,
+        multiple: false,
+      });
+      let fileData = await fileHandle.getFile();
+      let text = await fileData.text();
+      var xml = Blockly.Xml.textToDom(text);
+      Blockly.Xml.domToWorkspace(xml, workspace);
     }
+
+    var webView = document.querySelector('webview')
+    webView.addEventListener("dom-ready",function(){
+        webView.openDevTools()
+        webView.executeJavaScript(
+            // 'var content = document.querySelector(\'html\');' +
+            // 'console.log(content)'
+            `
+            // import {finder} from 'https://medv.io/finder/finder.js'
+      document.addEventListener('click', event => {
+      var element = finder(event.target)
+      console.log(element)  
+    })
+            `
+            )
+        // webView.addEventListener("did-navigate",function(){
+        //     webView.executeJavaScript('var content = document.querySelector(\'html\');' +
+        //     'console.log(content);'+
+        //     'document.addEventListener(\"click\", function(event){'+
+        //     'var targetElement = event.target || event.srcElement;'+
+        // 'console.log(targetElement);'+
+        // '});')
+        // })
+        
+    //     view.setDevToolsWebContents(devtoolsView.getWebContents())
+    //     view.webContents.savePage(filePath, 'HTMLComplete').then(() => {
+    //                 console.log('Page was saved successfully.')
+    //             }).catch(err => {
+    //                 console.log(err)
+    //             })
+    
+    })
+
+    //หา coordinate
+    function printMousePos(event) {
+      console.log("clientX: " + event.clientX + " - clientY: " + event.clientY);
+    }
+
+    //หา element ที่คลิก
+    // document.addEventListener("click", function(event){
+    //     var targetElement = event.target || event.srcElement;
+    //     console.log(targetElement);
+    // });
 
     // async function save() {
     //     let stream = await fileHandle.createWritable();
@@ -331,11 +437,29 @@
     // }
 
     function toXML() {
-        var xml = Blockly.Xml.workspaceToDom(workspace);
-        document.getElementById("Save").value = xml
-        console.log("Hi XML")
-        console.log(document.getElementById("Save").value)
-        download(xml, "script.xml", "text/xml")
+      var xml = Blockly.Xml.workspaceToDom(workspace);
+      document.getElementById("Save").value = xml;
+      console.log("Hi XML");
+      console.log(document.getElementById("Save").value);
+      var xmlText = Blockly.Xml.domToPrettyText(xml);
+      console.log(xmlText);
+      const path = require("path");
+      const fs = require("fs");
+      fs.writeFile(
+        path.join(__dirname, "../script.xml"),
+        xmlText,
+        function (err) {
+          if (err) {
+            throw err;
+            console.log("Cancelled");
+          } else {
+            console.log("Saved!");
+            runFile();
+            //alert("Successfully Saved !");
+          }
+        }
+      );
+      // download(xmlText, "script.xml", "text/xml");
     }
 
     // function fromXml() { //ยังไม่แก้
@@ -347,6 +471,5 @@
     //     Blockly.Xml.domToWorkspace(xml, workspace);
     //     taChange();
     // }
-</script>
-
+  </script>
 </html>

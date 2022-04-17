@@ -9,16 +9,18 @@
         "cy:run": "cypress run",
         "build-installer": "electron-builder"
     },
-    "build":{
-        "appId" : "maketest",
+    "build": {
+        "appId": "maketest",
         "win": {
-            "target": ["nsis"],
+            "target": [
+                "nsis"
+            ],
             "icon": "src/M-Logo-Whi.ico",
             "requestedExecutionLevel": "requireAdministrator"
         },
-        "nsis" : {
-            "installerIcon" : "src/M-Logo-Whi.ico",
-            "uninstallerIcon" : "src/M-Logo-Whi.ico",
+        "nsis": {
+            "installerIcon": "src/M-Logo-Whi.ico",
+            "uninstallerIcon": "src/M-Logo-Whi.ico",
             "uninstallDisplayName": "MakeTest",
             "license": "license.txt",
             "oneClick": false,
@@ -28,14 +30,14 @@
     "author": "",
     "license": "ISC",
     "devDependencies": {
-        "cypress": "^9.5.2",
         "electron": "^17.1.2",
         "electron-builder": "^22.14.13"
     },
     "dependencies": {
         "blockly": "^7.20211209.4",
         "codemirror": "^5.65.2",
-        "os-utils": "0.0.14"
+        "os-utils": "0.0.14",
+        "cypress": "^9.5.2"
     },
     "type": "commonjs"
 }

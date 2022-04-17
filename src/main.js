@@ -1,6 +1,6 @@
 // main.js
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, Menu, ipcMain, dialog, webContents, remote } = require('electron');
+const { app, BrowserWindow, Menu, BrowserView } = require('electron');
 const os = require('os-utils');
 const path = require('path');
 const fs = require('fs');
@@ -15,33 +15,50 @@ const createWindow = () => {
             webviewTag: true,
             enableRemoteModule: true,
             preload: path.join(__dirname, 'preload.js')
-        }
+        },
     })
-    const childWindow = new BrowserWindow({
-        width: 420,
-        height: 420,
-        parent: mainWindow,
-        modal: false,
-        frame: true,
-        webPreferences: {
-            devTools: true,
-            nodeIntegration: true,
-        }
-    })
+    
+    // const view = new BrowserView()
+    // mainWindow.setBrowserView(view)
+    // view.setBounds({ x: 305, y: 124, width: 420, height: 420 }) //1113 111
+    // view.webContents.loadURL('https://electronjs.org')
+    // view.setAutoResize({width: true, height: false});
+    // view.webContents.on("did-finish-load",()=>{
+    //     view.webContents.savePage(filePath, 'HTMLComplete').then(() => {
+    //                 console.log('Page was saved successfully.')
+    //             }).catch(err => {
+    //                 console.log(err)
+    //             })
+    // })
+    
+    // const childWindow = new BrowserWindow({
+    //     width: 420,
+    //     height: 420,
+    //     parent: mainWindow,
+    //     modal: false,
+    //     frame: true,
+    //     webPreferences: {
+    //         devTools: true,
+    //         nodeIntegration: true,
+    //     },
+    //     titleBarStyle: "hidden"
+    // })
 
     // and load the index.html of the app.
     mainWindow.loadFile(path.join(__dirname, 'index.html'))
-    childWindow.loadURL('https://www.github.com');
+    // childWindow.loadURL('https://www.google.com');
+
 
     //load HTML from child window
     const filePath = path.join(__dirname, '../src/test.html');
-    childWindow.webContents.on('did-finish-load', () => {
-        childWindow.webContents.savePage(filePath, 'HTMLComplete').then(() => {
-            console.log('Page was saved successfully.')
-        }).catch(err => {
-            console.log(err)
-        })
-    })
+    // childWindow.webContents.on('did-finish-load', () => {
+    //     childWindow.show()
+    //     childWindow.webContents.savePage(filePath, 'HTMLComplete').then(() => {
+    //         console.log('Page was saved successfully.')
+    //     }).catch(err => {
+    //         console.log(err)
+    //     })
+    // })
 
     //update
 
@@ -69,14 +86,34 @@ app.whenReady().then(() => {
     createWindow()
     const mainMenu = Menu.buildFromTemplate(mainMenuTemplate);
     Menu.setApplicationMenu(mainMenu);
-
+    const cypress = require("cypress");    
+    const firstTimeFilePath = path.resolve(app.getPath('userData'), '.first-time-huh');
+    let isFirstTime;
+    try {
+      fs.closeSync(fs.openSync(firstTimeFilePath, 'wx'));
+      isFirstTime = true;
+    } catch(e) {
+      if (e.code === 'EEXIST') {
+        isFirstTime = false;
+      } else {
+        // something gone wrong
+        throw e;
+      }
+    }
+    if(isFirstTime){
+        cypress.open()
+    }
+    
     app.on('activate', () => {
         // On macOS it's common to re-create a window in the app when the
         // dock icon is clicked and there are no other windows open.
         if (BrowserWindow.getAllWindows().length === 0) createWindow()
+    
     })
 
-    var save = document.getElementById('Save');
+    
+
+   
 
     // save.addEventListener('click', (event) => {
     //     // Resolves to a Promise<Object>
