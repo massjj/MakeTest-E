@@ -73,15 +73,6 @@
       //     console.log('total mem GB' + data);
       // });
     </script>
-    <script type="module">
-      import {finder} from 'https://medv.io/finder/finder.js'
-      document.addEventListener('click', event => {
-      var element = finder(event.target)
-      console.log(element)  
-    })
-    </script>
-
-    <!-- <script src="./main.js"></script> -->
   </head>
   <!-- Body  -->
 
@@ -158,6 +149,7 @@
               <webview
                 id="foo"
                 src="https://www.github.com"
+                preload="script/selector.js"
                 allowpopups
                 disableguestresize
               ></webview>
@@ -195,7 +187,6 @@
       </value>
     </block>
   </xml>
-
   <script>
     let fileHandle;
     var workspace = Blockly.inject("blocklyDiv", {
@@ -290,14 +281,14 @@
     workspace.addChangeListener(myUpdateFunction);
 
     function runFile() {
-      var path = require('path');
+      var path = require("path");
       console.log("in running process !!");
       cypress
         .run({
           // the path is relative to the current working directory
           headed: true,
           spec: "./cypress/integration/test1.spec.js",
-          exit: false
+          exit: false,
         })
         .then((results) => {
           console.log(results);
@@ -370,37 +361,41 @@
       Blockly.Xml.domToWorkspace(xml, workspace);
     }
 
-    var webView = document.querySelector('webview')
-    webView.addEventListener("dom-ready",function(){
-        webView.openDevTools()
-        webView.executeJavaScript(
-            // 'var content = document.querySelector(\'html\');' +
-            // 'console.log(content)'
-            `
-            // import {finder} from 'https://medv.io/finder/finder.js'
-      document.addEventListener('click', event => {
-      var element = finder(event.target)
-      console.log(element)  
-    })
-            `
-            )
-        // webView.addEventListener("did-navigate",function(){
-        //     webView.executeJavaScript('var content = document.querySelector(\'html\');' +
-        //     'console.log(content);'+
-        //     'document.addEventListener(\"click\", function(event){'+
-        //     'var targetElement = event.target || event.srcElement;'+
-        // 'console.log(targetElement);'+
-        // '});')
-        // })
-        
-    //     view.setDevToolsWebContents(devtoolsView.getWebContents())
-    //     view.webContents.savePage(filePath, 'HTMLComplete').then(() => {
-    //                 console.log('Page was saved successfully.')
-    //             }).catch(err => {
-    //                 console.log(err)
-    //             })
-    
-    })
+    var webView = document.querySelector("webview");
+    webView.addEventListener("dom-ready", function () {
+      //     webView.openDevTools()
+      //     webView.executeJavaScript(
+      //         // 'var content = document.querySelector(\'html\');' +
+      //         // 'console.log(content)'
+      //         `
+      //         // import {finder} from 'https://medv.io/finder/finder.js'
+      //   document.addEventListener('click', event => {
+      //   var element = finder(event.target)
+      //   console.log(element)
+      // })
+      //         `
+      //         )
+      webView.addEventListener("ipc-message", (event) => {
+        console.log(event.channel);
+        // Prints "pong"
+      });
+      webView.send("ping");
+      // webView.addEventListener("did-navigate",function(){
+      //     webView.executeJavaScript('var content = document.querySelector(\'html\');' +
+      //     'console.log(content);'+
+      //     'document.addEventListener(\"click\", function(event){'+
+      //     'var targetElement = event.target || event.srcElement;'+
+      // 'console.log(targetElement);'+
+      // '});')
+      // })
+
+      //     view.setDevToolsWebContents(devtoolsView.getWebContents())
+      //     view.webContents.savePage(filePath, 'HTMLComplete').then(() => {
+      //                 console.log('Page was saved successfully.')
+      //             }).catch(err => {
+      //                 console.log(err)
+      //             })
+    });
 
     //หา coordinate
     function printMousePos(event) {
@@ -461,15 +456,5 @@
       );
       // download(xmlText, "script.xml", "text/xml");
     }
-
-    // function fromXml() { //ยังไม่แก้
-    //     var input = document.getElementById('importExport');
-    //     if (!input.value) {
-    //         return;
-    //     }
-    //     var xml = Blockly.Xml.textToDom(input.value);
-    //     Blockly.Xml.domToWorkspace(xml, workspace);
-    //     taChange();
-    // }
   </script>
 </html>

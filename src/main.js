@@ -101,6 +101,7 @@ app.whenReady().then(() => {
       }
     }
     if(isFirstTime){
+        //add guide window na ja dee
         cypress.open()
     }
     
