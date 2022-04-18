@@ -51,7 +51,7 @@ const createWindow = () => {
 
 
     //load HTML from child window
-    const filePath = path.join(__dirname, '../src/test.html');
+    // const filePath = path.join(__dirname, '../src/test.html');
     // childWindow.webContents.on('did-finish-load', () => {
     //     childWindow.show()
     //     childWindow.webContents.savePage(filePath, 'HTMLComplete').then(() => {
