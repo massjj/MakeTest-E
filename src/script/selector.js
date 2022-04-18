@@ -428,7 +428,7 @@ function cssesc(string, opt = {}) {
     return output;
 }
 
-ipcRenderer.on('ping', () => {
+ipcRenderer.on('finder', () => {
     document.addEventListener('click', event => {
         // var element = getPath(event.target)
         var ele = finder(event.target)

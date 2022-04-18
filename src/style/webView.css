@@ -29,25 +29,29 @@
     justify-content: center;
 }
 
-.selector-container>button {
+.selector-container>input {
     display: inline;
     align-items: center;
     width: 120px;
-    background-color: #EEEEFA;
+    /* background-color: #EEEEFA; */
     color: #000000;
 }
 
-.selector-button {
+/* #selector-button{
     color: #EEEEFA;
     background-color: #000;
     border-radius: 5%;
     padding: 1em 2em;
-}
+} */
 
-[aria-pressed="true"]:focus {
+/* .selector-container>input    {
     background-color: #00ACB8;
     border: 1px solid #777;
-}
+} */
+/* [aria-pressed="true"]:focus {
+    background-color: #00ACB8;
+    border: 1px solid #777;
+} */
 
 
 /* Remove the default outline and 

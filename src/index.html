@@ -132,14 +132,13 @@
                         <webview id="foo" src="https://www.github.com" preload="script/selector.js" disableguestresize></webview>
                     </div>
                     <div class="selector-container" id="selector-container">
-                        <button id="selector-button" class="selector w3-button w3-border" type="button" aria-pressed="true">
-                <img
+                        <input type="button" style="background-color: #EEEEFA" value="selector : OFF" id="selector-button" class="selector w3-button w3-border" aria-pressed="false" onclick="Buttontoggle(); ">
+                <!-- <img
                   id="selector-img"
                   src="./assets/image/Selector.svg"
                   width="23"
-                />
-                Selector
-              </button>
+                /> -->
+                    </input>
                     </div>
                 </div>
                 <div class="codeDiv">
@@ -333,42 +332,6 @@
         Blockly.Xml.domToWorkspace(xml, workspace);
     }
 
-    var webView = document.querySelector("webview");
-    webView.addEventListener("dom-ready", function() {
-        webView.openDevTools();
-        //     webView.openDevTools()
-        //     webView.executeJavaScript(
-        //         // 'var content = document.querySelector(\'html\');' +
-        //         // 'console.log(content)'
-        //         `
-        //         // import {finder} from 'https://medv.io/finder/finder.js'
-        //   document.addEventListener('click', event => {
-        //   var element = finder(event.target)
-        //   console.log(element)
-        // })
-        //         `
-        //         )
-        webView.addEventListener("ipc-message", (event) => {
-            console.log(event.channel);
-            // Prints "pong"
-        });
-        webView.send("ping");
-        // webView.addEventListener("did-navigate",function(){
-        //     webView.executeJavaScript('var content = document.querySelector(\'html\');' +
-        //     'console.log(content);'+
-        //     'document.addEventListener(\"click\", function(event){'+
-        //     'var targetElement = event.target || event.srcElement;'+
-        // 'console.log(targetElement);'+
-        // '});')
-        // })
-
-        //     view.setDevToolsWebContents(devtoolsView.getWebContents())
-        //     view.webContents.savePage(filePath, 'HTMLComplete').then(() => {
-        //                 console.log('Page was saved successfully.')
-        //             }).catch(err => {
-        //                 console.log(err)
-        //             })
-    });
 
     //หา coordinate
     function printMousePos(event) {
@@ -428,6 +391,57 @@
             }
         );
         // download(xmlText, "script.xml", "text/xml");
+    }
+    function Buttontoggle(){
+        var t = document.getElementById("selector-button");
+        var webView = document.querySelector("webview");
+  if(t.value=="selector : OFF"){
+      t.value="selector : ON";
+      t.setAttribute("style","background-color:#00ACB8");  
+      t.setAttribute("aria-pressed","true");
+    //   getEle();
+        // webView.addEventListener("dom-ready", function() {
+        // webView.openDevTools();
+        
+        webView.addEventListener("ipc-message", (event) => {
+        
+            var xmlText = `
+            <xml>
+                <block type="_027" x="100" y="100">
+    </block>
+                </xml>`
+                var xml = Blockly.Xml.textToDom(xmlText);
+        Blockly.Xml.domToWorkspace(xml, workspace);
+            console.log(event.channel);
+            // Prints "element"
+        });
+        webView.send("finder");
+    }
+  else if(t.value=="selector : ON"){
+      t.value="selector : OFF";
+      t.setAttribute("style","background-color:#EEEEFA");
+      t.setAttribute("aria-pressed","false");
+      webView.addEventListener("ipc-message", (event) => {
+        
+        console.log(event.channel);
+        // Prints "element"
+    });
+    webView.send("finder");
+    }
+    }
+
+    function getEle(){
+        var webView = document.querySelector("webview");
+        // webView.addEventListener("dom-ready", function() {
+        // webView.openDevTools();
+        
+        webView.addEventListener("ipc-message", (event) => {
+            console.log(event.channel);
+            // Prints "element"
+        });
+        webView.send("finder");
+       
+    // });
     }
 </script>
 
