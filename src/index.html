@@ -332,45 +332,7 @@
         Blockly.Xml.domToWorkspace(xml, workspace);
     }
 
-    var webView = document.querySelector("webview");
-    webView.addEventListener("dom-ready", function() {
-        webView.openDevTools();
-        //     webView.openDevTools()
-        //     webView.executeJavaScript(
-        //         // 'var content = document.querySelector(\'html\');' +
-        //         // 'console.log(content)'
-        //         `
-        //         // import {finder} from 'https://medv.io/finder/finder.js'
-        //   document.addEventListener('click', event => {
-        //   var element = finder(event.target)
-        //   console.log(element)
-        // })
-        //         `
-        //         )
-        webView.addEventListener("ipc-message", (event) => {
-            console.log(event.channel);
-            // Prints "pong"
-            event.returnValue(event.channel)
-        });
-        webView.send("ping");
 
-
-        // webView.addEventListener("did-navigate",function(){
-        //     webView.executeJavaScript('var content = document.querySelector(\'html\');' +
-        //     'console.log(content);'+
-        //     'document.addEventListener(\"click\", function(event){'+
-        //     'var targetElement = event.target || event.srcElement;'+
-        // 'console.log(targetElement);'+
-        // '});')
-        // })
-
-        //     view.setDevToolsWebContents(devtoolsView.getWebContents())
-        //     view.webContents.savePage(filePath, 'HTMLComplete').then(() => {
-        //                 console.log('Page was saved successfully.')
-        //             }).catch(err => {
-        //                 console.log(err)
-        //             })
-    });
 
     //หา coordinate
     function printMousePos(event) {
@@ -445,10 +407,18 @@
 
             webView.addEventListener("ipc-message", (event) => {
 
+
+                // let field =
+                //     '<field name="VAR" id="' +
+                //     Variables[0].getId() +
+                //     '" variabletype="Number"></field>';
+                // xmlStringList.push('<block type="variables_set">' + field + "</block>");
+
                 var xmlText = `
-            <xml>
-                <block type="_027" x="100" y="100">
-    </block>
+                <xml>
+                    <block type="_027" x="100" y="100">
+                        <field name="ID_ELE">` + event.channel + `</field>
+                    </block>
                 </xml>`
                 var xml = Blockly.Xml.textToDom(xmlText);
                 Blockly.Xml.domToWorkspace(xml, workspace);
