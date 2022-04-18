@@ -65,6 +65,7 @@
         //     console.log('total mem GB' + data);
         // });
     </script>
+
 </head>
 <!-- Body  -->
 
@@ -97,18 +98,18 @@
             <button class="w3-bar-item w3-button">
           <img id="NewFile" src="assets/image/NewFile.svg" />
         </button>
-            <button class="w3-bar-item w3-button">
-          <img id="Import" src="assets/image/Import.svg" onclick="openFile()" />
+            <button class="w3-bar-item w3-button" onclick="openFile()">
+          <img id="Import" src="assets/image/Import.svg"  />
         </button>
-            <button class="w3-bar-item w3-button">
-          <img id="Save" src="assets/image/Save.svg" onclick="toXML()" />
+            <button class="w3-bar-item w3-button" onclick="toXML()">
+          <img id="Save" src="assets/image/Save.svg"  />
         </button>
             <!-- <script src="./script/saveFile.js"></script> -->
             <button class="w3-bar-item w3-button">
           <img id="RecordWeb" src="assets/image/Recorder.svg" />
         </button>
-            <button class="w3-bar-item w3-button">
-          <img id="Run" src="assets/image/Run.svg" onclick="toSpecFile()" />
+            <button class="w3-bar-item w3-button" onclick="toSpecFile()">
+          <img id="Run" src="assets/image/Run.svg"  />
         </button>
         </nav>
     </div>
@@ -128,7 +129,7 @@
               </button>
                     </div>
                     <div class="webview-c">
-                        <webview id="foo" src="https://www.github.com" preload="script/selector.js" allowpopups disableguestresize></webview>
+                        <webview id="foo" src="https://www.github.com" preload="script/selector.js" disableguestresize></webview>
                     </div>
                     <div class="selector-container" id="selector-container">
                         <button id="selector-button" class="selector w3-button w3-border" type="button" aria-pressed="true">
