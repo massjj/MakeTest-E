@@ -96,21 +96,21 @@
     <div class="app-bar">
         <nav class="tool-bar">
             <button class="w3-bar-item w3-button">
-          <img id="NewFile" src="assets/image/NewFile.svg" />
-        </button>
+                <img id="NewFile" src="assets/image/NewFile.svg" />
+            </button>
             <button class="w3-bar-item w3-button" onclick="openFile()">
-          <img id="Import" src="assets/image/Import.svg"  />
-        </button>
+                <img id="Import" src="assets/image/Import.svg" />
+            </button>
             <button class="w3-bar-item w3-button" onclick="toXML()">
-          <img id="Save" src="assets/image/Save.svg"  />
-        </button>
+                <img id="Save" src="assets/image/Save.svg" />
+            </button>
             <!-- <script src="./script/saveFile.js"></script> -->
             <button class="w3-bar-item w3-button">
-          <img id="RecordWeb" src="assets/image/Recorder.svg" />
-        </button>
+                <img id="RecordWeb" src="assets/image/Recorder.svg" />
+            </button>
             <button class="w3-bar-item w3-button" onclick="toSpecFile()">
-          <img id="Run" src="assets/image/Run.svg"  />
-        </button>
+                <img id="Run" src="assets/image/Run.svg" />
+            </button>
         </nav>
     </div>
 
@@ -122,23 +122,30 @@
             <div class="output">
                 <div class="webview-container">
                     <div class="input-web">
-                        <input class="f6 f5-l input-reset bn fl black-80 bg-white pa3 lh-solid w-60 w-75-m w-80-l br2-ns br--left-ns" value="https://www.github.com" type="url" id="URL" />
-                        <button class="f6 f5-l button-reset fl pv3 tc bn bg-black hover-bg-green white pointer w-100 w-25-m w-20-l br2-ns br--right-ns" type="submit" id="submit" onclick="getUrl()">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                search
-              </button>
+                        <input
+                            class="f6 f5-l input-reset bn fl black-80 bg-white pa3 lh-solid w-60 w-75-m w-80-l br2-ns br--left-ns"
+                            value="https://www.github.com" type="url" id="URL" />
+                        <button
+                            class="f6 f5-l button-reset fl pv3 tc bn bg-black hover-bg-green white pointer w-100 w-25-m w-20-l br2-ns br--right-ns"
+                            type="submit" id="submit" onclick="getUrl()">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            search
+                        </button>
                     </div>
                     <div class="webview-c">
-                        <webview id="foo" src="https://www.github.com" preload="script/selector.js" disableguestresize></webview>
+                        <webview id="foo" src="https://www.github.com" preload="script/selector.js" disableguestresize>
+                        </webview>
                     </div>
                     <div class="selector-container" id="selector-container">
-                        <input type="button" style="background-color: #EEEEFA" value="selector : OFF" id="selector-button" class="selector w3-button w3-border" aria-pressed="false" onclick="Buttontoggle(); ">
-                <!-- <img
+                        <input type="button" style="background-color: #EEEEFA" value="selector : OFF"
+                            id="selector-button" class="selector w3-button w3-border" aria-pressed="false"
+                            onclick="Buttontoggle(); ">
+                        <!-- <img
                   id="selector-img"
                   src="./assets/image/Selector.svg"
                   width="23"
                 /> -->
-                    </input>
+                        </input>
                     </div>
                 </div>
                 <div class="codeDiv">
@@ -276,7 +283,7 @@
         fs.writeFile(
             "./cypress/integration/test1.spec.js",
             codeTosave,
-            function(err) {
+            function (err) {
                 if (err) {
                     throw err;
                     console.log("Cancelled");
@@ -306,7 +313,7 @@
             document.body.appendChild(a);
             a.click();
             console.log("HA2");
-            setTimeout(function() {
+            setTimeout(function () {
                 console.log("HA3");
                 document.body.removeChild(a);
                 window.URL.revokeObjectURL(url);
@@ -322,7 +329,7 @@
                 accept: {
                     "text/xml": [".xml"],
                 },
-            }, ],
+            },],
             excludeAcceptAllOption: true,
             multiple: false,
         });
@@ -379,7 +386,7 @@
         fs.writeFile(
             path.join(__dirname, "../script.xml"),
             xmlText,
-            function(err) {
+            function (err) {
                 if (err) {
                     throw err;
                     console.log("Cancelled");
@@ -392,56 +399,42 @@
         );
         // download(xmlText, "script.xml", "text/xml");
     }
-    function Buttontoggle(){
+    function Buttontoggle() {
         var t = document.getElementById("selector-button");
         var webView = document.querySelector("webview");
-  if(t.value=="selector : OFF"){
-      t.value="selector : ON";
-      t.setAttribute("style","background-color:#00ACB8");  
-      t.setAttribute("aria-pressed","true");
-    //   getEle();
-        // webView.addEventListener("dom-ready", function() {
-        // webView.openDevTools();
-        
-        webView.addEventListener("ipc-message", (event) => {
-        
-            var xmlText = `
+        if (t.value == "selector : OFF") {
+            t.value = "selector : ON";
+            t.setAttribute("style", "background-color:#00ACB8");
+            t.setAttribute("aria-pressed", "true");
+            //   getEle();
+            // webView.addEventListener("dom-ready", function() {
+            // webView.openDevTools();
+
+            webView.addEventListener("ipc-message", (event) => {
+                var xmlText = `
             <xml>
                 <block type="_027" x="100" y="100">
-    </block>
-                </xml>`
+                </block>
+            </xml>`
                 var xml = Blockly.Xml.textToDom(xmlText);
-        Blockly.Xml.domToWorkspace(xml, workspace);
-            console.log(event.channel);
-            // Prints "element"
-        });
-        webView.send("finder");
-    }
-  else if(t.value=="selector : ON"){
-      t.value="selector : OFF";
-      t.setAttribute("style","background-color:#EEEEFA");
-      t.setAttribute("aria-pressed","false");
-      webView.addEventListener("ipc-message", (event) => {
-        
-        console.log(event.channel);
-        // Prints "element"
-    });
-    webView.send("finder");
-    }
-    }
-
-    function getEle(){
-        var webView = document.querySelector("webview");
-        // webView.addEventListener("dom-ready", function() {
-        // webView.openDevTools();
-        
-        webView.addEventListener("ipc-message", (event) => {
-            console.log(event.channel);
-            // Prints "element"
-        });
-        webView.send("finder");
-       
-    // });
+                Blockly.Xml.domToWorkspace(xml, workspace);
+                console.log(event.channel);
+                // Prints "element"
+            });
+            webView.send("finder");
+        }
+        else if (t.value == "selector : ON") {
+            t.value = "selector : OFF";
+            t.setAttribute("style", "background-color:#EEEEFA");
+            t.setAttribute("aria-pressed", "false");
+        //ใช้ไม่ได้ เด้ะทำต่อ 19/04/2022
+            webView.removeEventListener('click', event => {
+        // var element = getPath(event.target)
+        var ele = finder(event.target)
+            // ipcRenderer.sendToHost(element)
+        ipcRenderer.sendToHost(ele)
+            });
+        }
     }
 </script>
 
