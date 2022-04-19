@@ -132,13 +132,13 @@
                         <webview id="foo" src="https://www.github.com" preload="script/selector.js" disableguestresize></webview>
                     </div>
                     <div class="selector-container" id="selector-container">
-                        <input type="button" style="background-color: #EEEEFA" value="selector : OFF" id="selector-button" class="selector w3-button w3-border" aria-pressed="false" onclick="Buttontoggle(); ">
-                        <!-- <img
-                  id="selector-img"
-                  src="./assets/image/Selector.svg"
-                  width="23"
-                /> -->
-                        </input>
+                        <button id="selector-button" value="selector : OFF" class="selector w3-button w3-border" style="background-color: #EEEEFA ;" onclick="Buttontoggle();">
+                            <img id="selector-img" src="./assets/image/Selector.svg" width="23" />
+                            selector
+                        </button>
+                        <!-- <input type="button" style="background-color: #EEEEFA ;" value="selector : OFF" id="selector-button" class="selector w3-button w3-border" aria-pressed="false" onclick="Buttontoggle();"> -->
+
+                        <!-- </input> -->
                     </div>
                 </div>
                 <div class="codeDiv">
@@ -397,60 +397,70 @@
     function Buttontoggle() {
         var t = document.getElementById("selector-button");
         var webView = document.querySelector("webview");
-        if (t.value == "selector : OFF") {
-            t.value = "selector : ON";
-            t.setAttribute("style", "background-color:#00ACB8");
-            t.setAttribute("aria-pressed", "true");
-            //   getEle();
-            // webView.addEventListener("dom-ready", function() {
-            // webView.openDevTools();
+        // webView.addEventListener("ipc-message", (event) => {
+        console.log(t.value)
+            //     console.log(event.channel);
+            //     // Prints "element"
+            // });
+            // webView.send("finder");
+        switch (t.value) {
+            case 'selector : OFF':
+                t.setAttribute("style", "background-color:#00ACB8");
+                t.setAttribute("aria-pressed", "true");
+                getEle();
+                t.value = "selector : ON";
+                console.log('change to : ', t.value);
+                break;
+            case 'selector : ON':
+                t.setAttribute("style", "background-color:#EEEEFA");
+                t.setAttribute("aria-pressed", "false");
+                webView.removeEventListener("ipc-massage", getEle)
+                t.value = "selector : OFF";
+                break;
+        }
+        // if (t.value == "selector : OFF") {
+        //     t.value = "selector : ON";
+        //     t.setAttribute("style", "background-color:#00ACB8");
+        //     t.setAttribute("aria-pressed", "true");
+        //     getEle();
+        //     console.log('change to : ', t.value)
+        //         // webView.addEventListener("ipc-message", (event) => {
+        //         //     var xmlText = `
+        //         //     <xml>
+        //         //         <block type="_027" x="100" y="100">
+        //         //             <field name="ID_ELE">` + event.channel + `</field>
+        //         //         </block>
+        //         //     </xml>`
+        //         //     var xml = Blockly.Xml.textToDom(xmlText);
+        //         //     Blockly.Xml.domToWorkspace(xml, workspace);
+        //         //     console.log(event.channel);
+        //         //     // Prints "element"
+        //         // });
+        //         // webView.send("finder");
+        // } else {
+        //     t.value = "selector : OFF";
+        //     t.setAttribute("style", "background-color:#EEEEFA");
+        //     t.setAttribute("aria-pressed", "false");
+        //     webView.removeEventListener("ipc-massage", getEle)
+        // }
+    }
 
-            webView.addEventListener("ipc-message", (event) => {
+    function getEle() {
 
-
-                // let field =
-                //     '<field name="VAR" id="' +
-                //     Variables[0].getId() +
-                //     '" variabletype="Number"></field>';
-                // xmlStringList.push('<block type="variables_set">' + field + "</block>");
-
-                var xmlText = `
+        var webView = document.querySelector("webview");
+        webView.addEventListener("ipc-message", (event) => {
+            var xmlText = `
                 <xml>
                     <block type="_027" x="100" y="100">
                         <field name="ID_ELE">` + event.channel + `</field>
                     </block>
                 </xml>`
-                var xml = Blockly.Xml.textToDom(xmlText);
-                Blockly.Xml.domToWorkspace(xml, workspace);
-                console.log(event.channel);
-                // Prints "element"
-            });
-            webView.send("finder");
-        } else if (t.value == "selector : ON") {
-            t.value = "selector : OFF";
-            t.setAttribute("style", "background-color:#EEEEFA");
-            t.setAttribute("aria-pressed", "false");
-            webView.addEventListener("ipc-message", (event) => {
-
-                console.log(event.channel);
-                // Prints "element"
-            });
-            webView.send("finder");
-        }
-    }
-
-    function getEle() {
-        var webView = document.querySelector("webview");
-        // webView.addEventListener("dom-ready", function() {
-        // webView.openDevTools();
-
-        webView.addEventListener("ipc-message", (event) => {
+            var xml = Blockly.Xml.textToDom(xmlText);
+            Blockly.Xml.domToWorkspace(xml, workspace);
             console.log(event.channel);
             // Prints "element"
         });
         webView.send("finder");
-
-        // });
     }
 </script>
 
