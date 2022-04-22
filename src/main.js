@@ -1,9 +1,12 @@
 // main.js
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, Menu, BrowserView } = require('electron');
+const { app, BrowserWindow, Menu, dialog } = require('electron');
 const os = require('os-utils');
 const path = require('path');
 const fs = require('fs');
+const { ipcMain } = require('electron')
+
+
 const createWindow = () => {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
@@ -47,8 +50,41 @@ const createWindow = () => {
 
     // and load the index.html of the app.
     mainWindow.loadFile(path.join(__dirname, 'index.html'))
-        // childWindow.loadURL('https://www.google.com');
 
+
+    // for saving xml file
+    ipcMain.on('xmlData', (event, arg) => {
+
+        // childWindow.loadURL('https://www.google.com');
+        dialog.showSaveDialog({
+            title: 'Save file as',
+            defaultPath: path.join(__dirname, '.../MakeTest.xml'),
+            // defaultPath: path.join(__dirname, '../assets/'),
+            buttonLabel: 'Save',
+            // Restricting the user to only Text Files.
+            filters: [{
+                name: 'XML files',
+                extensions: ['xml']
+            }, ],
+            properties: []
+        }).then(file => {
+            // Stating whether dialog operation was cancelled or not.
+            console.log(file.canceled);
+            if (!file.canceled) {
+                console.log(file.filePath.toString());
+
+                // Creating and Writing to the sample.txt file
+                fs.writeFile(file.filePath.toString(),
+                    arg,
+                    function(err) {
+                        if (err) throw err;
+                        console.log('Saved!');
+                    });
+            }
+        }).catch(err => {
+            console.log(err)
+        });
+    })
 
     //load HTML from child window
     // const filePath = path.join(__dirname, '../src/test.html');
@@ -78,7 +114,6 @@ const createWindow = () => {
     // });
     // // },1000)
 }
-
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

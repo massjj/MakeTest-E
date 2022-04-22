@@ -70,28 +70,6 @@
 <!-- Body  -->
 
 <body>
-    <script>
-        function getUrl() {
-            let message = document.getElementById("URL").value;
-
-            console.log(message);
-            //check url
-            if (message.includes("http\:\/\/", 0)) {
-                document.getElementById("foo").src = message;
-                document.getElementById("URL").value = message;
-            } else if (message.includes("https\:\/\/", 0)) {
-                document.getElementById("foo").src = message;
-                document.getElementById("URL").value = message;
-                //   this.url = message;
-                //   this.message = message;
-            } else {
-                let suffix = "https\:\/\/";
-                document.getElementById("foo").src = suffix.concat(message);
-                document.getElementById("URL").value = suffix.concat(message);
-            }
-            // this.message = this.url;
-        }
-    </script>
 
     <div class="app-bar">
         <nav class="tool-bar">
@@ -137,15 +115,34 @@
                         </webview>
                     </div>
                     <div class="selector-container" id="selector-container">
-                        <input type="button" style="background-color: #EEEEFA" value="selector : OFF"
-                            id="selector-button" class="selector w3-button w3-border" aria-pressed="false"
-                            onclick="Buttontoggle(); ">
-                        <!-- <img
-                  id="selector-img"
-                  src="./assets/image/Selector.svg"
-                  width="23"
-                /> -->
-                        </input>
+                        <button id="selector-button" value="selector : OFF" class="selector w3-button w3-border" style="background-color: #EEEEFA ;" onclick="Buttontoggle();">
+                            <img id="selector-img" src="./assets/image/Selector.svg" width="23" />
+                            selector
+                        </button>
+                        <!-- <input type="button" style="background-color: #EEEEFA ;" value="selector : OFF" id="selector-button" class="selector w3-button w3-border" aria-pressed="false" onclick="Buttontoggle();"> -->
+                        <script>
+                            function getUrl() {
+                                let message = document.getElementById("URL").value;
+
+                                console.log(message);
+                                //check url
+                                if (message.includes("http\:\/\/", 0)) {
+                                    document.getElementById("foo").src = message;
+                                    document.getElementById("URL").value = message;
+                                } else if (message.includes("https\:\/\/", 0)) {
+                                    document.getElementById("foo").src = message;
+                                    document.getElementById("URL").value = message;
+                                    //   this.url = message;
+                                    //   this.message = message;
+                                } else {
+                                    let suffix = "https\:\/\/";
+                                    document.getElementById("foo").src = suffix.concat(message);
+                                    document.getElementById("URL").value = suffix.concat(message);
+                                }
+                                // this.message = this.url;
+                            }
+                        </script>
+                        <!-- </input> -->
                     </div>
                 </div>
                 <div class="codeDiv">
@@ -165,6 +162,8 @@
         </value>
     </block>
 </xml>
+
+
 <script>
     console.log('gg')
     let fileHandle;
@@ -242,12 +241,12 @@
             }
         }
 
-        // xmlStringListをElement型にする
         const xmlElementList = xmlStringList.map((item) => {
             return Blockly.Xml.textToDom(item);
         });
         return xmlElementList;
     });
+
 
     // Variable function
 
@@ -339,19 +338,6 @@
         Blockly.Xml.domToWorkspace(xml, workspace);
     }
 
-
-
-    //หา coordinate
-    function printMousePos(event) {
-        console.log("clientX: " + event.clientX + " - clientY: " + event.clientY);
-    }
-
-    //หา element ที่คลิก
-    // document.addEventListener("click", function(event){
-    //     var targetElement = event.target || event.srcElement;
-    //     console.log(targetElement);
-    // });
-
     // async function save() {
     //     let stream = await fileHandle.createWritable();
     //     console.log('st1')
@@ -376,67 +362,101 @@
     // }
 
     function toXML() {
+        const {
+            ipcRenderer
+        } = require('electron');
         var xml = Blockly.Xml.workspaceToDom(workspace);
         document.getElementById("Save").value = xml;
         console.log("Hi XML");
         console.log(document.getElementById("Save").value);
         var xmlText = Blockly.Xml.domToPrettyText(xml);
-        console.log(xmlText);
-        const path = require("path");
-        const fs = require("fs");
-        fs.writeFile(
-            path.join(__dirname, "../script.xml"),
-            xmlText,
-            function (err) {
-                if (err) {
-                    throw err;
-                    console.log("Cancelled");
-                } else {
-                    console.log("Saved!");
-                    runFile();
-                    //alert("Successfully Saved !");
-                }
-            }
-        );
-        // download(xmlText, "script.xml", "text/xml");
+        ipcRenderer.send('xmlData', xmlText)
+            // console.log(xmlText);
+            // const path = require("path");
+            // const fs = require("fs");
+            // fs.writeFile(
+            //     path.join(__dirname, "../script.xml"),
+            //     xmlText,
+            //     function(err) {
+            //         if (err) {
+            //             throw err;
+            //             console.log("Cancelled");
+            //         } else {
+            //             console.log("Saved!");
+            //             // runFile();
+            //             //alert("Successfully Saved !");
+            //         }
+            //     }
+            // );
+            // download(xmlText, "script.xml", "text/xml");
     }
     function Buttontoggle() {
         var t = document.getElementById("selector-button");
         var webView = document.querySelector("webview");
-        if (t.value == "selector : OFF") {
-            t.value = "selector : ON";
-            t.setAttribute("style", "background-color:#00ACB8");
-            t.setAttribute("aria-pressed", "true");
-            //   getEle();
-            // webView.addEventListener("dom-ready", function() {
-            // webView.openDevTools();
+        // webView.addEventListener("ipc-message", (event) => {
+        console.log(t.value)
+            //     console.log(event.channel);
+            //     // Prints "element"
+            // });
+            // webView.send("finder");
+        switch (t.value) {
+            case 'selector : OFF':
+                t.setAttribute("style", "background-color:#00ACB8");
+                t.setAttribute("aria-pressed", "true");
+                getEle();
+                t.value = "selector : ON";
+                console.log('change to : ', t.value);
+                break;
+            case 'selector : ON':
+                t.setAttribute("style", "background-color:#EEEEFA");
+                t.setAttribute("aria-pressed", "false");
+                webView.removeEventListener("ipc-massage", getEle)
+                t.value = "selector : OFF";
+                break;
+        }
+        // if (t.value == "selector : OFF") {
+        //     t.value = "selector : ON";
+        //     t.setAttribute("style", "background-color:#00ACB8");
+        //     t.setAttribute("aria-pressed", "true");
+        //     getEle();
+        //     console.log('change to : ', t.value)
+        //         // webView.addEventListener("ipc-message", (event) => {
+        //         //     var xmlText = `
+        //         //     <xml>
+        //         //         <block type="_027" x="100" y="100">
+        //         //             <field name="ID_ELE">` + event.channel + `</field>
+        //         //         </block>
+        //         //     </xml>`
+        //         //     var xml = Blockly.Xml.textToDom(xmlText);
+        //         //     Blockly.Xml.domToWorkspace(xml, workspace);
+        //         //     console.log(event.channel);
+        //         //     // Prints "element"
+        //         // });
+        //         // webView.send("finder");
+        // } else {
+        //     t.value = "selector : OFF";
+        //     t.setAttribute("style", "background-color:#EEEEFA");
+        //     t.setAttribute("aria-pressed", "false");
+        //     webView.removeEventListener("ipc-massage", getEle)
+        // }
+    }
 
-            webView.addEventListener("ipc-message", (event) => {
-                var xmlText = 
-                `<xml>
+    function getEle() {
+
+        var webView = document.querySelector("webview");
+        webView.addEventListener("ipc-message", (event) => {
+            var xmlText = `
+                <xml>
                     <block type="_027" x="100" y="100">
                         <field name="ID_ELE">` + event.channel + `</field>
                     </block>
                 </xml>`
-                var xml = Blockly.Xml.textToDom(xmlText);
-                Blockly.Xml.domToWorkspace(xml, workspace);
-                console.log(event.channel);
-                // Prints "element"
-            });
-            webView.send("finder");
-        }
-        else if (t.value == "selector : ON") {
-            t.value = "selector : OFF";
-            t.setAttribute("style", "background-color:#EEEEFA");
-            t.setAttribute("aria-pressed", "false");
-        //ใช้ไม่ได้ เด้ะทำต่อ 19/04/2022
-            webView.removeEventListener('click', event => {
-        // var element = getPath(event.target)
-        var ele = finder(event.target)
-            // ipcRenderer.sendToHost(element)
-        ipcRenderer.sendToHost(ele)
-            });
-        }
+            var xml = Blockly.Xml.textToDom(xmlText);
+            Blockly.Xml.domToWorkspace(xml, workspace);
+            console.log(event.channel);
+            // Prints "element"
+        });
+        webView.send("finder");
     }
 </script>
 
