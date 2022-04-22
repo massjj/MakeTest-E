@@ -412,11 +412,12 @@
             // webView.openDevTools();
 
             webView.addEventListener("ipc-message", (event) => {
-                var xmlText = `
-            <xml>
-                <block type="_027" x="100" y="100">
-                </block>
-            </xml>`
+                var xmlText = 
+                `<xml>
+                    <block type="_027" x="100" y="100">
+                        <field name="ID_ELE">` + event.channel + `</field>
+                    </block>
+                </xml>`
                 var xml = Blockly.Xml.textToDom(xmlText);
                 Blockly.Xml.domToWorkspace(xml, workspace);
                 console.log(event.channel);
