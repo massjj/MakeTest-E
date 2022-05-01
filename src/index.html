@@ -335,30 +335,35 @@
         let fileData = await fileHandle.getFile();
         let text = await fileData.text();
         var xml = Blockly.Xml.textToDom(text);
+        workspace.clear();
         Blockly.Xml.domToWorkspace(xml, workspace);
+    }
+
+    function newFile() {
+        //ไดอะล็อกถามว่าจะเซฟไฟล์มั้ย (save as/don't save/cancel)
+        //ถ้า "don't save" 
+            //(1)เรียกไดอะล็อกมาสร้างไฟล์เปล่า > workspace.clear();
+            //(2)workspace.clear();
+        //ถ้า "save as" 
+            //เรียก function toXml() > กลับไปทำเหมือน "don't save"
+        //ถ้า "cancel"
+            //ปิดไดอะล็อก
     }
 
     // async function save() {
     //     let stream = await fileHandle.createWritable();
-    //     console.log('st1')
     //     var xml = Blockly.Xml.workspaceToDom(workspace);
-    //     console.log('st2')
     //     await stream.write(xml);
-    //     console.log('st3')
     //     await stream.close();
     // }
 
     // async function saveAs() {
-    //     console.log('st0.1')
     //     fileHandle = await window.showSaveFilePicker();
-    //     console.log('st0.2')
     //     let stream = await fileHandle.createWritable();
     //     var xml = Blockly.Xml.workspaceToDom(workspace);
-    //     console.log('st2')
     //     await stream.write(xml);
-    //     console.log('st3')
     //     await stream.close();
-    //     //save();
+    //     save();
     // }
 
     function toXML() {
@@ -371,25 +376,8 @@
         console.log(document.getElementById("Save").value);
         var xmlText = Blockly.Xml.domToPrettyText(xml);
         ipcRenderer.send('xmlData', xmlText)
-            // console.log(xmlText);
-            // const path = require("path");
-            // const fs = require("fs");
-            // fs.writeFile(
-            //     path.join(__dirname, "../script.xml"),
-            //     xmlText,
-            //     function(err) {
-            //         if (err) {
-            //             throw err;
-            //             console.log("Cancelled");
-            //         } else {
-            //             console.log("Saved!");
-            //             // runFile();
-            //             //alert("Successfully Saved !");
-            //         }
-            //     }
-            // );
-            // download(xmlText, "script.xml", "text/xml");
     }
+
     function Buttontoggle() {
         var t = document.getElementById("selector-button");
         var webView = document.querySelector("webview");
@@ -442,7 +430,6 @@
     }
 
     function getEle() {
-
         var webView = document.querySelector("webview");
         webView.addEventListener("ipc-message", (event) => {
             var xmlText = `
