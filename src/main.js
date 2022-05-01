@@ -51,6 +51,7 @@ const createWindow = () => {
     // and load the index.html of the app.
     mainWindow.loadFile(path.join(__dirname, 'index.html'))
 
+    let fileHandle;
 
     // for saving xml file
     ipcMain.on('xmlData', (event, arg) => {
@@ -79,7 +80,11 @@ const createWindow = () => {
                     function(err) {
                         if (err) throw err;
                         console.log('Saved!');
+                        fileHandle = file.filePath.toString();
+                        console.log("1 "+fileHandle);
+                        event.reply('asynchronous-reply', fileHandle)
                     });
+                    
             }
         }).catch(err => {
             console.log(err)
