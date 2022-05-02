@@ -191,6 +191,7 @@
   </xml>
 
   <script>
+    const { ipcRenderer } = require("electron");
     console.log("gg");
     let fileHandle;
     var workspace = Blockly.inject("blocklyDiv", {
@@ -322,23 +323,31 @@
 
     async function openFile() {
       //check ว่ามีการเปลี่ยนแปลงมั้ย
-      [fileHandle] = await window.showOpenFilePicker({
-        types: [
-          {
-            description: "XML",
-            accept: {
-              "text/xml": [".xml"],
-            },
-          },
-        ],
-        excludeAcceptAllOption: true,
-        multiple: false,
+      // [fileHandle] = await window.showOpenFilePicker({
+      //   types: [
+      //     {
+      //       description: "XML",
+      //       accept: {
+      //         "text/xml": [".xml"],
+      //       },
+      //     },
+      //   ],
+      //   excludeAcceptAllOption: true,
+      //   multiple: false,
+      // });
+      // let fileData = await fileHandle.getFile();
+      // let text = await fileData.text();
+      // var xml = Blockly.Xml.textToDom(text);
+      // workspace.clear();
+      // Blockly.Xml.domToWorkspace(xml, workspace);
+        ipcRenderer.send("import-file");
+        ipcRenderer.on("import-reply", (event, fileData) => {
+        fileHandle = fileData.filePath;
+        console.log("Hi "+fileHandle);
+        var xml = Blockly.Xml.textToDom(fileData.text);
+        workspace.clear();
+        Blockly.Xml.domToWorkspace(xml, workspace);
       });
-      let fileData = await fileHandle.getFile();
-      let text = await fileData.text();
-      var xml = Blockly.Xml.textToDom(text);
-      workspace.clear();
-      Blockly.Xml.domToWorkspace(xml, workspace);
     }
 
     function newFile() {
@@ -369,14 +378,13 @@
     // }
 
     function toXML() {
-      const { ipcRenderer } = require("electron");
       var xml = Blockly.Xml.workspaceToDom(workspace);
       document.getElementById("Save").value = xml;
       console.log("Hi XML");
       console.log(document.getElementById("Save").value);
       var xmlText = Blockly.Xml.domToPrettyText(xml);
-      ipcRenderer.send("xmlData", xmlText);
-      ipcRenderer.on("asynchronous-reply", (event, arg) => {
+      ipcRenderer.send("save-file-as", xmlText);
+      ipcRenderer.on("save-as-reply", (event, arg) => {
         console.log(arg); // prints "pong"
         fileHandle = arg;
       });
