@@ -51,15 +51,13 @@ const createWindow = () => {
     // and load the index.html of the app.
     mainWindow.loadFile(path.join(__dirname, 'index.html'))
 
+    let fileHandle;
 
     // for saving xml file
-    ipcMain.on('xmlData', (event, arg) => {
-
-        // childWindow.loadURL('https://www.google.com');
+    ipcMain.on('save-file-as', (event, content) => {
         dialog.showSaveDialog({
             title: 'Save file as',
             defaultPath: path.join(__dirname, '.../MakeTest.xml'),
-            // defaultPath: path.join(__dirname, '../assets/'),
             buttonLabel: 'Save',
             // Restricting the user to only Text Files.
             filters: [{
@@ -72,13 +70,63 @@ const createWindow = () => {
             console.log(file.canceled);
             if (!file.canceled) {
                 console.log(file.filePath.toString());
-
                 // Creating and Writing to the sample.txt file
                 fs.writeFile(file.filePath.toString(),
-                    arg,
+                    content,
                     function(err) {
                         if (err) throw err;
                         console.log('Saved!');
+                        fileHandle = file.filePath.toString();
+                        console.log("1 "+fileHandle);
+                        event.reply('save-as-reply', fileHandle)
+                    });
+            }
+        }).catch(err => {
+            console.log(err)
+        });
+    })
+
+    ipcMain.on('update-file',(event, content, fileHandle)=>{
+        fs.writeFile(fileHandle, content, (err)=>{
+            if (err) {
+                alert("An error ocurred updating the file" + err.message);
+                console.log(err);
+                return;
+            }
+
+            alert("The file has been succesfully saved");
+        })
+    })
+
+    ipcMain.on('import-file',(event) =>{
+        dialog.showOpenDialog({
+            title: 'Import file',
+            // defaultPath: path.join(__dirname, '.../'),
+            buttonLabel: 'Open',
+            // Restricting the user to only Text Files.
+            filters: [{
+                name: 'XML files',
+                extensions: ['xml']
+            }, ],
+            properties: []
+        }).then(file => {
+            // Stating whether dialog operation was cancelled or not.
+            console.log(file.canceled);
+            if (!file.canceled) {
+                console.log(file.filePaths.toString());
+                // Creating and Writing to the sample.txt file
+                fs.readFile(file.filePaths.toString(),
+                'utf-8',
+                    function(err , data) {
+                        if (err) throw err;
+                        console.log('Import success!');
+                        fileHandle = file.filePaths.toString();
+                        fileData = {
+                            text: data,
+                            filePath: fileHandle
+                        }
+                        console.log("2 " + fileHandle);
+                        event.reply('import-reply', fileData)
                     });
             }
         }).catch(err => {

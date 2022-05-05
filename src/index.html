@@ -66,29 +66,27 @@
         //     console.log('total mem GB' + data);
         // });
     </script>
-
 </head>
 <!-- Body  -->
 
 <body>
-
     <div class="app-bar">
         <nav class="tool-bar">
             <button class="w3-bar-item w3-button">
           <img id="NewFile" src="assets/image/NewFile.svg" />
         </button>
             <button class="w3-bar-item w3-button" onclick="openFile()">
-          <img id="Import" src="assets/image/Import.svg"  />
+          <img id="Import" src="assets/image/Import.svg" />
         </button>
             <button class="w3-bar-item w3-button" onclick="toXML()">
-          <img id="Save" src="assets/image/Save.svg"  />
+          <img id="Save" src="assets/image/Save.svg" />
         </button>
             <!-- <script src="./script/saveFile.js"></script> -->
             <button class="w3-bar-item w3-button">
           <img id="RecordWeb" src="assets/image/Recorder.svg" />
         </button>
             <button class="w3-bar-item w3-button" onclick="toSpecFile()">
-          <img id="Run" src="assets/image/Run.svg"  />
+          <img id="Run" src="assets/image/Run.svg" />
         </button>
         </nav>
     </div>
@@ -111,11 +109,15 @@
                         <webview id="foo" src="https://www.github.com" preload="script/selector.js" disableguestresize></webview>
                     </div>
                     <div class="selector-container" id="selector-container">
-                        <button id="selector-button" value="selector : OFF" class="selector w3-button w3-border" style="background-color: #EEEEFA ;" onclick="Buttontoggle();">
-                            <img id="selector-img" src="./assets/image/Selector.svg" width="23" />
-                            selector
-                        </button>
-
+                        <button id="selector-button" value="selector : OFF" class="selector w3-button w3-border" style="background-color: #eeeefa" onclick="Buttontoggle();">
+                <img
+                  id="selector-img"
+                  src="./assets/image/Selector.svg"
+                  width="23"
+                />
+                selector
+              </button>
+                        <!-- <input type="button" style="background-color: #EEEEFA ;" value="selector : OFF" id="selector-button" class="selector w3-button w3-border" aria-pressed="false" onclick="Buttontoggle();"> -->
                         <script>
                             function getUrl() {
                                 let message = document.getElementById("URL").value;
@@ -133,7 +135,8 @@
                                 } else {
                                     let suffix = "https\:\/\/";
                                     document.getElementById("foo").src = suffix.concat(message);
-                                    document.getElementById("URL").value = suffix.concat(message);
+                                    document.getElementById("URL").value =
+                                        suffix.concat(message);
                                 }
                                 // this.message = this.url;
                             }
@@ -159,9 +162,11 @@
     </block>
 </xml>
 
-<script src="./script/getElement.js"></script>
 <script>
-    console.log('gg')
+    const {
+        ipcRenderer
+    } = require("electron");
+    console.log("gg");
     let fileHandle;
     var workspace = Blockly.inject("blocklyDiv", {
         comments: true,
@@ -243,7 +248,6 @@
         return xmlElementList;
     });
 
-
     // Variable function
 
     function myUpdateFunction() {
@@ -291,100 +295,92 @@
         );
     }
 
-    function download(data, filename, type) {
-        var file = new Blob([data], {
-            type: type,
+    async function openFile() {
+        //check ว่ามีการเปลี่ยนแปลงมั้ย
+        // [fileHandle] = await window.showOpenFilePicker({
+        //   types: [
+        //     {
+        //       description: "XML",
+        //       accept: {
+        //         "text/xml": [".xml"],
+        //       },
+        //     },
+        //   ],
+        //   excludeAcceptAllOption: true,
+        //   multiple: false,
+        // });
+        // let fileData = await fileHandle.getFile();
+        // let text = await fileData.text();
+        // var xml = Blockly.Xml.textToDom(text);
+        // workspace.clear();
+        // Blockly.Xml.domToWorkspace(xml, workspace);
+        ipcRenderer.send("import-file");
+        ipcRenderer.on("import-reply", (event, fileData) => {
+            fileHandle = fileData.filePath;
+            console.log("Hi " + fileHandle);
+            var xml = Blockly.Xml.textToDom(fileData.text);
+            workspace.clear();
+            Blockly.Xml.domToWorkspace(xml, workspace);
         });
-        if (window.navigator.msSaveOrOpenBlob) {
-            // IE10+
-            console.log("HA1");
-            window.navigator.msSaveOrOpenBlob(file, filename);
-        } else {
-            // Others
-            var a = document.createElement("a"),
-                url = URL.createObjectURL(file);
-            a.href = url;
-            a.download = filename;
-            document.body.appendChild(a);
-            a.click();
-            console.log("HA2");
-            setTimeout(function() {
-                console.log("HA3");
-                document.body.removeChild(a);
-                window.URL.revokeObjectURL(url);
-            }, 0);
-        }
-        console.log(filename);
     }
 
-    async function openFile() {
-        [fileHandle] = await window.showOpenFilePicker({
-            types: [{
-                description: "XML",
-                accept: {
-                    "text/xml": [".xml"],
-                },
-            }, ],
-            excludeAcceptAllOption: true,
-            multiple: false,
-        });
-        let fileData = await fileHandle.getFile();
-        let text = await fileData.text();
-        var xml = Blockly.Xml.textToDom(text);
-        Blockly.Xml.domToWorkspace(xml, workspace);
+    function newFile() {
+        //ไดอะล็อกถามว่าจะเซฟไฟล์มั้ย (save as/don't save/cancel)
+        //ถ้า "don't save" 
+        //(1)เรียกไดอะล็อกมาสร้างไฟล์เปล่า > workspace.clear();
+        //(2)workspace.clear();
+        //ถ้า "save as" 
+        //เรียก function toXml() > กลับไปทำเหมือน "don't save"
+        //ถ้า "cancel"
+        //ปิดไดอะล็อก
     }
 
     // async function save() {
     //     let stream = await fileHandle.createWritable();
-    //     console.log('st1')
     //     var xml = Blockly.Xml.workspaceToDom(workspace);
-    //     console.log('st2')
     //     await stream.write(xml);
-    //     console.log('st3')
     //     await stream.close();
     // }
 
     // async function saveAs() {
-    //     console.log('st0.1')
     //     fileHandle = await window.showSaveFilePicker();
-    //     console.log('st0.2')
     //     let stream = await fileHandle.createWritable();
     //     var xml = Blockly.Xml.workspaceToDom(workspace);
-    //     console.log('st2')
     //     await stream.write(xml);
-    //     console.log('st3')
     //     await stream.close();
-    //     //save();
+    //     save();
     // }
 
     function toXML() {
-        const {
-            ipcRenderer
-        } = require('electron');
         var xml = Blockly.Xml.workspaceToDom(workspace);
         document.getElementById("Save").value = xml;
         console.log("Hi XML");
         console.log(document.getElementById("Save").value);
         var xmlText = Blockly.Xml.domToPrettyText(xml);
-        ipcRenderer.send('xmlData', xmlText)
-            // console.log(xmlText);
-            // const path = require("path");
-            // const fs = require("fs");
-            // fs.writeFile(
-            //     path.join(__dirname, "../script.xml"),
-            //     xmlText,
-            //     function(err) {
-            //         if (err) {
-            //             throw err;
-            //             console.log("Cancelled");
-            //         } else {
-            //             console.log("Saved!");
-            //             // runFile();
-            //             //alert("Successfully Saved !");
-            //         }
-            //     }
-            // );
-            // download(xmlText, "script.xml", "text/xml");
+        ipcRenderer.send("save-file-as", xmlText);
+        ipcRenderer.on("save-as-reply", (event, arg) => {
+            console.log(arg); // prints "pong"
+            fileHandle = arg;
+        });
+        //console.log(ipcRenderer.sendSync('xmlData', xmlText))
+        // console.log(xmlText);
+        // const path = require("path");
+        // const fs = require("fs");
+        // fs.writeFile(
+        //     path.join(__dirname, "../script.xml"),
+        //     xmlText,
+        //     function(err) {
+        //         if (err) {
+        //             throw err;
+        //             console.log("Cancelled");
+        //         } else {
+        //             console.log("Saved!");
+        //             // runFile();
+        //             //alert("Successfully Saved !");
+        //         }
+        //     }
+        // );
+        // download(xmlText, "script.xml", "text/xml");
     }
     var interval;
     var webView = document.querySelector("webview");
