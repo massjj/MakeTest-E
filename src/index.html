@@ -46,6 +46,7 @@
     <script src="./blocks/variables_dynamic.js"></script> -->
     <script src="./script/custom_renderer.js"></script>
 
+
     <!-- codemirror -->
     <script src="../node_modules/codemirror/lib/codemirror.js"></script>
     <script src="../node_modules/codemirror/mode/javascript/javascript.js"></script>
@@ -114,7 +115,7 @@
                             <img id="selector-img" src="./assets/image/Selector.svg" width="23" />
                             selector
                         </button>
-                        <!-- <input type="button" style="background-color: #EEEEFA ;" value="selector : OFF" id="selector-button" class="selector w3-button w3-border" aria-pressed="false" onclick="Buttontoggle();"> -->
+
                         <script>
                             function getUrl() {
                                 let message = document.getElementById("URL").value;
@@ -158,7 +159,7 @@
     </block>
 </xml>
 
-
+<script src="./script/getElement.js"></script>
 <script>
     console.log('gg')
     let fileHandle;
@@ -385,74 +386,63 @@
             // );
             // download(xmlText, "script.xml", "text/xml");
     }
+    var interval;
+    var webView = document.querySelector("webview");
 
     function Buttontoggle() {
-        var t = document.getElementById("selector-button");
-        var webView = document.querySelector("webview");
-        // webView.addEventListener("ipc-message", (event) => {
-        console.log(t.value)
-            //     console.log(event.channel);
-            //     // Prints "element"
-            // });
-            // webView.send("finder");
-        switch (t.value) {
-            case 'selector : OFF':
-                t.setAttribute("style", "background-color:#00ACB8");
-                t.setAttribute("aria-pressed", "true");
-                getEle();
-                t.value = "selector : ON";
-                console.log('change to : ', t.value);
-                break;
-            case 'selector : ON':
-                t.setAttribute("style", "background-color:#EEEEFA");
-                t.setAttribute("aria-pressed", "false");
-                webView.removeEventListener("ipc-massage", getEle)
-                t.value = "selector : OFF";
-                break;
+        var selector = document.getElementById("selector-button");
+        // var webView = document.querySelector("webview");
+        console.log(webView.getURL())
+        if (selector.value == 'selector : OFF') {
+            selector.setAttribute("style", "background-color:#00ACB8");
+            selector.value = 'selector : ON';
+            console.log('Button status : ', selector.value)
+            getEle()
+        } else if (selector.value == 'selector : ON') {
+            selector.setAttribute("style", "background-color::#EEEEFA");
+            selector.value = 'selector : OFF';
+            console.log('Buuton status : ', selector.value)
+            removeEle()
         }
-        // if (t.value == "selector : OFF") {
-        //     t.value = "selector : ON";
-        //     t.setAttribute("style", "background-color:#00ACB8");
-        //     t.setAttribute("aria-pressed", "true");
-        //     getEle();
-        //     console.log('change to : ', t.value)
-        //         // webView.addEventListener("ipc-message", (event) => {
-        //         //     var xmlText = `
-        //         //     <xml>
-        //         //         <block type="_027" x="100" y="100">
-        //         //             <field name="ID_ELE">` + event.channel + `</field>
-        //         //         </block>
-        //         //     </xml>`
-        //         //     var xml = Blockly.Xml.textToDom(xmlText);
-        //         //     Blockly.Xml.domToWorkspace(xml, workspace);
-        //         //     console.log(event.channel);
-        //         //     // Prints "element"
-        //         // });
-        //         // webView.send("finder");
-        // } else {
-        //     t.value = "selector : OFF";
-        //     t.setAttribute("style", "background-color:#EEEEFA");
-        //     t.setAttribute("aria-pressed", "false");
-        //     webView.removeEventListener("ipc-massage", getEle)
-        // }
+
+    }
+
+    function removeEle() {
+
+        webView.send("get_element", 'stop');
+        console.log('--- Stop selector----');
+        clearInterval(interval)
+
     }
 
     function getEle() {
+        let element = {
+            id: '',
+            status: 'wait_element'
+        }
+        webView.send("get_element", 'get');
+        // var webView = document.querySelector("webview");
+        webView.addEventListener("ipc-message", (chennel, args) => {
+            element.id = chennel.args[0];
+            element.status = chennel.args[1]
+        });
 
-        var webView = document.querySelector("webview");
-        webView.addEventListener("ipc-message", (event) => {
-            var xmlText = `
+        console.log('----Start selector----')
+
+        interval = window.setInterval(function() {
+            if (element.status === 'return_element') {
+                var xmlText = `
                 <xml>
                     <block type="_027" x="100" y="100">
-                        <field name="ID_ELE">` + event.channel + `</field>
+                        <field name="ID_ELE">` + element.id + `</field>
                     </block>
                 </xml>`
-            var xml = Blockly.Xml.textToDom(xmlText);
-            Blockly.Xml.domToWorkspace(xml, workspace);
-            console.log(event.channel);
-            // Prints "element"
-        });
-        webView.send("finder");
+                var xml = Blockly.Xml.textToDom(xmlText);
+                Blockly.Xml.domToWorkspace(xml, workspace);
+                console.log('Test : ', element.id)
+                element.status = 'wait_element'
+            }
+        }, 100);
     }
 </script>
 
