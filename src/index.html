@@ -385,22 +385,44 @@
     var interval;
     var webView = document.querySelector("webview");
 
+
     function Buttontoggle() {
+        // webView.addEventListener('dom-ready', () => {
+        //     // webView.openDevTools();
+        //     var url = webView.getURL();
+        //     console.log('check')
+        //     console.log(url);
+        // })
         var selector = document.getElementById("selector-button");
-        // var webView = document.querySelector("webview");
-        console.log(webView.getURL())
+
         if (selector.value == 'selector : OFF') {
             selector.setAttribute("style", "background-color:#00ACB8");
             selector.value = 'selector : ON';
-            console.log('Button status : ', selector.value)
+            console.log('Button status => ', selector.value)
+            removeEle()
             getEle()
+
+            webView.addEventListener('dom-ready', () => {
+
+                if (selector.value == 'selector : ON') {
+                    removeEle()
+                    getEle()
+                }
+            })
         } else if (selector.value == 'selector : ON') {
             selector.setAttribute("style", "background-color::#EEEEFA");
             selector.value = 'selector : OFF';
-            console.log('Buuton status : ', selector.value)
+            console.log('Buuton status => ', selector.value)
             removeEle()
-        }
 
+        }
+    }
+
+    function checkURL() {
+        webView.addEventListener('dom-ready', () => {
+            removeEle()
+            getEle()
+        })
     }
 
     function removeEle() {
@@ -412,21 +434,29 @@
     }
 
     function getEle() {
+
+        //set of one element data
         let element = {
             id: '',
             status: 'wait_element'
         }
+
         webView.send("get_element", 'get');
         // var webView = document.querySelector("webview");
+
         webView.addEventListener("ipc-message", (chennel, args) => {
+
             element.id = chennel.args[0];
             element.status = chennel.args[1]
-        });
+
+        })
+
 
         console.log('----Start selector----')
 
         interval = window.setInterval(function() {
             if (element.status === 'return_element') {
+
                 var xmlText = `
                 <xml>
                     <block type="_027" x="100" y="100">
