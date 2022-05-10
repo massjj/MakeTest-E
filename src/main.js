@@ -89,12 +89,12 @@ const createWindow = () => {
     ipcMain.on('update-file',(event, content, fileHandle)=>{
         fs.writeFile(fileHandle, content, (err)=>{
             if (err) {
-                alert("An error ocurred updating the file" + err.message);
+                // alert("An error ocurred updating the file" + err.message);
                 console.log(err);
                 return;
             }
 
-            alert("The file has been succesfully saved");
+            // alert("The file has been succesfully saved");
         })
     })
 
