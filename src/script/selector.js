@@ -428,11 +428,46 @@ function cssesc(string, opt = {}) {
     return output;
 }
 
-ipcRenderer.on('finder', () => {
-    document.addEventListener('click', event => {
-        // var element = getPath(event.target)
-        var ele = finder(event.target)
-            // ipcRenderer.sendToHost(element)
-        ipcRenderer.sendToHost(ele)
-    })
+
+var ele;
+
+ipcRenderer.on('get_element', (channel, arg) => {
+    console.log(arg)
+    ipcRenderer.sendToHost("get_element", 'Start selector')
+
+    //
+    if (arg == 'stop') {
+        console.log('--- Stop selector---')
+        ipcRenderer.sendToHost("get_element", 'Stop selector')
+            // ipcRenderer.removeAllListeners('finder')
+    } else {
+        document.addEventListener('click', event => {
+            ele = finder(event.target)
+            console.log('select : ', ele)
+            ipcRenderer.sendToHost("get_element", ele, 'return_element')
+        })
+    }
 })
+
+
+// var ele;
+// const webview_selector = ipcRenderer.on('finder', () => {
+// document.addEventListener('click', event => {
+
+//     // var element = getPath(event.target)
+//     ele = finder(event.target)
+//         // ipcRenderer.sendToHost(element)
+//     ipcRenderer.sendToHost(ele)
+//     console.log('selector')
+// })
+// })
+
+// // webview_selector.removeAllListeners('finder')
+// ipcRenderer.on('removeEle', () => {
+//     webview_selector.removeAllListeners('finder')
+//     console.log('remove')
+// })
+
+
+
+// selector.removeAllListener('finder')
