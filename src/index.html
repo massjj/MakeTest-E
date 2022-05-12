@@ -13,11 +13,15 @@
     <script src="https://kit.fontawesome.com/ea3fb95b41.js" crossorigin="anonymous"></script>
 
     <!-- blockly -->
+    <!-- <script src="./node_modules/blockly/blockly_compressed.js"></script>
+    <script src="./node_modules/blockly/blocks_compressed.js"></script>
+    <script src="./node_modules/blockly/msg/en.js"></script> -->
     <script src="../node_modules/blockly/blockly_compressed.js"></script>
     <script src="../node_modules/blockly/blocks_compressed.js"></script>
     <script src="../node_modules/blockly/msg/en.js"></script>
     <script src="../node_modules/blockly/javascript.js"></script>
     <script src="../node_modules/blockly/javascript_compressed.js"></script>
+
     <!-- <script>
       window.nodeRequire = require;
       delete window.require;
@@ -32,10 +36,13 @@
     <script src="./blocks/Loop.js"></script>
     <script src="./blocks/Starting-Ending.js"></script>
     <script src="./blocks/URL.js"></script>
-    <script src="./blocks/Variables.js"></script>
+    <!-- <script src="./blocks/Variables.js"></script> -->
     <script src="./blocks/XML.js"></script>
     <script src="./blocks/Expect.js"></script>
+    <!-- <script src="./blocks/variables.js"></script>
+    <script src="./blocks/variables_dynamic.js"></script> -->
     <!-- <script src="./blocks/prompt.js"></script> -->
+    <script src="./blocks/Variables-Old.js"></script>
     <script src="./blocks/custom-dialog.js"></script>
 
     <script src="./blocks/Advance/Text.js"></script>
@@ -43,8 +50,7 @@
     <script src="./blocks/Advance/Time.js"></script>
     <script src="./blocks/Advance/Console.js"></script>
     <script src="./blocks/Advance/Array.js"></script>
-    <!-- <script src="./blocks/variables.js"></script>
-    <script src="./blocks/variables_dynamic.js"></script> -->
+
     <script src="./script/custom_renderer.js"></script>
 
 
@@ -163,8 +169,10 @@
     </block>
 </xml>
 
-  <script>
-    const { ipcRenderer } = require("electron");
+<script>
+    const {
+        ipcRenderer
+    } = require("electron");
     let fileHandle;
     var workspace = Blockly.inject("blocklyDiv", {
         comments: true,
@@ -295,43 +303,43 @@
     }
 
     async function openFile() {
-      //check ว่ามีการเปลี่ยนแปลงมั้ย
-      // [fileHandle] = await window.showOpenFilePicker({
-      //   types: [
-      //     {
-      //       description: "XML",
-      //       accept: {
-      //         "text/xml": [".xml"],
-      //       },
-      //     },
-      //   ],
-      //   excludeAcceptAllOption: true,
-      //   multiple: false,
-      // });
-      // let fileData = await fileHandle.getFile();
-      // let text = await fileData.text();
-      // var xml = Blockly.Xml.textToDom(text);
-      // workspace.clear();
-      // Blockly.Xml.domToWorkspace(xml, workspace);
-      ipcRenderer.send("import-file");
-      ipcRenderer.on("import-reply", (event, fileData) => {
-        fileHandle = fileData.filePath;
-        console.log("Hi " + fileHandle);
-        var xml = Blockly.Xml.textToDom(fileData.text);
-        workspace.clear();
-        Blockly.Xml.domToWorkspace(xml, workspace);
-      });
+        //check ว่ามีการเปลี่ยนแปลงมั้ย
+        // [fileHandle] = await window.showOpenFilePicker({
+        //   types: [
+        //     {
+        //       description: "XML",
+        //       accept: {
+        //         "text/xml": [".xml"],
+        //       },
+        //     },
+        //   ],
+        //   excludeAcceptAllOption: true,
+        //   multiple: false,
+        // });
+        // let fileData = await fileHandle.getFile();
+        // let text = await fileData.text();
+        // var xml = Blockly.Xml.textToDom(text);
+        // workspace.clear();
+        // Blockly.Xml.domToWorkspace(xml, workspace);
+        ipcRenderer.send("import-file");
+        ipcRenderer.on("import-reply", (event, fileData) => {
+            fileHandle = fileData.filePath;
+            console.log("Hi " + fileHandle);
+            var xml = Blockly.Xml.textToDom(fileData.text);
+            workspace.clear();
+            Blockly.Xml.domToWorkspace(xml, workspace);
+        });
     }
 
     function newFile() {
-      //ไดอะล็อกถามว่าจะเซฟไฟล์มั้ย (save as/don't save/cancel)
-      //ถ้า "don't save"
-      //(1)เรียกไดอะล็อกมาสร้างไฟล์เปล่า > workspace.clear();
-      //(2)workspace.clear();
-      //ถ้า "save as"
-      //เรียก function toXml() > กลับไปทำเหมือน "don't save"
-      //ถ้า "cancel"
-      //ปิดไดอะล็อก
+        //ไดอะล็อกถามว่าจะเซฟไฟล์มั้ย (save as/don't save/cancel)
+        //ถ้า "don't save"
+        //(1)เรียกไดอะล็อกมาสร้างไฟล์เปล่า > workspace.clear();
+        //(2)workspace.clear();
+        //ถ้า "save as"
+        //เรียก function toXml() > กลับไปทำเหมือน "don't save"
+        //ถ้า "cancel"
+        //ปิดไดอะล็อก
     }
 
     // async function save() {
