@@ -21,11 +21,15 @@
     ></script>
 
     <!-- blockly -->
+    <!-- <script src="./node_modules/blockly/blockly_compressed.js"></script>
+    <script src="./node_modules/blockly/blocks_compressed.js"></script>
+    <script src="./node_modules/blockly/msg/en.js"></script> -->
     <script src="../node_modules/blockly/blockly_compressed.js"></script>
     <script src="../node_modules/blockly/blocks_compressed.js"></script>
     <script src="../node_modules/blockly/msg/en.js"></script>
     <script src="../node_modules/blockly/javascript.js"></script>
     <script src="../node_modules/blockly/javascript_compressed.js"></script>
+
     <!-- <script>
       window.nodeRequire = require;
       delete window.require;
@@ -40,19 +44,21 @@
     <script src="./blocks/Loop.js"></script>
     <script src="./blocks/Starting-Ending.js"></script>
     <script src="./blocks/URL.js"></script>
-    <script src="./blocks/Variables.js"></script>
+    <!-- <script src="./blocks/Variables.js"></script> -->
     <script src="./blocks/XML.js"></script>
     <script src="./blocks/Expect.js"></script>
+    <!-- <script src="./blocks/variables.js"></script>
+    <script src="./blocks/variables_dynamic.js"></script> -->
     <!-- <script src="./blocks/prompt.js"></script> -->
-    <!-- <script src="./blocks/custom-dialog.js"></script> -->
+    <script src="./blocks/Variables-Old.js"></script>
+    <script src="./blocks/custom-dialog.js"></script>
 
     <script src="./blocks/Advance/Text.js"></script>
     <script src="./blocks/Advance/Math.js"></script>
     <script src="./blocks/Advance/Time.js"></script>
     <script src="./blocks/Advance/Console.js"></script>
     <script src="./blocks/Advance/Array.js"></script>
-    <!-- <script src="./blocks/variables.js"></script>
-    <script src="./blocks/variables_dynamic.js"></script> -->
+
     <script src="./script/custom_renderer.js"></script>
 
     <!-- codemirror -->
@@ -355,10 +361,6 @@
                 workspace
               );
             }
-            if (res === 1) {
-              //เลือก don't save
-              importFile();
-            }
           });
         }
         if (status === 0) {
@@ -393,16 +395,15 @@
     function newFile() {
       var xml = Blockly.Xml.workspaceToDom(workspace);
       var xmlText = Blockly.Xml.domToPrettyText(xml);
-
       //ตรวจสอบการแก้ไขไฟล์
       ipcRenderer.send("file-compare", fileHandle, xmlText);
-      ipcRenderer.once("compare-reply", (event, status) => {
+      ipcRenderer.on("compare-reply", (event, status) => {
         console.log(status);
         if (status === false) {
           //มีการเปลี่ยนแปลง
           console.log("save dee");
           ipcRenderer.send("modal-leave-from-import"); //เรียกไดอะล็อก save, dont't save, cancel
-          ipcRenderer.once("leave-import-reply", (event, res) => {
+          ipcRenderer.on("leave-import-reply", (event, res) => {
             if (res === 0) {
               //เลือก save
               console.log("re");
@@ -428,7 +429,7 @@
           } else {
             console.log("create first");
             ipcRenderer.send("modal-leave-file"); //เรียกไดอะล็อก save, dont't save, cancel
-            ipcRenderer.once("leave-reply", (event, res) => {
+            ipcRenderer.on("leave-reply", (event, res) => {
               if (res === 0) {
                 //เลือก save as
                 console.log("save as");
@@ -456,7 +457,7 @@
       var init = Blockly.Xml.workspaceToDom(workspace);
       var initText = Blockly.Xml.domToPrettyText(init);
       ipcRenderer.send("create-new", initText);
-      ipcRenderer.once("create-reply", (event, arg) => {
+      ipcRenderer.on("create-reply", (event, arg) => {
         console.log(arg); // prints "pong"
         fileHandle = arg;
       });
@@ -464,7 +465,7 @@
 
     function importFile() {
       ipcRenderer.send("import-file");
-      ipcRenderer.once("import-reply", (event, fileData) => {
+      ipcRenderer.on("import-reply", (event, fileData) => {
         fileHandle = fileData.filePath;
         console.log("Hi " + fileHandle);
         var xml = Blockly.Xml.textToDom(fileData.text);
@@ -485,13 +486,13 @@
       } else {
         //ตรวจสอบการแก้ไขไฟล์
         ipcRenderer.send("file-compare", fileHandle, xmlText);
-        ipcRenderer.once("compare-reply", (event, status) => {
+        ipcRenderer.on("compare-reply", (event, status) => {
           console.log(status);
           if (status === false) {
             //มีการเปลี่ยนแปลง
             console.log("save dee");
             ipcRenderer.send("modal-save-button"); //เรียกไดอะล็อก save, dont't save, cancel
-            ipcRenderer.once("save-button-reply", (event, res) => {
+            ipcRenderer.on("save-button-reply", (event, res) => {
               if (res === 0) {
                 //เลือก save
                 console.log("save");
@@ -504,7 +505,6 @@
             });
           }
           if (status === true) {
-            console.log("save mai mee")
             //ไม่มีการเปลี่ยนแปลง
           }
         });
