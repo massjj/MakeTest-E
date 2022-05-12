@@ -53,10 +53,10 @@
 
     <script src="./script/custom_renderer.js"></script>
 
-
     <!-- codemirror -->
     <script src="../node_modules/codemirror/lib/codemirror.js"></script>
     <script src="../node_modules/codemirror/mode/javascript/javascript.js"></script>
+    <!-- <script src="./script/app_dialog.js"></script> -->
     <script>
         var codeTosave;
         const cypress = require("cypress");
@@ -80,12 +80,16 @@
     <div class="app-bar">
         <nav class="tool-bar">
             <button class="w3-bar-item w3-button">
-          <img id="NewFile" src="assets/image/NewFile.svg" />
+          <img
+            id="NewFile"
+            src="assets/image/NewFile.svg"
+            onclick="newFile()"
+          />
         </button>
             <button class="w3-bar-item w3-button" onclick="openFile()">
           <img id="Import" src="assets/image/Import.svg" />
         </button>
-            <button class="w3-bar-item w3-button" onclick="toXML()">
+            <button class="w3-bar-item w3-button" onclick="saveButton()">
           <img id="Save" src="assets/image/Save.svg" />
         </button>
             <!-- <script src="./script/saveFile.js"></script> -->
@@ -113,7 +117,8 @@
               </button>
                     </div>
                     <div class="webview-c">
-                        <webview id="foo" src="https://www.github.com" preload="script/selector.js" disableguestresize></webview>
+                        <webview id="foo" src="https://www.github.com" preload="script/selector.js" disableguestresize>
+                        </webview>
                     </div>
                     <div class="selector-container" id="selector-container">
                         <button id="selector-button" value="selector : OFF" class="selector w3-button w3-border" style="background-color: #eeeefa" onclick="Buttontoggle();">
@@ -173,7 +178,8 @@
     const {
         ipcRenderer
     } = require("electron");
-    let fileHandle;
+    let fileHandle = null;
+
     var workspace = Blockly.inject("blocklyDiv", {
         comments: true,
         collapse: true,
@@ -213,12 +219,14 @@
     });
     Blockly.Xml.domToWorkspace(document.getElementById("starter"), workspace);
 
+    var xmlDom = Blockly.Xml.workspaceToDom(workspace);
+    var xmlInit = Blockly.Xml.domToPrettyText(xmlDom);
     // Variable function
     // workspace.registerButtonCallback(
     //   "createNumberVariableButtonPressed",
     //   () => {
     //     // const name = window.prompt("Enter Variable Name :");
-    //     // if (name && name !== "") {
+    //     // if (name && name !=== "") {
     //       workspace.createVariable("name", ["Number", "String"]);
     //       console.log("success")
     //     // }
@@ -256,6 +264,30 @@
     // });
 
     // End of Variable function
+
+    // function fileCompare(status) {
+    //     //compare
+    //     const fs = require('fs');
+    //     fs.readFile(fileHandle,
+    //             'utf-8',
+    //             function(err , data) {
+    //                 var xml = Blockly.Xml.workspaceToDom(workspace);
+    //                 var xmlText = Blockly.Xml.domToPrettyText(xml);
+    //                 if (err) throw err;
+    //                 console.log(data);
+    //                 console.log(xmlText);
+    //                 if(data != xmlText){
+    //                     console.log("save ma?");
+    //                     status = false;
+    //                 }
+    //                 if(data === xmlText){
+    //                     console.log("no changed");
+    //                     status = true;
+    //                 }
+    //             })
+    //             console.log("gg "+status)
+    //             //change status ไม่ได้
+    // }
 
     function myUpdateFunction() {
         var code = Blockly.JavaScript.workspaceToCode(workspace);
@@ -303,7 +335,62 @@
     }
 
     async function openFile() {
-        //check ว่ามีการเปลี่ยนแปลงมั้ย
+        var xml = Blockly.Xml.workspaceToDom(workspace);
+        var xmlText = Blockly.Xml.domToPrettyText(xml);
+        //check ว่ามีการเปลี่ยนแปลงมั้ย dialog.showMessageBox()
+        ipcRenderer.send("file-compare", fileHandle, xmlText);
+        ipcRenderer.on("compare-reply", (event, status) => {
+            console.log(status);
+            if (status === false) {
+                //มีการเปลี่ยนแปลง
+                console.log("save dee");
+                ipcRenderer.send("modal-leave-from-import"); //เรียกไดอะล็อก save, dont't save, cancel
+                ipcRenderer.on("leave-import-reply", (event, res) => {
+                    if (res === 0) {
+                        //เลือก save
+                        console.log("re");
+                        ipcRenderer.send("update-file", xmlText, fileHandle);
+                        Blockly.Events.disable();
+                        workspace.clear();
+                        Blockly.Events.enable();
+                        Blockly.Xml.domToWorkspace(
+                            document.getElementById("starter"),
+                            workspace
+                        );
+                    }
+                    if (res === 1) {
+                        //เลือก don't save
+                        importFile();
+                    }
+                });
+            }
+            if (status === 0) {
+                //ไม่เคยสร้างไฟล์มาก่อน
+                console.log(xmlText + "\n" + xmlInit);
+
+                if (xmlText === xmlInit) {
+                    importFile();
+                } else {
+                    console.log("create first");
+                    ipcRenderer.send("modal-leave-file"); //เรียกไดอะล็อก save, dont't save, cancel
+                    ipcRenderer.on("leave-reply", (event, res) => {
+                        if (res === 0) {
+                            //เลือก save as
+                            console.log("save as");
+                            toXML();
+                        }
+                        if (res === 1) {
+                            //เลือก don't save
+                            importFile();
+                        }
+                    });
+                }
+            }
+            if (status === true) {
+                //ไม่มีการเปลี่ยนแปลง
+                importFile();
+            }
+        });
         // [fileHandle] = await window.showOpenFilePicker({
         //   types: [
         //     {
@@ -321,42 +408,133 @@
         // var xml = Blockly.Xml.textToDom(text);
         // workspace.clear();
         // Blockly.Xml.domToWorkspace(xml, workspace);
+    }
+
+    function newFile() {
+        var xml = Blockly.Xml.workspaceToDom(workspace);
+        var xmlText = Blockly.Xml.domToPrettyText(xml);
+
+        //ตรวจสอบการแก้ไขไฟล์
+        ipcRenderer.send("file-compare", fileHandle, xmlText);
+        ipcRenderer.on("compare-reply", (event, status) => {
+            console.log(status);
+            if (status === false) {
+                //มีการเปลี่ยนแปลง
+                console.log("save dee");
+                ipcRenderer.send("modal-leave-from-import"); //เรียกไดอะล็อก save, dont't save, cancel
+                ipcRenderer.on("leave-import-reply", (event, res) => {
+                    if (res === 0) {
+                        //เลือก save
+                        console.log("re");
+                        ipcRenderer.send("update-file", xmlText, fileHandle);
+                        Blockly.Events.disable();
+                        workspace.clear();
+                        Blockly.Events.enable();
+                        Blockly.Xml.domToWorkspace(
+                            document.getElementById("starter"),
+                            workspace
+                        );
+                    }
+                    if (res === 1) {
+                        //เลือก don't save
+                        createNew();
+                    }
+                });
+            }
+            if (status === 0) {
+                //ไม่เคยสร้างไฟล์มาก่อน
+                if (xmlText === xmlInit) {
+                    createNew();
+                } else {
+                    console.log("create first");
+                    ipcRenderer.send("modal-leave-file"); //เรียกไดอะล็อก save, dont't save, cancel
+                    ipcRenderer.on("leave-reply", (event, res) => {
+                        if (res === 0) {
+                            //เลือก save as
+                            console.log("save as");
+                            toXML();
+                        }
+                        if (res === 1) {
+                            //เลือก don't save
+                            createNew();
+                        }
+                    });
+                }
+            }
+            if (status === true) {
+                //ไม่มีการเปลี่ยนแปลง
+                createNew();
+            }
+        });
+    }
+
+    function createNew() {
+        Blockly.Events.disable();
+        workspace.clear();
+        Blockly.Events.enable();
+        Blockly.Xml.domToWorkspace(document.getElementById("starter"), workspace);
+        var init = Blockly.Xml.workspaceToDom(workspace);
+        var initText = Blockly.Xml.domToPrettyText(init);
+        ipcRenderer.send("create-new", initText);
+        ipcRenderer.on("create-reply", (event, arg) => {
+            console.log(arg); // prints "pong"
+            fileHandle = arg;
+        });
+    }
+
+    function importFile() {
         ipcRenderer.send("import-file");
         ipcRenderer.on("import-reply", (event, fileData) => {
             fileHandle = fileData.filePath;
             console.log("Hi " + fileHandle);
             var xml = Blockly.Xml.textToDom(fileData.text);
+            //reload blockly
+            Blockly.Events.disable();
             workspace.clear();
+            Blockly.Events.enable();
+            //import block
             Blockly.Xml.domToWorkspace(xml, workspace);
         });
     }
 
-    function newFile() {
-        //ไดอะล็อกถามว่าจะเซฟไฟล์มั้ย (save as/don't save/cancel)
-        //ถ้า "don't save"
-        //(1)เรียกไดอะล็อกมาสร้างไฟล์เปล่า > workspace.clear();
-        //(2)workspace.clear();
-        //ถ้า "save as"
-        //เรียก function toXml() > กลับไปทำเหมือน "don't save"
-        //ถ้า "cancel"
-        //ปิดไดอะล็อก
+    function saveButton() {
+        var xml = Blockly.Xml.workspaceToDom(workspace);
+        var xmlText = Blockly.Xml.domToPrettyText(xml);
+        if (fileHandle === null) {
+            toXML();
+        } else {
+            //ตรวจสอบการแก้ไขไฟล์
+            ipcRenderer.send("file-compare", fileHandle, xmlText);
+            ipcRenderer.on("compare-reply", (event, status) => {
+                console.log(status);
+                if (status === false) {
+                    //มีการเปลี่ยนแปลง
+                    console.log("save dee");
+                    ipcRenderer.send("modal-save-button"); //เรียกไดอะล็อก save, dont't save, cancel
+                    ipcRenderer.on("save-button-reply", (event, res) => {
+                        if (res === 0) {
+                            //เลือก save
+                            console.log("save");
+                            toUpdate();
+                        }
+                        if (res === 1) {
+                            //เลือก save as
+                            toXML();
+                        }
+                    });
+                }
+                if (status === true) {
+                    //ไม่มีการเปลี่ยนแปลง
+                }
+            });
+        }
     }
 
-    // async function save() {
-    //     let stream = await fileHandle.createWritable();
-    //     var xml = Blockly.Xml.workspaceToDom(workspace);
-    //     await stream.write(xml);
-    //     await stream.close();
-    // }
-
-    // async function saveAs() {
-    //     fileHandle = await window.showSaveFilePicker();
-    //     let stream = await fileHandle.createWritable();
-    //     var xml = Blockly.Xml.workspaceToDom(workspace);
-    //     await stream.write(xml);
-    //     await stream.close();
-    //     save();
-    // }
+    function toUpdate() {
+        var xml = Blockly.Xml.workspaceToDom(workspace);
+        var xmlText = Blockly.Xml.domToPrettyText(xml);
+        ipcRenderer.send("update-file", xmlText, fileHandle);
+    }
 
     function toXML() {
         var xml = Blockly.Xml.workspaceToDom(workspace);
@@ -392,7 +570,6 @@
     var interval;
     var webView = document.querySelector("webview");
 
-
     function Buttontoggle() {
         // webView.addEventListener('dom-ready', () => {
         //     // webView.openDevTools();
@@ -402,81 +579,78 @@
         // })
         var selector = document.getElementById("selector-button");
 
-        if (selector.value == 'selector : OFF') {
+        if (selector.value === "selector : OFF") {
             selector.setAttribute("style", "background-color:#00ACB8");
-            selector.value = 'selector : ON';
-            console.log('Button status => ', selector.value)
-            removeEle()
-            getEle()
+            selector.value = "selector : ON";
+            console.log("Button status => ", selector.value);
+            removeEle();
+            getEle();
 
-            webView.addEventListener('dom-ready', () => {
-
-                if (selector.value == 'selector : ON') {
-                    removeEle()
-                    getEle()
+            webView.addEventListener("dom-ready", () => {
+                if (selector.value === "selector : ON") {
+                    removeEle();
+                    getEle();
                 }
-            })
-        } else if (selector.value == 'selector : ON') {
+            });
+        } else if (selector.value === "selector : ON") {
             selector.setAttribute("style", "background-color::#EEEEFA");
-            selector.value = 'selector : OFF';
-            console.log('Buuton status => ', selector.value)
-            removeEle()
-
+            selector.value = "selector : OFF";
+            console.log("Buuton status => ", selector.value);
+            removeEle();
         }
     }
 
     function checkURL() {
-        webView.addEventListener('dom-ready', () => {
-            removeEle()
-            getEle()
-        })
+        webView.addEventListener("dom-ready", () => {
+            removeEle();
+            getEle();
+        });
     }
 
     function removeEle() {
-
-        webView.send("get_element", 'stop');
-        console.log('--- Stop selector----');
-        clearInterval(interval)
-
+        webView.send("get_element", "stop");
+        console.log("--- Stop selector----");
+        clearInterval(interval);
     }
 
     function getEle() {
-
         //set of one element data
         let element = {
-            id: '',
-            status: 'wait_element'
-        }
+            id: "",
+            status: "wait_element",
+        };
 
-        webView.send("get_element", 'get');
+        webView.send("get_element", "get");
         // var webView = document.querySelector("webview");
 
         webView.addEventListener("ipc-message", (chennel, args) => {
-
             element.id = chennel.args[0];
-            element.status = chennel.args[1]
+            element.status = chennel.args[1];
+        });
 
-        })
-
-
-        console.log('----Start selector----')
+        console.log("----Start selector----");
 
         interval = window.setInterval(function() {
-            if (element.status === 'return_element') {
-
-                var xmlText = `
+            if (element.status === "return_element") {
+                var xmlText =
+                    `
                 <xml>
                     <block type="_027" x="100" y="100">
-                        <field name="ID_ELE">` + element.id + `</field>
+                        <field name="ID_ELE">` +
+                    element.id +
+                    `</field>
                     </block>
-                </xml>`
+                </xml>`;
                 var xml = Blockly.Xml.textToDom(xmlText);
                 Blockly.Xml.domToWorkspace(xml, workspace);
-                console.log('Test : ', element.id)
-                element.status = 'wait_element'
+                console.log("Test : ", element.id);
+                element.status = "wait_element";
             }
         }, 100);
     }
+    workspace.addChangeListener(function() {
+        console.log("Now on " + fileHandle);
+    });
 </script>
 
 </html>
