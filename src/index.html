@@ -1,24 +1,16 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <!-- style -->
     <link rel="stylesheet" href="./style/index.css" />
-    <link
-      rel="stylesheet"
-      href="../node_modules/codemirror/lib/codemirror.css"
-    />
+    <link rel="stylesheet" href="../node_modules/codemirror/lib/codemirror.css" />
     <link rel="stylesheet" href="./style/nav.css" />
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/tachyons@4.8.0/css/tachyons.min.css"
-    />
+    <link rel="stylesheet" href="https://unpkg.com/tachyons@4.8.0/css/tachyons.min.css" />
     <link rel="stylesheet" href="./style/webView.css" />
-    <script
-      src="https://kit.fontawesome.com/ea3fb95b41.js"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://kit.fontawesome.com/ea3fb95b41.js" crossorigin="anonymous"></script>
 
     <!-- blockly -->
     <!-- <script src="./node_modules/blockly/blockly_compressed.js"></script>
@@ -66,91 +58,70 @@
     <script src="../node_modules/codemirror/mode/javascript/javascript.js"></script>
     <!-- <script src="./script/app_dialog.js"></script> -->
     <script>
-      var codeTosave;
-      const cypress = require("cypress");
-      // const electron = require('electron');
-      // const ipcRenderer = electron.ipcRenderer;
+        var codeTosave;
+        const cypress = require("cypress");
+        // const electron = require('electron');
+        // const ipcRenderer = electron.ipcRenderer;
 
-      // ipcRenderer.on('cpu',(event,data)=>{
-      //     console.log('cpu %' + data);
-      // });
-      // ipcRenderer.on('mem',(event,data)=>{
-      //     console.log('mem %' + data);
-      // });
-      // ipcRenderer.on('total-mem',(event,data)=>{
-      //     console.log('total mem GB' + data);
-      // });
+        // ipcRenderer.on('cpu',(event,data)=>{
+        //     console.log('cpu %' + data);
+        // });
+        // ipcRenderer.on('mem',(event,data)=>{
+        //     console.log('mem %' + data);
+        // });
+        // ipcRenderer.on('total-mem',(event,data)=>{
+        //     console.log('total mem GB' + data);
+        // });
     </script>
-  </head>
-  <!-- Body  -->
+</head>
+<!-- Body  -->
 
-  <body>
+<body>
     <div class="app-bar">
-      <nav class="tool-bar">
-        <button class="w3-bar-item w3-button">
+        <nav class="tool-bar">
+            <button class="w3-bar-item w3-button">
           <img
             id="NewFile"
             src="assets/image/NewFile.svg"
             onclick="newFile()"
           />
         </button>
-        <button class="w3-bar-item w3-button" onclick="openFile()">
+            <button class="w3-bar-item w3-button" onclick="openFile()">
           <img id="Import" src="assets/image/Import.svg" />
         </button>
-        <button class="w3-bar-item w3-button" onclick="saveButton()">
+            <button class="w3-bar-item w3-button" onclick="saveButton()">
           <img id="Save" src="assets/image/Save.svg" />
         </button>
-        <!-- <script src="./script/saveFile.js"></script> -->
-        <button class="w3-bar-item w3-button">
+            <!-- <script src="./script/saveFile.js"></script> -->
+            <button class="w3-bar-item w3-button">
           <img id="RecordWeb" src="assets/image/Recorder.svg" />
         </button>
-        <button class="w3-bar-item w3-button" onclick="toSpecFile()">
+            <button class="w3-bar-item w3-button" onclick="toSpecFile()">
           <img id="Run" src="assets/image/Run.svg" />
         </button>
-      </nav>
+        </nav>
     </div>
 
     <div class="main">
-      <div class="layout-container">
-        <div class="workspace-container">
-          <div id="blocklyDiv"></div>
-        </div>
-        <div class="output">
-          <div class="webview-container">
-            <div class="input-web">
-              <input
-                class="f6 f5-l input-reset bn fl black-80 bg-white pa3 lh-solid w-60 w-75-m w-80-l br2-ns br--left-ns"
-                value="https://www.github.com"
-                type="url"
-                id="URL"
-              />
-              <button
-                class="f6 f5-l button-reset fl pv3 tc bn bg-black hover-bg-green white pointer w-100 w-25-m w-20-l br2-ns br--right-ns"
-                type="submit"
-                id="submit"
-                onclick="getUrl()"
-              >
+        <div class="layout-container">
+            <div class="workspace-container">
+                <div id="blocklyDiv"></div>
+            </div>
+            <div class="output">
+                <div class="webview-container">
+                    <div class="input-web">
+                        <input class="f6 f5-l input-reset bn fl black-80 bg-white pa3 lh-solid w-60 w-75-m w-80-l br2-ns br--left-ns" value="https://www.github.com" type="url" id="URL" />
+                        <button class="f6 f5-l button-reset fl pv3 tc bn bg-black hover-bg-green white pointer w-100 w-25-m w-20-l br2-ns br--right-ns" type="submit" id="submit" onclick="getUrl()">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 search
               </button>
-            </div>
-            <div class="webview-c">
-              <webview
-                id="foo"
-                src="https://www.github.com"
-                preload="script/selector.js"
-                disableguestresize
-              >
-              </webview>
-            </div>
-            <div class="selector-container" id="selector-container">
-              <button
-                id="selector-button"
-                value="selector : OFF"
-                class="selector w3-button w3-border"
-                style="background-color: #eeeefa"
-                onclick="Buttontoggle();"
-              >
+                    </div>
+                    <div class="webview-c">
+                        <webview id="foo" src="https://www.github.com" preload="script/selector.js" disableguestresize>
+                        </webview>
+                    </div>
+                    <div class="selector-container" id="selector-container">
+                        <button id="selector-button" value="selector : OFF" class="selector w3-button w3-border" style="background-color: #eeeefa" onclick="Buttontoggle();">
                 <img
                   id="selector-img"
                   src="./assets/image/Selector.svg"
@@ -158,91 +129,93 @@
                 />
                 selector
               </button>
-              <!-- <input type="button" style="background-color: #EEEEFA ;" value="selector : OFF" id="selector-button" class="selector w3-button w3-border" aria-pressed="false" onclick="Buttontoggle();"> -->
-              <script>
-                function getUrl() {
-                  let message = document.getElementById("URL").value;
+                        <!-- <input type="button" style="background-color: #EEEEFA ;" value="selector : OFF" id="selector-button" class="selector w3-button w3-border" aria-pressed="false" onclick="Buttontoggle();"> -->
+                        <script>
+                            function getUrl() {
+                                let message = document.getElementById("URL").value;
 
-                  console.log(message);
-                  //check url
-                  if (message.includes("http\:\/\/", 0)) {
-                    document.getElementById("foo").src = message;
-                    document.getElementById("URL").value = message;
-                  } else if (message.includes("https\:\/\/", 0)) {
-                    document.getElementById("foo").src = message;
-                    document.getElementById("URL").value = message;
-                    //   this.url = message;
-                    //   this.message = message;
-                  } else {
-                    let suffix = "https\:\/\/";
-                    document.getElementById("foo").src = suffix.concat(message);
-                    document.getElementById("URL").value =
-                      suffix.concat(message);
-                  }
-                  // this.message = this.url;
-                }
-              </script>
-              <!-- </input> -->
+                                console.log(message);
+                                //check url
+                                if (message.includes("http\:\/\/", 0)) {
+                                    document.getElementById("foo").src = message;
+                                    document.getElementById("URL").value = message;
+                                } else if (message.includes("https\:\/\/", 0)) {
+                                    document.getElementById("foo").src = message;
+                                    document.getElementById("URL").value = message;
+                                    //   this.url = message;
+                                    //   this.message = message;
+                                } else {
+                                    let suffix = "https\:\/\/";
+                                    document.getElementById("foo").src = suffix.concat(message);
+                                    document.getElementById("URL").value =
+                                        suffix.concat(message);
+                                }
+                                // this.message = this.url;
+                            }
+                        </script>
+                        <!-- </input> -->
+                    </div>
+                </div>
+                <div class="codeDiv">
+                    <textarea id="showCode"></textarea>
+                    <script type="text/javascript" src="./script/showcode.js"></script>
+                </div>
             </div>
-          </div>
-          <div class="codeDiv">
-            <textarea id="showCode"></textarea>
-            <script type="text/javascript" src="./script/showcode.js"></script>
-          </div>
         </div>
-      </div>
     </div>
-  </body>
-  <xml id="starter">
+</body>
+<xml id="starter">
     <block type="_001" x="88" y="88">
-      <value name="DESCRIBE_TEXT">
-        <shadow type="text">
-          <field name="TEXT"></field>
-        </shadow>
-      </value>
+        <value name="DESCRIBE_TEXT">
+            <shadow type="text">
+                <field name="TEXT"></field>
+            </shadow>
+        </value>
     </block>
-  </xml>
+</xml>
 
-  <script>
-    const { ipcRenderer } = require("electron");
+<script>
+    const {
+        ipcRenderer
+    } = require("electron");
     let fileHandle = null;
 
     var workspace = Blockly.inject("blocklyDiv", {
-      comments: true,
-      collapse: true,
-      disable: true,
-      grid: {
-        spacing: 25,
-        length: 3,
-        colour: "#ccc",
-        snap: true,
-      },
-      horizontalLayout: false,
-      maxBlocks: Infinity,
-      maxInstances: {
-        test_basic_limit_instances: 3,
-      },
-      maxTrashcanContents: 256,
-      // media: '../media/',
-      oneBasedIndex: true,
-      readOnly: false,
-      //rtl: rtl,
-      move: {
-        scrollbars: true,
-        drag: true,
-        wheel: false,
-      },
-      toolbox: codelabToolbox1,
-      toolboxPosition: "start",
-      renderer: "custom_renderer",
-      zoom: {
-        controls: true,
-        wheel: true,
-        startScale: 1.0,
-        maxScale: 4,
-        minScale: 0.25,
-        scaleSpeed: 1.1,
-      },
+        comments: true,
+        collapse: true,
+        disable: true,
+        grid: {
+            spacing: 25,
+            length: 3,
+            colour: "#ccc",
+            snap: true,
+        },
+        horizontalLayout: false,
+        maxBlocks: Infinity,
+        maxInstances: {
+            test_basic_limit_instances: 3,
+        },
+        maxTrashcanContents: 256,
+        // media: '../media/',
+        oneBasedIndex: true,
+        readOnly: false,
+        //rtl: rtl,
+        move: {
+            scrollbars: true,
+            drag: true,
+            wheel: false,
+        },
+        toolbox: codelabToolbox1,
+        toolboxPosition: "start",
+        renderer: "custom_renderer",
+        zoom: {
+            controls: true,
+            wheel: true,
+            startScale: 1.0,
+            maxScale: 4,
+            minScale: 0.25,
+            scaleSpeed: 1.1,
+        },
     });
     Blockly.Xml.domToWorkspace(document.getElementById("starter"), workspace);
 
@@ -293,48 +266,48 @@
     // End of Variable function
 
     function myUpdateFunction() {
-      var code = Blockly.JavaScript.workspaceToCode(workspace);
-      //codeArea is in showcode.js
-      codeArea.getDoc().setValue(code);
-      codeTosave = code;
+        var code = Blockly.JavaScript.workspaceToCode(workspace);
+        //codeArea is in showcode.js
+        codeArea.getDoc().setValue(code);
+        codeTosave = code;
     }
     workspace.addChangeListener(myUpdateFunction);
 
     function runFile() {
-      var path = require("path");
-      console.log("in running process !!");
-      cypress
-        .run({
-          // the path is relative to the current working directory
-          headed: true,
-          spec: "./cypress/integration/test1.spec.js",
-          exit: false,
-        })
-        .then((results) => {
-          console.log(results);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+        var path = require("path");
+        console.log("in running process !!");
+        cypress
+            .run({
+                // the path is relative to the current working directory
+                headed: true,
+                spec: "./cypress/integration/test1.spec.js",
+                exit: false,
+            })
+            .then((results) => {
+                console.log(results);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
     }
 
     function toSpecFile() {
-      const path = require("path");
-      const fs = require("fs");
-      fs.writeFile(
-        "./cypress/integration/test1.spec.js",
-        codeTosave,
-        function (err) {
-          if (err) {
-            throw err;
-            console.log("Cancelled");
-          } else {
-            console.log("Saved!");
-            runFile();
-            //alert("Successfully Saved !");
-          }
-        }
-      );
+        const path = require("path");
+        const fs = require("fs");
+        fs.writeFile(
+            "./cypress/integration/test1.spec.js",
+            codeTosave,
+            function(err) {
+                if (err) {
+                    throw err;
+                    console.log("Cancelled");
+                } else {
+                    console.log("Saved!");
+                    runFile();
+                    //alert("Successfully Saved !");
+                }
+            }
+        );
     }
 
     function openFile() {
@@ -363,9 +336,9 @@
             }
           });
         }
-        if (status === 0) {
-          //ไม่เคยสร้างไฟล์มาก่อน
-          console.log(xmlText + "\n" + xmlInit);
+            if (status === 0) {
+                //ไม่เคยสร้างไฟล์มาก่อน
+                console.log(xmlText + "\n" + xmlInit);
 
           if (xmlText === xmlInit) {
             importFile();
@@ -393,17 +366,18 @@
     }
 
     function newFile() {
-      var xml = Blockly.Xml.workspaceToDom(workspace);
-      var xmlText = Blockly.Xml.domToPrettyText(xml);
+        var xml = Blockly.Xml.workspaceToDom(workspace);
+        var xmlText = Blockly.Xml.domToPrettyText(xml);
+
       //ตรวจสอบการแก้ไขไฟล์
       ipcRenderer.send("file-compare", fileHandle, xmlText);
-      ipcRenderer.on("compare-reply", (event, status) => {
+      ipcRenderer.once("compare-reply", (event, status) => {
         console.log(status);
         if (status === false) {
           //มีการเปลี่ยนแปลง
           console.log("save dee");
           ipcRenderer.send("modal-leave-from-import"); //เรียกไดอะล็อก save, dont't save, cancel
-          ipcRenderer.on("leave-import-reply", (event, res) => {
+          ipcRenderer.once("leave-import-reply", (event, res) => {
             if (res === 0) {
               //เลือก save
               console.log("re");
@@ -429,7 +403,7 @@
           } else {
             console.log("create first");
             ipcRenderer.send("modal-leave-file"); //เรียกไดอะล็อก save, dont't save, cancel
-            ipcRenderer.on("leave-reply", (event, res) => {
+            ipcRenderer.once("leave-reply", (event, res) => {
               if (res === 0) {
                 //เลือก save as
                 console.log("save as");
@@ -457,7 +431,7 @@
       var init = Blockly.Xml.workspaceToDom(workspace);
       var initText = Blockly.Xml.domToPrettyText(init);
       ipcRenderer.send("create-new", initText);
-      ipcRenderer.on("create-reply", (event, arg) => {
+      ipcRenderer.once("create-reply", (event, arg) => {
         console.log(arg); // prints "pong"
         fileHandle = arg;
       });
@@ -465,7 +439,7 @@
 
     function importFile() {
       ipcRenderer.send("import-file");
-      ipcRenderer.on("import-reply", (event, fileData) => {
+      ipcRenderer.once("import-reply", (event, fileData) => {
         fileHandle = fileData.filePath;
         console.log("Hi " + fileHandle);
         var xml = Blockly.Xml.textToDom(fileData.text);
@@ -486,13 +460,13 @@
       } else {
         //ตรวจสอบการแก้ไขไฟล์
         ipcRenderer.send("file-compare", fileHandle, xmlText);
-        ipcRenderer.on("compare-reply", (event, status) => {
+        ipcRenderer.once("compare-reply", (event, status) => {
           console.log(status);
           if (status === false) {
             //มีการเปลี่ยนแปลง
             console.log("save dee");
             ipcRenderer.send("modal-save-button"); //เรียกไดอะล็อก save, dont't save, cancel
-            ipcRenderer.on("save-button-reply", (event, res) => {
+            ipcRenderer.once("save-button-reply", (event, res) => {
               if (res === 0) {
                 //เลือก save
                 console.log("save");
@@ -505,6 +479,7 @@
             });
           }
           if (status === true) {
+            console.log("save mai mee")
             //ไม่มีการเปลี่ยนแปลง
           }
         });
@@ -512,9 +487,9 @@
     }
 
     function toUpdate() {
-      var xml = Blockly.Xml.workspaceToDom(workspace);
-      var xmlText = Blockly.Xml.domToPrettyText(xml);
-      ipcRenderer.send("update-file", xmlText, fileHandle);
+        var xml = Blockly.Xml.workspaceToDom(workspace);
+        var xmlText = Blockly.Xml.domToPrettyText(xml);
+        ipcRenderer.send("update-file", xmlText, fileHandle);
     }
 
     function toXML() {
@@ -536,77 +511,78 @@
     function Buttontoggle() {
       var selector = document.getElementById("selector-button");
 
-      if (selector.value === "selector : OFF") {
-        selector.setAttribute("style", "background-color:#00ACB8");
-        selector.value = "selector : ON";
-        console.log("Button status => ", selector.value);
-        removeEle();
-        getEle();
-
-        webView.addEventListener("dom-ready", () => {
-          if (selector.value === "selector : ON") {
+        if (selector.value === "selector : OFF") {
+            selector.setAttribute("style", "background-color:#00ACB8");
+            selector.value = "selector : ON";
+            console.log("Button status => ", selector.value);
             removeEle();
             getEle();
-          }
-        });
-      } else if (selector.value === "selector : ON") {
-        selector.setAttribute("style", "background-color::#EEEEFA");
-        selector.value = "selector : OFF";
-        console.log("Buuton status => ", selector.value);
-        removeEle();
-      }
+
+            webView.addEventListener("dom-ready", () => {
+                if (selector.value === "selector : ON") {
+                    removeEle();
+                    getEle();
+                }
+            });
+        } else if (selector.value === "selector : ON") {
+            selector.setAttribute("style", "background-color::#EEEEFA");
+            selector.value = "selector : OFF";
+            console.log("Buuton status => ", selector.value);
+            removeEle();
+        }
     }
 
     function checkURL() {
-      webView.addEventListener("dom-ready", () => {
-        removeEle();
-        getEle();
-      });
+        webView.addEventListener("dom-ready", () => {
+            removeEle();
+            getEle();
+        });
     }
 
     function removeEle() {
-      webView.send("get_element", "stop");
-      console.log("--- Stop selector----");
-      clearInterval(interval);
+        webView.send("get_element", "stop");
+        console.log("--- Stop selector----");
+        clearInterval(interval);
     }
 
     function getEle() {
-      //set of one element data
-      let element = {
-        id: "",
-        status: "wait_element",
-      };
+        //set of one element data
+        let element = {
+            id: "",
+            status: "wait_element",
+        };
 
-      webView.send("get_element", "get");
-      // var webView = document.querySelector("webview");
+        webView.send("get_element", "get");
+        // var webView = document.querySelector("webview");
 
-      webView.addEventListener("ipc-message", (chennel, args) => {
-        element.id = chennel.args[0];
-        element.status = chennel.args[1];
-      });
+        webView.addEventListener("ipc-message", (chennel, args) => {
+            element.id = chennel.args[0];
+            element.status = chennel.args[1];
+        });
 
-      console.log("----Start selector----");
+        console.log("----Start selector----");
 
-      interval = window.setInterval(function () {
-        if (element.status === "return_element") {
-          var xmlText =
-            `
+        interval = window.setInterval(function() {
+            if (element.status === "return_element") {
+                var xmlText =
+                    `
                 <xml>
                     <block type="_027" x="100" y="100">
                         <field name="ID_ELE">` +
-            element.id +
-            `</field>
+                    element.id +
+                    `</field>
                     </block>
                 </xml>`;
-          var xml = Blockly.Xml.textToDom(xmlText);
-          Blockly.Xml.domToWorkspace(xml, workspace);
-          console.log("Test : ", element.id);
-          element.status = "wait_element";
-        }
-      }, 100);
+                var xml = Blockly.Xml.textToDom(xmlText);
+                Blockly.Xml.domToWorkspace(xml, workspace);
+                console.log("Test : ", element.id);
+                element.status = "wait_element";
+            }
+        }, 100);
     }
-    workspace.addChangeListener(function () {
-      console.log("Now on " + fileHandle);
+    workspace.addChangeListener(function() {
+        console.log("Now on " + fileHandle);
     });
-  </script>
+</script>
+
 </html>
