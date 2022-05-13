@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
     <link rel="stylesheet" href="https://unpkg.com/tachyons@4.8.0/css/tachyons.min.css" />
     <link rel="stylesheet" href="./style/webView.css" />
+    <link rel="stylesheet" href="./style/notifications.css" />
     <script src="https://kit.fontawesome.com/ea3fb95b41.js" crossorigin="anonymous"></script>
 
     <!-- blockly -->
@@ -20,16 +21,10 @@
     <script src="./node_modules/blockly/msg/en.js"></script> -->
     <script src="../node_modules/blockly/blockly_compressed.js"></script>
     <script src="../node_modules/blockly/blocks_compressed.js"></script>
-
     <script src="../node_modules/blockly/javascript.js"></script>
     <script src="../node_modules/blockly/javascript_compressed.js"></script>
     <script src="../messages.js"></script>
-    <!-- <script>
-      window.nodeRequire = require;
-      delete window.require;
-      delete window.exports;
-      delete window.module;
-    </script> -->
+
     <!-- custom block -->
     <script src="./blocks/Action.js"></script>
     <script src="./blocks/File.js"></script>
@@ -38,26 +33,17 @@
     <script src="./blocks/Loop.js"></script>
     <script src="./blocks/Starting-Ending.js"></script>
     <script src="./blocks/URL.js"></script>
-    <!-- <script src="./blocks/Variables.js"></script> -->
     <script src="./blocks/XML.js"></script>
     <script src="./blocks/Expect.js"></script>
-
-    <!-- <script src="./blocks/variables.js"></script>
-    <script src="./blocks/variables_dynamic.js"></script> -->
-    <!-- <script src="./blocks/prompt.js"></script> -->
-    <!-- <script src="./blocks/Variables-Old.js"></script> -->
-    <!-- <script src="./blocks/Variable.js"></script>
-    <script src="./blocks/Variable_dynamic.js"></script> -->
     <script src="./blocks/custom-dialog.js"></script>
-
     <script src="./blocks/Advance/Text.js"></script>
     <script src="./blocks/Advance/Math.js"></script>
     <script src="./blocks/Advance/Time.js"></script>
     <script src="./blocks/Advance/Console.js"></script>
     <script src="./blocks/Advance/Array.js"></script>
-
     <script src="./script/custom_renderer.js"></script>
     <script src="../node_modules/blockly/msg/en.js"></script>
+
     <!-- codemirror -->
     <script src="../node_modules/codemirror/lib/codemirror.js"></script>
     <script src="../node_modules/codemirror/mode/javascript/javascript.js"></script>
@@ -65,19 +51,8 @@
     <script>
         var codeTosave;
         const cypress = require("cypress");
-        // const electron = require('electron');
-        // const ipcRenderer = electron.ipcRenderer;
-
-        // ipcRenderer.on('cpu',(event,data)=>{
-        //     console.log('cpu %' + data);
-        // });
-        // ipcRenderer.on('mem',(event,data)=>{
-        //     console.log('mem %' + data);
-        // });
-        // ipcRenderer.on('total-mem',(event,data)=>{
-        //     console.log('total mem GB' + data);
-        // });
     </script>
+    <script src="./script/notifications.js"></script>
 </head>
 <!-- Body  -->
 
@@ -299,13 +274,22 @@
                         //เลือก save
                         console.log("re");
                         ipcRenderer.send("update-file", xmlText, fileHandle);
-                        Blockly.Events.disable();
-                        workspace.clear();
-                        Blockly.Events.enable();
-                        Blockly.Xml.domToWorkspace(
-                            document.getElementById("starter"),
-                            workspace
-                        );
+                        ipcRenderer.once("update-reply", (event, reply) => {
+                            if (reply) {
+                                console.log("show noti")
+                                window.createNotification({
+                                    closeOnClick: true,
+                                    displayCloseButton: false,
+                                    positionClass: 'nfc-top-right',
+                                    showDuration: 3000,
+                                    theme: 'success'
+                                })({
+                                    title: 'Save successfully',
+                                    message: 'The file has been succesfully saved'
+                                });
+                                importFile();
+                            }
+                        })
                     }
                 });
             }
@@ -401,16 +385,37 @@
         var initText = Blockly.Xml.domToPrettyText(init);
         ipcRenderer.send("create-new", initText);
         ipcRenderer.once("create-reply", (event, arg) => {
-            if(arg!=='cancel'){
-                console.log(arg); // prints "pong"
-            fileHandle = arg;
-            showLocation();
-            Blockly.Events.disable();
-        workspace.clear();
-        Blockly.Events.enable();
-        Blockly.Xml.domToWorkspace(document.getElementById("starter"), workspace);
+            if (arg.response) {
+                window.createNotification({
+                    closeOnClick: true,
+                    displayCloseButton: false,
+                    positionClass: 'nfc-top-right',
+                    showDuration: 3000,
+                    theme: 'success'
+                })({
+                    title: 'Create file successfully',
+                    message: 'The file has been succesfully created'
+                });
+                fileHandle = arg.filePath;
+                showLocation();
+                Blockly.Events.disable();
+                workspace.clear();
+                Blockly.Events.enable();
+                Blockly.Xml.domToWorkspace(document.getElementById("starter"), workspace);
             }
-            
+            if ((arg.response !== true) && (arg.response !== 'cancel')) {
+                window.createNotification({
+                    closeOnClick: true,
+                    displayCloseButton: false,
+                    positionClass: 'nfc-top-right',
+                    showDuration: 3000,
+                    theme: 'error'
+                })({
+                    title: 'Failed to create',
+                    message: arg.response
+                });
+            }
+
             // document.getElementById('location').value = fileHandle;
         });
     }
@@ -418,18 +423,28 @@
     function importFile() {
         ipcRenderer.send("import-file");
         ipcRenderer.once("import-reply", (event, fileData) => {
-            if(fileData!=='cancel'){
-              fileHandle = fileData.filePath;
-            showLocation();
-            console.log("Hi " + fileHandle);
-            var xml = Blockly.Xml.textToDom(fileData.text);
-            //reload blockly
-            Blockly.Events.disable();
-            workspace.clear();
-            Blockly.Events.enable();
-            //import block
-            Blockly.Xml.domToWorkspace(xml, workspace);  
-            } 
+            if (fileData !== 'cancel' && fileData.response) {
+                window.createNotification({
+                    closeOnClick: true,
+                    displayCloseButton: false,
+                    positionClass: 'nfc-top-right',
+                    showDuration: 3000,
+                    theme: 'success'
+                })({
+                    title: 'Import successfully',
+                    message: 'The file has been succesfully imported'
+                });
+                fileHandle = fileData.filePath;
+                showLocation();
+                console.log("Hi " + fileHandle);
+                var xml = Blockly.Xml.textToDom(fileData.text);
+                //reload blockly
+                Blockly.Events.disable();
+                workspace.clear();
+                Blockly.Events.enable();
+                //import block
+                Blockly.Xml.domToWorkspace(xml, workspace);
+            }
         });
 
     }
@@ -466,6 +481,21 @@
         var xml = Blockly.Xml.workspaceToDom(workspace);
         var xmlText = Blockly.Xml.domToPrettyText(xml);
         ipcRenderer.send("update-file", xmlText, fileHandle);
+        ipcRenderer.once("update-reply", (event, reply) => {
+            if (reply) {
+                console.log("show noti")
+                window.createNotification({
+                    closeOnClick: true,
+                    displayCloseButton: false,
+                    positionClass: 'nfc-top-right',
+                    showDuration: 3000,
+                    theme: 'info'
+                })({
+                    title: 'File was updated',
+                    message: 'The file has been updated'
+                });
+            }
+        })
     }
 
     function toXML() {
@@ -476,10 +506,34 @@
         var xmlText = Blockly.Xml.domToPrettyText(xml);
         ipcRenderer.send("save-file-as", xmlText);
         ipcRenderer.once("save-as-reply", (event, arg) => {
-            console.log(arg); // prints "pong"
-            fileHandle = arg;
-            showLocation();
-            // document.getElementById('location').value = fileHandle;
+            if (arg.response) {
+                window.createNotification({
+                    closeOnClick: true,
+                    displayCloseButton: false,
+                    positionClass: 'nfc-top-right',
+                    showDuration: 3000,
+                    theme: 'success'
+                })({
+                    title: 'Create file successfully',
+                    message: 'The file has been succesfully created'
+                });
+                fileHandle = arg.filePath;
+                showLocation();
+                // document.getElementById('location').value = fileHandle; 
+            }
+            else {
+                window.createNotification({
+                    closeOnClick: true,
+                    displayCloseButton: false,
+                    positionClass: 'nfc-top-right',
+                    showDuration: 3000,
+                    theme: 'error'
+                })({
+                    title: 'Failed to create this file',
+                    message: arg.response
+                });
+            }
+
         });
     }
 

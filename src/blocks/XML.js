@@ -1,13 +1,6 @@
 var codelabToolbox1 = `
 <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
   <category name="Starting-Ending" colour="#BF2C23">
-    <block type="_001">
-      <value name="DESCRIBE_TEXT">
-        <shadow type="text">
-          <field name="TEXT"></field>
-        </shadow>
-      </value>
-    </block>
     <block type="_003">
       <field name="PRE_TIMES">one_times</field>
     </block>

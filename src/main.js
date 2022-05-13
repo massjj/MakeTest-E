@@ -1,7 +1,6 @@
 // main.js
 // Modules to control application life and create native browser window
 const { app, BrowserWindow, Menu, dialog, ipcMain } = require('electron');
-const os = require('os-utils');
 const path = require('path');
 const fs = require('fs');
 
@@ -54,7 +53,7 @@ const createWindow = () => {
 
     // for saving xml file
     ipcMain.on('save-file-as', (event, content) => {
-        dialog.showSaveDialog({
+        dialog.showSaveDialog(mainWindow, {
             title: 'Save file as',
             defaultPath: path.join(__dirname, '.../MakeTest.xml'),
             buttonLabel: 'Save',
@@ -76,17 +75,26 @@ const createWindow = () => {
                         if (err) throw err;
                         console.log('Saved!');
                         fileHandle = file.filePath.toString();
+                        fileData = {
+                            filePath: fileHandle,
+                            response: true
+                        }
                         console.log("1 " + fileHandle);
-                        event.reply('save-as-reply', fileHandle)
+                        event.reply('save-as-reply', fileData);
                     });
             }
         }).catch(err => {
-            console.log(err)
+            console.log(err);
+            fileData = {
+                filePath: fileHandle,
+                response: err
+            }
+            event.reply('save-as-reply', fileData);
         });
     })
 
     ipcMain.on('create-new', (event, content) => {
-        dialog.showSaveDialog({
+        dialog.showSaveDialog(mainWindow, {
             title: 'Create new file',
             defaultPath: path.join(__dirname, '.../MakeTest.xml'),
             buttonLabel: 'Create',
@@ -108,14 +116,24 @@ const createWindow = () => {
                         if (err) throw err;
                         console.log('file created!');
                         fileHandle = file.filePath.toString();
-                        console.log("1 " + fileHandle);
-                        event.reply('create-reply', fileHandle)
+                        fileData = {
+                            filePath: fileHandle,
+                            response: true
+                        }
+                        event.reply('create-reply', fileData)
                     });
             }
             else{
-                event.reply('create-reply','cancel');
+                fileData = {
+                    response: 'cancel'
+                }
+                event.reply('create-reply', fileData)
             }
         }).catch(err => {
+            fileData = {
+                response: err
+            }
+            event.reply('create-reply', fileData)
             console.log(err)
         });
     })
@@ -125,14 +143,17 @@ const createWindow = () => {
             if (err) {
                 // alert("An error ocurred updating the file" + err.message);
                 console.log(err);
-                return;
+                event.reply('update-reply',err);
             }
-            console.log("The file has been succesfully saved");
+            else{
+                console.log("The file has been succesfully saved");
+                event.reply('update-reply',true);
+            }
         })
     })
 
     ipcMain.on('import-file', (event) => {
-        dialog.showOpenDialog({
+        dialog.showOpenDialog(mainWindow, {
             title: 'Import file',
             // defaultPath: path.join(__dirname, '.../'),
             buttonLabel: 'Open',
@@ -156,7 +177,8 @@ const createWindow = () => {
                         fileHandle = file.filePaths.toString();
                         fileData = {
                             text: data,
-                            filePath: fileHandle
+                            filePath: fileHandle,
+                            response: true
                         }
                         event.reply('import-reply', fileData)
                     });
@@ -170,7 +192,7 @@ const createWindow = () => {
     })
 
     ipcMain.on('modal-leave-from-import', (event) => { //new file หลัง import
-        dialog.showMessageBox(null, {
+        dialog.showMessageBox(mainWindow, {
             type: 'question',
             icon: 'M-Logo-Whi.ico',
             buttons: ["&Save", "&Don't save", "&Cancel"],
@@ -199,7 +221,7 @@ const createWindow = () => {
     })
 
     ipcMain.on('modal-leave-file', (event) => { //new file โดยที่ยังไม่เคย import
-        dialog.showMessageBox(null, {
+        dialog.showMessageBox(mainWindow, {
             type: 'question',
             icon: 'M-Logo-Whi.ico',
             buttons: ["&Save as", "&Don't save", "&Cancel"],
@@ -228,7 +250,7 @@ const createWindow = () => {
     });
 
     ipcMain.on('modal-save-button', (event) => {
-        dialog.showMessageBox(null, {
+        dialog.showMessageBox(mainWindow, {
             type: 'question',
             icon: 'M-Logo-Whi.ico',
             buttons: ["&Save", "&Save as", "&Cancel"],
@@ -257,7 +279,7 @@ const createWindow = () => {
     })
 
     ipcMain.on('modal-never-create', (event) => {
-        dialog.showMessageBox(null, {
+        dialog.showMessageBox(mainWindow, {
             type: 'question',
             icon: 'M-Logo-Whi.ico',
             buttons: ["&Create", "&Cancel"],
