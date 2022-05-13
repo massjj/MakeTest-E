@@ -173,7 +173,8 @@ const createWindow = () => {
             title: "Save file",
             message: "Do you want to save this file?",
             detail: "Your work will be lost if you didn't save them",
-            noLink: true
+            noLink: true,
+            cancelId: 2
         }).then((data) => {
             console.log(data.response)
             switch (data.response) {
@@ -201,7 +202,8 @@ const createWindow = () => {
             title: "Save as file",
             message: "Do you want to save as this file?",
             detail: "Your work will be lost if you didn't save them",
-            noLink: true
+            noLink: true,
+            cancelId: 2
         }).then((data) => {
             console.log(data.response)
             switch (data.response) {
@@ -229,7 +231,8 @@ const createWindow = () => {
             title: "Save or Save as",
             message: "Do you want to 'Save' or 'Save as' ?",
             detail: "Press 'Save' to update this file. Press 'Save as' to create as the new file.",
-            noLink: true
+            noLink: true,
+            cancelId: 2
         }).then((data) => {
             console.log(data.response)
             switch (data.response) {
