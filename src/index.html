@@ -459,6 +459,7 @@
                             createNew();
                         }
                     });
+
                 }
             }
             if (status === true) {
@@ -469,6 +470,10 @@
     }
 
     function createNew() {
+        let check = {
+            fileHandle: null,
+            status: 'wait'
+        }
         Blockly.Events.disable();
         workspace.clear();
         Blockly.Events.enable();
@@ -478,8 +483,17 @@
         ipcRenderer.send("create-new", initText);
         ipcRenderer.on("create-reply", (event, arg) => {
             console.log(arg); // prints "pong"
-            fileHandle = arg;
+            check.status = 'get';
+            check.fileHandle = arg;
         });
+        interval = window.setInterval(function() {
+            if (check.status === 'get') {
+                fileHandle = check.fileHandle;
+                console.log('Jaijai')
+                check.status = 'wait'
+            }
+        }, 1000)
+
     }
 
     function importFile() {

@@ -62,7 +62,7 @@ const createWindow = () => {
             filters: [{
                 name: 'XML files',
                 extensions: ['xml']
-            },],
+            }, ],
             properties: []
         }).then(file => {
             // Stating whether dialog operation was cancelled or not.
@@ -72,7 +72,7 @@ const createWindow = () => {
                 // Creating and Writing to the sample.txt file
                 fs.writeFile(file.filePath.toString(),
                     content,
-                    function (err) {
+                    function(err) {
                         if (err) throw err;
                         console.log('Saved!');
                         fileHandle = file.filePath.toString();
@@ -94,7 +94,7 @@ const createWindow = () => {
             filters: [{
                 name: 'XML files',
                 extensions: ['xml']
-            },],
+            }, ],
             properties: []
         }).then(file => {
             // Stating whether dialog operation was cancelled or not.
@@ -104,7 +104,7 @@ const createWindow = () => {
                 // Creating and Writing to the sample.txt file
                 fs.writeFile(file.filePath.toString(),
                     content,
-                    function (err) {
+                    function(err) {
                         if (err) throw err;
                         console.log('file created!');
                         fileHandle = file.filePath.toString();
@@ -138,7 +138,7 @@ const createWindow = () => {
             filters: [{
                 name: 'XML files',
                 extensions: ['xml']
-            },],
+            }, ],
             properties: []
         }).then(file => {
             // Stating whether dialog operation was cancelled or not.
@@ -148,7 +148,7 @@ const createWindow = () => {
                 // Creating and Writing to the sample.txt file
                 fs.readFile(file.filePaths.toString(),
                     'utf-8',
-                    function (err, data) {
+                    function(err, data) {
                         if (err) throw err;
                         console.log('Import success!');
                         fileHandle = file.filePaths.toString();
@@ -165,35 +165,35 @@ const createWindow = () => {
         });
     })
 
-    ipcMain.on('modal-leave-from-import', (event) => {                    //new file หลัง import
-                dialog.showMessageBox(null, {
-                    type: 'question',
-                    icon: 'M-Logo-Whi.ico',
-                    buttons: ["&Save", "&Don't save", "&Cancel"],
-                    title: "Save file",
-                    message: "Do you want to save this file?",
-                    detail: "Your work will be lost if you didn't save them",
-                    noLink: true
-                }).then((data) => {
-                    console.log(data.response)
-                    switch (data.response) {
-                        //save
-                        case 0:
-                            event.reply('leave-import-reply', 0)
-                            break;
-                        //don't save
-                        case 1:
-                            event.reply('leave-import-reply', 1)
-                            break;
-                        //cancel
-                        case 2:
-                            event.reply('leave-import-reply', 2)
-                            break;
-                    }
-                });
+    ipcMain.on('modal-leave-from-import', (event) => { //new file หลัง import
+        dialog.showMessageBox(null, {
+            type: 'question',
+            icon: 'M-Logo-Whi.ico',
+            buttons: ["&Save", "&Don't save", "&Cancel"],
+            title: "Save file",
+            message: "Do you want to save this file?",
+            detail: "Your work will be lost if you didn't save them",
+            noLink: true
+        }).then((data) => {
+            console.log(data.response)
+            switch (data.response) {
+                //save
+                case 0:
+                    event.reply('leave-import-reply', 0)
+                    break;
+                    //don't save
+                case 1:
+                    event.reply('leave-import-reply', 1)
+                    break;
+                    //cancel
+                case 2:
+                    event.reply('leave-import-reply', 2)
+                    break;
+            }
+        });
     })
 
-    ipcMain.on('modal-leave-file', (event) => {                 //new file โดยที่ยังไม่เคย import
+    ipcMain.on('modal-leave-file', (event) => { //new file โดยที่ยังไม่เคย import
         dialog.showMessageBox(null, {
             type: 'question',
             icon: 'M-Logo-Whi.ico',
@@ -209,11 +209,11 @@ const createWindow = () => {
                 case 0:
                     event.reply('leave-reply', 0)
                     break;
-                //don't save
+                    //don't save
                 case 1:
                     event.reply('leave-reply', 1)
                     break;
-                //cancel
+                    //cancel
                 case 2:
                     event.reply('leave-reply', 2)
                     break;
@@ -221,7 +221,7 @@ const createWindow = () => {
         });
     });
 
-    ipcMain.on('modal-save-button',(event)=>{
+    ipcMain.on('modal-save-button', (event) => {
         dialog.showMessageBox(null, {
             type: 'question',
             icon: 'M-Logo-Whi.ico',
@@ -237,11 +237,11 @@ const createWindow = () => {
                 case 0:
                     event.reply('save-button-reply', 0)
                     break;
-                //save as
+                    //save as
                 case 1:
                     event.reply('save-button-reply', 1)
                     break;
-                //cancel
+                    //cancel
                 case 2:
                     event.reply('save-button-reply', 2)
                     break;
@@ -253,7 +253,7 @@ const createWindow = () => {
         if (pathFile !== null) {
             fs.readFile(pathFile,
                 'utf-8',
-                function (err, data) {
+                function(err, data) {
                     if (err) throw err;
                     console.log(data);
                     console.log(xmlText);
@@ -379,80 +379,80 @@ app.on('window-all-closed', () => {
 })
 
 const mainMenuTemplate = [{
-    label: 'File',
-    submenu: [
-        { role: 'quit' },
-        { label: 'New File' },
-        { label: 'Open File' },
-        {
-            label: 'Save As',
-            click() {
+            label: 'File',
+            submenu: [
+                { role: 'quit' },
+                { label: 'New File' },
+                { label: 'Open File' },
+                {
+                    label: 'Save As',
+                    click() {
 
-            }
+                    }
+                },
+                {
+                    label: 'Save',
+                    click() {
+
+                    }
+                },
+                {
+                    label: 'Save',
+                    click() {
+
+                    }
+                }
+            ]
+        },
+        // { role: 'editMenu' }
+        {
+            label: 'Edit',
+            submenu: [
+                { role: 'undo' },
+                { role: 'redo' },
+                { type: 'separator' },
+                { role: 'cut' },
+                { role: 'copy' },
+                { role: 'paste' },
+                { role: 'delete' },
+                { type: 'separator' },
+                { role: 'selectAll' }
+            ]
+        },
+        // { role: 'viewMenu' }
+        {
+            label: 'View',
+            submenu: [
+                { role: 'reload' },
+                { role: 'forceReload' },
+                { role: 'toggleDevTools' },
+                { type: 'separator' },
+                { role: 'resetZoom' },
+                { role: 'zoomIn' },
+                { role: 'zoomOut' },
+                { type: 'separator' },
+                { role: 'togglefullscreen' }
+            ]
+        },
+        // { role: 'windowMenu' }
+        {
+            label: 'Run',
+            submenu: [{
+                label: 'Run',
+                accelerator: 'F5',
+                click() {}
+            }]
         },
         {
-            label: 'Save',
-            click() {
-
-            }
-        },
-        {
-            label: 'Save',
-            click() {
-
-            }
+            role: 'help',
+            submenu: [{
+                label: 'Learn More',
+                click: async() => {
+                    const { shell } = require('electron')
+                    await shell.openExternal('https://electronjs.org')
+                }
+            }]
         }
     ]
-},
-// { role: 'editMenu' }
-{
-    label: 'Edit',
-    submenu: [
-        { role: 'undo' },
-        { role: 'redo' },
-        { type: 'separator' },
-        { role: 'cut' },
-        { role: 'copy' },
-        { role: 'paste' },
-        { role: 'delete' },
-        { type: 'separator' },
-        { role: 'selectAll' }
-    ]
-},
-// { role: 'viewMenu' }
-{
-    label: 'View',
-    submenu: [
-        { role: 'reload' },
-        { role: 'forceReload' },
-        { role: 'toggleDevTools' },
-        { type: 'separator' },
-        { role: 'resetZoom' },
-        { role: 'zoomIn' },
-        { role: 'zoomOut' },
-        { type: 'separator' },
-        { role: 'togglefullscreen' }
-    ]
-},
-// { role: 'windowMenu' }
-{
-    label: 'Run',
-    submenu: [{
-        label: 'Run',
-        accelerator: 'F5',
-        click() { }
-    }]
-},
-{
-    role: 'help',
-    submenu: [{
-        label: 'Learn More',
-        click: async () => {
-            const { shell } = require('electron')
-            await shell.openExternal('https://electronjs.org')
-        }
-    }]
-}
-]
     // In this file you can include the rest of your app's specific main process
     // code. You can also put them in separate files and require them here.

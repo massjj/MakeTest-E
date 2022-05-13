@@ -1,9 +1,0 @@
-<xml xmlns="https://developers.google.com/blockly/xml">
-  <block type="_001" id="7)R[eS`OSUr.O),s!nFC" x="88" y="88">
-    <value name="DESCRIBE_TEXT">
-      <shadow type="text" id="P!s5(m/e3txIZVB28iLA">
-        <field name="TEXT"></field>
-      </shadow>
-    </value>
-  </block>
-</xml>
