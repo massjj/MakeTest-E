@@ -112,6 +112,9 @@ const createWindow = () => {
                         event.reply('create-reply', fileHandle)
                     });
             }
+            else{
+                event.reply('create-reply','cancel');
+            }
         }).catch(err => {
             console.log(err)
         });
@@ -124,7 +127,6 @@ const createWindow = () => {
                 console.log(err);
                 return;
             }
-
             console.log("The file has been succesfully saved");
         })
     })
@@ -156,9 +158,11 @@ const createWindow = () => {
                             text: data,
                             filePath: fileHandle
                         }
-                        console.log("2 " + fileHandle);
                         event.reply('import-reply', fileData)
                     });
+            }
+            else{
+                event.reply('import-reply','cancel');
             }
         }).catch(err => {
             console.log(err)
@@ -172,7 +176,7 @@ const createWindow = () => {
             buttons: ["&Save", "&Don't save", "&Cancel"],
             title: "Save file",
             message: "Do you want to save this file?",
-            detail: "Your work will be lost if you didn't save them",
+            detail: "Your work will be lost if you didn't save them.",
             noLink: true,
             cancelId: 2
         }).then((data) => {
@@ -201,7 +205,7 @@ const createWindow = () => {
             buttons: ["&Save as", "&Don't save", "&Cancel"],
             title: "Save as file",
             message: "Do you want to save as this file?",
-            detail: "Your work will be lost if you didn't save them",
+            detail: "Your work will be lost if you didn't save them.",
             noLink: true,
             cancelId: 2
         }).then((data) => {
@@ -247,6 +251,31 @@ const createWindow = () => {
                     //cancel
                 case 2:
                     event.reply('save-button-reply', 2)
+                    break;
+            }
+        });
+    })
+
+    ipcMain.on('modal-never-create', (event) => {
+        dialog.showMessageBox(null, {
+            type: 'question',
+            icon: 'M-Logo-Whi.ico',
+            buttons: ["&Create", "&Cancel"],
+            title: "Save or Save as",
+            message: "Can't save, the file was never created.",
+            detail: "You should create this file first.",
+            noLink: true,
+            cancelId: 1
+        }).then((data) => {
+            console.log(data.response)
+            switch (data.response) {
+                //save as
+                case 0:
+                    event.reply('never-create-reply', 0)
+                    break;
+                    //cancel
+                case 1:
+                    event.reply('never-create-reply', 1)
                     break;
             }
         });

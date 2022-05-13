@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
-    <script src="../node_modules/blockly/msg/en.js"></script>
+
 
     <!-- style -->
     <link rel="stylesheet" href="./style/index.css" />
@@ -57,7 +57,7 @@
     <script src="./blocks/Advance/Array.js"></script>
 
     <script src="./script/custom_renderer.js"></script>
-
+    <script src="../node_modules/blockly/msg/en.js"></script>
     <!-- codemirror -->
     <script src="../node_modules/codemirror/lib/codemirror.js"></script>
     <script src="../node_modules/codemirror/mode/javascript/javascript.js"></script>
@@ -85,26 +85,26 @@
     <div class="app-bar">
         <nav class="tool-bar">
             <button class="w3-bar-item w3-button">
-          <img
-            id="NewFile"
-            src="assets/image/NewFile.svg"
-            onclick="newFile()"
-          />
-        </button>
+                <img id="NewFile" src="assets/image/NewFile.svg" onclick="newFile()" />
+            </button>
             <button class="w3-bar-item w3-button" onclick="openFile()">
-          <img id="Import" src="assets/image/Import.svg" />
-        </button>
+                <img id="Import" src="assets/image/Import.svg" />
+            </button>
             <button class="w3-bar-item w3-button" onclick="saveButton()">
-          <img id="Save" src="assets/image/Save.svg" />
-        </button>
+                <img id="Save" src="assets/image/Save.svg" />
+            </button>
             <!-- <script src="./script/saveFile.js"></script> -->
             <!-- <button class="w3-bar-item w3-button">
           <img id="RecordWeb" src="assets/image/Recorder.svg" />
         </button> -->
             <button class="w3-bar-item w3-button" onclick="toSpecFile()">
-          <img id="Run" src="assets/image/Run.svg" />
-        </button>
-        
+                <img id="Run" src="assets/image/Run.svg" />
+            </button>
+            <div id="location">
+                <p> | This file is not created. </br>
+                    [ Location : - ]
+                </p>
+            </div>
         </nav>
     </div>
 
@@ -116,25 +116,26 @@
             <div class="output">
                 <div class="webview-container">
                     <div class="input-web">
-                        <input class="f6 f5-l input-reset bn fl black-80 bg-white pa3 lh-solid w-60 w-75-m w-80-l br2-ns br--left-ns" value="https://www.github.com" type="url" id="URL" />
-                        <button class="f6 f5-l button-reset fl pv3 tc bn bg-black hover-bg-green white pointer w-100 w-25-m w-20-l br2-ns br--right-ns" type="submit" id="submit" onclick="getUrl()">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                search
-              </button>
+                        <input
+                            class="f6 f5-l input-reset bn fl black-80 bg-white pa3 lh-solid w-60 w-75-m w-80-l br2-ns br--left-ns"
+                            value="https://www.github.com" type="url" id="URL" />
+                        <button
+                            class="f6 f5-l button-reset fl pv3 tc bn bg-black hover-bg-green white pointer w-100 w-25-m w-20-l br2-ns br--right-ns"
+                            type="submit" id="submit" onclick="getUrl()">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            search
+                        </button>
                     </div>
                     <div class="webview-c">
                         <webview id="foo" src="https://www.github.com" preload="script/selector.js" disableguestresize>
                         </webview>
                     </div>
                     <div class="selector-container" id="selector-container">
-                        <button id="selector-button" value="selector : OFF" class="selector w3-button w3-border" style="background-color: #eeeefa" onclick="Buttontoggle();">
-                <img
-                  id="selector-img"
-                  src="./assets/image/Selector.svg"
-                  width="23"
-                />
-                selector
-              </button>
+                        <button id="selector-button" value="selector : OFF" class="selector w3-button w3-border"
+                            style="background-color: #eeeefa" onclick="Buttontoggle();">
+                            <img id="selector-img" src="./assets/image/Selector.svg" width="23" />
+                            selector
+                        </button>
                         <!-- <input type="button" style="background-color: #EEEEFA ;" value="selector : OFF" id="selector-button" class="selector w3-button w3-border" aria-pressed="false" onclick="Buttontoggle();"> -->
                         <script>
                             function getUrl() {
@@ -185,6 +186,7 @@
         ipcRenderer
     } = require("electron");
     let fileHandle = null;
+    let fileName = null;
 
     var workspace = Blockly.inject("blocklyDiv", {
         comments: true,
@@ -227,49 +229,6 @@
 
     var xmlDom = Blockly.Xml.workspaceToDom(workspace);
     var xmlInit = Blockly.Xml.domToPrettyText(xmlDom);
-    // Variable function
-    // workspace.registerButtonCallback(
-    //   "createNumberVariableButtonPressed",
-    //   () => {
-    //     // const name = window.prompt("Enter Variable Name :");
-    //     // if (name && name !=== "") {
-    //       workspace.createVariable("name", ["Number", "String"]);
-    //       console.log("success")
-    //     // }
-    //   }
-    // );
-
-    // workspace.registerToolboxCategoryCallback("VARIABLE", (workspace) => {
-    //   const xmlStringList = [
-    //     '<button text="Add Variable" callbackKey="createNumberVariableButtonPressed" ></button>',
-    //   ];
-
-    //     const Variables = workspace.getVariablesOfType(["Number", "String"]);
-
-    //     if (Variables.length > 0) {
-    //         let field =
-    //             '<field name="VAR" id="' +
-    //             Variables[0].getId() +
-    //             '" variabletype="Number"></field>';
-    //         xmlStringList.push('<block type="variables_set">' + field + "</block>");
-    //         for (const Variable of Variables) {
-    //             field =
-    //                 '<field name="VAR" id="' +
-    //                 Variable.getId() +
-    //                 '" variabletype="Number"></field>';
-    //             xmlStringList.push(
-    //                 '<block type="variables_get">' + field + "</block>"
-    //             );
-    //         }
-    //     }
-
-    //     const xmlElementList = xmlStringList.map((item) => {
-    //         return Blockly.Xml.textToDom(item);
-    //     });
-    //     return xmlElementList;
-    // });
-
-    // End of Variable function
 
     function myUpdateFunction() {
         var code = Blockly.JavaScript.workspaceToCode(workspace);
@@ -278,6 +237,14 @@
         codeTosave = code;
     }
     workspace.addChangeListener(myUpdateFunction);
+
+    function showLocation() {
+        fileName = fileHandle.split("\\");
+        document.getElementById("location").innerHTML = '<p> | ' + fileName[fileName.length - 1] + `</br>
+                [ Location : `+ fileHandle + ` ]
+            </p>`
+        console.log("change location");
+    }
 
     function runFile() {
         var path = require("path");
@@ -303,7 +270,7 @@
         fs.writeFile(
             "./cypress/integration/test1.spec.js",
             codeTosave,
-            function(err) {
+            function (err) {
                 if (err) {
                     throw err;
                     console.log("Cancelled");
@@ -430,23 +397,30 @@
     }
 
     function createNew() {
-        Blockly.Events.disable();
-        workspace.clear();
-        Blockly.Events.enable();
-        Blockly.Xml.domToWorkspace(document.getElementById("starter"), workspace);
         var init = Blockly.Xml.workspaceToDom(workspace);
         var initText = Blockly.Xml.domToPrettyText(init);
         ipcRenderer.send("create-new", initText);
         ipcRenderer.once("create-reply", (event, arg) => {
-            console.log(arg); // prints "pong"
+            if(arg!=='cancel'){
+                console.log(arg); // prints "pong"
             fileHandle = arg;
+            showLocation();
+            Blockly.Events.disable();
+        workspace.clear();
+        Blockly.Events.enable();
+        Blockly.Xml.domToWorkspace(document.getElementById("starter"), workspace);
+            }
+            
+            // document.getElementById('location').value = fileHandle;
         });
     }
 
     function importFile() {
         ipcRenderer.send("import-file");
         ipcRenderer.once("import-reply", (event, fileData) => {
-            fileHandle = fileData.filePath;
+            if(fileData!=='cancel'){
+              fileHandle = fileData.filePath;
+            showLocation();
             console.log("Hi " + fileHandle);
             var xml = Blockly.Xml.textToDom(fileData.text);
             //reload blockly
@@ -454,39 +428,35 @@
             workspace.clear();
             Blockly.Events.enable();
             //import block
-            Blockly.Xml.domToWorkspace(xml, workspace);
+            Blockly.Xml.domToWorkspace(xml, workspace);  
+            } 
         });
+
     }
 
     function saveButton() {
         var xml = Blockly.Xml.workspaceToDom(workspace);
         var xmlText = Blockly.Xml.domToPrettyText(xml);
         if (fileHandle === null) {
-            toXML();
-        } else {
-            //ตรวจสอบการแก้ไขไฟล์
-            ipcRenderer.send("file-compare", fileHandle, xmlText);
-            ipcRenderer.once("compare-reply", (event, status) => {
-                console.log(status);
-                if (status === false) {
-                    //มีการเปลี่ยนแปลง
-                    console.log("save dee");
-                    ipcRenderer.send("modal-save-button"); //เรียกไดอะล็อก save, dont't save, cancel
-                    ipcRenderer.once("save-button-reply", (event, res) => {
-                        if (res === 0) {
-                            //เลือก save
-                            console.log("save");
-                            toUpdate();
-                        }
-                        if (res === 1) {
-                            //เลือก save as
-                            toXML();
-                        }
-                    });
+            ipcRenderer.send("modal-never-create"); //เรียกไดอะล็อก save, dont't save, cancel
+            ipcRenderer.once("never-create-reply", (event, res) => {
+                if (res === 0) {
+                    //เลือก save as
+                    toXML();
                 }
-                if (status === true) {
-                    console.log("save mai mee")
-                        //ไม่มีการเปลี่ยนแปลง
+            });
+        } else {
+            console.log("save dee");
+            ipcRenderer.send("modal-save-button"); //เรียกไดอะล็อก save, dont't save, cancel
+            ipcRenderer.once("save-button-reply", (event, res) => {
+                if (res === 0) {
+                    //เลือก save
+                    console.log("save");
+                    toUpdate();
+                }
+                if (res === 1) {
+                    //เลือก save as
+                    toXML();
                 }
             });
         }
@@ -508,6 +478,8 @@
         ipcRenderer.once("save-as-reply", (event, arg) => {
             console.log(arg); // prints "pong"
             fileHandle = arg;
+            showLocation();
+            // document.getElementById('location').value = fileHandle;
         });
     }
 
@@ -568,7 +540,7 @@
 
         console.log("----Start selector----");
 
-        interval = window.setInterval(function() {
+        interval = window.setInterval(function () {
             if (element.status === "return_element") {
                 var xmlText =
                     `
@@ -586,7 +558,7 @@
             }
         }, 100);
     }
-    workspace.addChangeListener(function() {
+    workspace.addChangeListener(function () {
         console.log("Now on " + fileHandle);
     });
 </script>

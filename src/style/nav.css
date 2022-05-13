@@ -3,12 +3,22 @@
     justify-items: left;
     background: #EEEEFA;
     padding: 0%;
+    display: flex;
+    /* flex-wrap: nowrap; */
 }
 
 .tool-bar>button {
     align-items: center;
     width: 90px;
     height: 65px;
+    padding: 0%;
+    margin: 0%;
+}
+
+.tool-bar>div {
+    align-items: center;
+    /* width: 90px;
+    height: 65px; */
     padding: 0%;
     margin: 0%;
 }
