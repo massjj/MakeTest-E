@@ -265,30 +265,6 @@
 
     // End of Variable function
 
-    // function fileCompare(status) {
-    //     //compare
-    //     const fs = require('fs');
-    //     fs.readFile(fileHandle,
-    //             'utf-8',
-    //             function(err , data) {
-    //                 var xml = Blockly.Xml.workspaceToDom(workspace);
-    //                 var xmlText = Blockly.Xml.domToPrettyText(xml);
-    //                 if (err) throw err;
-    //                 console.log(data);
-    //                 console.log(xmlText);
-    //                 if(data != xmlText){
-    //                     console.log("save ma?");
-    //                     status = false;
-    //                 }
-    //                 if(data === xmlText){
-    //                     console.log("no changed");
-    //                     status = true;
-    //                 }
-    //             })
-    //             console.log("gg "+status)
-    //             //change status ไม่ได้
-    // }
-
     function myUpdateFunction() {
         var code = Blockly.JavaScript.workspaceToCode(workspace);
         //codeArea is in showcode.js
@@ -334,18 +310,18 @@
         );
     }
 
-    async function openFile() {
+    function openFile() {
         var xml = Blockly.Xml.workspaceToDom(workspace);
         var xmlText = Blockly.Xml.domToPrettyText(xml);
         //check ว่ามีการเปลี่ยนแปลงมั้ย dialog.showMessageBox()
         ipcRenderer.send("file-compare", fileHandle, xmlText);
-        ipcRenderer.on("compare-reply", (event, status) => {
+        ipcRenderer.once("compare-reply", (event, status) => {
             console.log(status);
             if (status === false) {
                 //มีการเปลี่ยนแปลง
                 console.log("save dee");
                 ipcRenderer.send("modal-leave-from-import"); //เรียกไดอะล็อก save, dont't save, cancel
-                ipcRenderer.on("leave-import-reply", (event, res) => {
+                ipcRenderer.once("leave-import-reply", (event, res) => {
                     if (res === 0) {
                         //เลือก save
                         console.log("re");
@@ -358,10 +334,6 @@
                             workspace
                         );
                     }
-                    if (res === 1) {
-                        //เลือก don't save
-                        importFile();
-                    }
                 });
             }
             if (status === 0) {
@@ -373,7 +345,7 @@
                 } else {
                     console.log("create first");
                     ipcRenderer.send("modal-leave-file"); //เรียกไดอะล็อก save, dont't save, cancel
-                    ipcRenderer.on("leave-reply", (event, res) => {
+                    ipcRenderer.once("leave-reply", (event, res) => {
                         if (res === 0) {
                             //เลือก save as
                             console.log("save as");
@@ -391,23 +363,6 @@
                 importFile();
             }
         });
-        // [fileHandle] = await window.showOpenFilePicker({
-        //   types: [
-        //     {
-        //       description: "XML",
-        //       accept: {
-        //         "text/xml": [".xml"],
-        //       },
-        //     },
-        //   ],
-        //   excludeAcceptAllOption: true,
-        //   multiple: false,
-        // });
-        // let fileData = await fileHandle.getFile();
-        // let text = await fileData.text();
-        // var xml = Blockly.Xml.textToDom(text);
-        // workspace.clear();
-        // Blockly.Xml.domToWorkspace(xml, workspace);
     }
 
     function newFile() {
@@ -416,13 +371,13 @@
 
         //ตรวจสอบการแก้ไขไฟล์
         ipcRenderer.send("file-compare", fileHandle, xmlText);
-        ipcRenderer.on("compare-reply", (event, status) => {
+        ipcRenderer.once("compare-reply", (event, status) => {
             console.log(status);
             if (status === false) {
                 //มีการเปลี่ยนแปลง
                 console.log("save dee");
                 ipcRenderer.send("modal-leave-from-import"); //เรียกไดอะล็อก save, dont't save, cancel
-                ipcRenderer.on("leave-import-reply", (event, res) => {
+                ipcRenderer.once("leave-import-reply", (event, res) => {
                     if (res === 0) {
                         //เลือก save
                         console.log("re");
@@ -448,7 +403,7 @@
                 } else {
                     console.log("create first");
                     ipcRenderer.send("modal-leave-file"); //เรียกไดอะล็อก save, dont't save, cancel
-                    ipcRenderer.on("leave-reply", (event, res) => {
+                    ipcRenderer.once("leave-reply", (event, res) => {
                         if (res === 0) {
                             //เลือก save as
                             console.log("save as");
@@ -459,7 +414,6 @@
                             createNew();
                         }
                     });
-
                 }
             }
             if (status === true) {
@@ -470,10 +424,6 @@
     }
 
     function createNew() {
-        let check = {
-            fileHandle: null,
-            status: 'wait'
-        }
         Blockly.Events.disable();
         workspace.clear();
         Blockly.Events.enable();
@@ -481,24 +431,15 @@
         var init = Blockly.Xml.workspaceToDom(workspace);
         var initText = Blockly.Xml.domToPrettyText(init);
         ipcRenderer.send("create-new", initText);
-        ipcRenderer.on("create-reply", (event, arg) => {
+        ipcRenderer.once("create-reply", (event, arg) => {
             console.log(arg); // prints "pong"
-            check.status = 'get';
-            check.fileHandle = arg;
+            fileHandle = arg;
         });
-        interval = window.setInterval(function() {
-            if (check.status === 'get') {
-                fileHandle = check.fileHandle;
-                console.log('Jaijai')
-                check.status = 'wait'
-            }
-        }, 1000)
-
     }
 
     function importFile() {
         ipcRenderer.send("import-file");
-        ipcRenderer.on("import-reply", (event, fileData) => {
+        ipcRenderer.once("import-reply", (event, fileData) => {
             fileHandle = fileData.filePath;
             console.log("Hi " + fileHandle);
             var xml = Blockly.Xml.textToDom(fileData.text);
@@ -519,13 +460,13 @@
         } else {
             //ตรวจสอบการแก้ไขไฟล์
             ipcRenderer.send("file-compare", fileHandle, xmlText);
-            ipcRenderer.on("compare-reply", (event, status) => {
+            ipcRenderer.once("compare-reply", (event, status) => {
                 console.log(status);
                 if (status === false) {
                     //มีการเปลี่ยนแปลง
                     console.log("save dee");
                     ipcRenderer.send("modal-save-button"); //เรียกไดอะล็อก save, dont't save, cancel
-                    ipcRenderer.on("save-button-reply", (event, res) => {
+                    ipcRenderer.once("save-button-reply", (event, res) => {
                         if (res === 0) {
                             //เลือก save
                             console.log("save");
@@ -538,7 +479,8 @@
                     });
                 }
                 if (status === true) {
-                    //ไม่มีการเปลี่ยนแปลง
+                    console.log("save mai mee")
+                        //ไม่มีการเปลี่ยนแปลง
                 }
             });
         }
@@ -557,40 +499,16 @@
         console.log(document.getElementById("Save").value);
         var xmlText = Blockly.Xml.domToPrettyText(xml);
         ipcRenderer.send("save-file-as", xmlText);
-        ipcRenderer.on("save-as-reply", (event, arg) => {
+        ipcRenderer.once("save-as-reply", (event, arg) => {
             console.log(arg); // prints "pong"
             fileHandle = arg;
         });
-        //console.log(ipcRenderer.sendSync('xmlData', xmlText))
-        // console.log(xmlText);
-        // const path = require("path");
-        // const fs = require("fs");
-        // fs.writeFile(
-        //     path.join(__dirname, "../script.xml"),
-        //     xmlText,
-        //     function(err) {
-        //         if (err) {
-        //             throw err;
-        //             console.log("Cancelled");
-        //         } else {
-        //             console.log("Saved!");
-        //             // runFile();
-        //             //alert("Successfully Saved !");
-        //         }
-        //     }
-        // );
-        // download(xmlText, "script.xml", "text/xml");
     }
+
     var interval;
     var webView = document.querySelector("webview");
 
     function Buttontoggle() {
-        // webView.addEventListener('dom-ready', () => {
-        //     // webView.openDevTools();
-        //     var url = webView.getURL();
-        //     console.log('check')
-        //     console.log(url);
-        // })
         var selector = document.getElementById("selector-button");
 
         if (selector.value === "selector : OFF") {
