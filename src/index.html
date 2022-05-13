@@ -3,6 +3,8 @@
 
 <head>
     <meta charset="UTF-8" />
+    <script src="../node_modules/blockly/msg/en.js"></script>
+
     <!-- style -->
     <link rel="stylesheet" href="./style/index.css" />
     <link rel="stylesheet" href="../node_modules/codemirror/lib/codemirror.css" />
@@ -18,10 +20,10 @@
     <script src="./node_modules/blockly/msg/en.js"></script> -->
     <script src="../node_modules/blockly/blockly_compressed.js"></script>
     <script src="../node_modules/blockly/blocks_compressed.js"></script>
-    <script src="../node_modules/blockly/msg/en.js"></script>
+
     <script src="../node_modules/blockly/javascript.js"></script>
     <script src="../node_modules/blockly/javascript_compressed.js"></script>
-
+    <script src="../messages.js"></script>
     <!-- <script>
       window.nodeRequire = require;
       delete window.require;
@@ -39,10 +41,13 @@
     <!-- <script src="./blocks/Variables.js"></script> -->
     <script src="./blocks/XML.js"></script>
     <script src="./blocks/Expect.js"></script>
+
     <!-- <script src="./blocks/variables.js"></script>
     <script src="./blocks/variables_dynamic.js"></script> -->
     <!-- <script src="./blocks/prompt.js"></script> -->
-    <script src="./blocks/Variables-Old.js"></script>
+    <!-- <script src="./blocks/Variables-Old.js"></script> -->
+    <!-- <script src="./blocks/Variable.js"></script>
+    <script src="./blocks/Variable_dynamic.js"></script> -->
     <script src="./blocks/custom-dialog.js"></script>
 
     <script src="./blocks/Advance/Text.js"></script>
@@ -93,9 +98,9 @@
           <img id="Save" src="assets/image/Save.svg" />
         </button>
             <!-- <script src="./script/saveFile.js"></script> -->
-            <button class="w3-bar-item w3-button">
+            <!-- <button class="w3-bar-item w3-button">
           <img id="RecordWeb" src="assets/image/Recorder.svg" />
-        </button>
+        </button> -->
             <button class="w3-bar-item w3-button" onclick="toSpecFile()">
           <img id="Run" src="assets/image/Run.svg" />
         </button>
