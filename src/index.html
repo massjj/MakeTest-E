@@ -274,11 +274,13 @@
     function runFile() {
         var path = require("path");
         console.log("in running process !!");
-        cypress
+        if(fileHandle!==null){
+            var onlyName =  fileName[fileName.length - 1].split(".xml");
+            cypress
             .run({
                 // the path is relative to the current working directory
                 headed: true,
-                spec: "./cypress/integration/test1.spec.js",
+                spec: "./cypress/integration/"+onlyName[0]+".spec.js",
                 exit: false,
             })
             .then((results) => {
@@ -287,14 +289,32 @@
             .catch((err) => {
                 console.error(err);
             });
+        }
+        else{
+           cypress
+            .run({
+                // the path is relative to the current working directory
+                headed: true,
+                spec: "./cypress/integration/buffer.spec.js",
+                exit: false,
+            })
+            .then((results) => {
+                console.log(results);
+            })
+            .catch((err) => {
+                console.error(err);
+            }); 
+        }
+        
     }
 
     function toSpecFile() {
         const path = require("path");
         const fs = require("fs");
         if(fileName!=null){
+          var onlyName =  fileName[fileName.length - 1].split(".xml");
           fs.writeFile(
-            "./cypress/integration/"+fileName+".spec.js",
+            "./cypress/integration/"+onlyName[0]+".spec.js",
             codeTosave,
             function (err) {
                 if (err) {
