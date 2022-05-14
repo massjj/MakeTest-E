@@ -244,7 +244,7 @@
         },
     });
     Blockly.Xml.domToWorkspace(document.getElementById("starter"), workspace);
-
+    workspace.clearUndo();
     var xmlDom = Blockly.Xml.workspaceToDom(workspace);
     var xmlInit = Blockly.Xml.domToPrettyText(xmlDom);
 
@@ -253,6 +253,11 @@
         //codeArea is in showcode.js
         codeArea.getDoc().setValue(code);
         codeTosave = code;
+        var current = Blockly.Xml.workspaceToDom(workspace);
+        var currentText = Blockly.Xml.domToPrettyText(current);
+        if(currentText===xmlInit){
+            workspace.clearUndo();
+        }
     }
     workspace.addChangeListener(myUpdateFunction);
 
