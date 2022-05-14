@@ -60,11 +60,13 @@ const createWindow = () => {
     {
       label: "Edit",
       submenu: [
-        { label: "undo",
+        { label: "Undo",
+        accelerator: "Ctrl+Z",
         click: async () => {
           mainWindow.webContents.send("send-function", "undo");
         }, },
-        { label: "redo",
+        { label: "Redo",
+        accelerator: "Ctrl+Y",
         click: async () => {
           mainWindow.webContents.send("send-function", "redo");
         }, },
@@ -429,25 +431,24 @@ const createWindow = () => {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   createWindow();
-
-  // const cypress = require("cypress");
-  // const firstTimeFilePath = path.resolve(app.getPath('userData'), '.first-time-huh');
-  // let isFirstTime;
-  // try {
-  //     fs.closeSync(fs.openSync(firstTimeFilePath, 'wx'));
-  //     isFirstTime = true;
-  // } catch (e) {
-  //     if (e.code === 'EEXIST') {
-  //         isFirstTime = false;
-  //     } else {
-  //         // something gone wrong
-  //         throw e;
-  //     }
-  // }
-  // if (isFirstTime) {
-  //     //add guide window na ja dee
-  //     cypress.open()
-  // }
+  const cypress = require("cypress");
+  const firstTimeFilePath = path.resolve(app.getPath('userData'), '.first-time-huh');
+  let isFirstTime;
+  try {
+      fs.closeSync(fs.openSync(firstTimeFilePath, 'wx'));
+      isFirstTime = true;
+  } catch (e) {
+      if (e.code === 'EEXIST') {
+          isFirstTime = false;
+      } else {
+          // something gone wrong
+          throw e;
+      }
+  }
+  if (isFirstTime) {
+      //add guide window na ja dee
+      cypress.open()
+  }
 
   app.on("activate", () => {
     // On macOS it's common to re-create a window in the app when the
