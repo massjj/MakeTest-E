@@ -120,6 +120,8 @@ Blockly.defineBlocksWithJsonArray([{
 ]);
 
 Blockly.JavaScript['_001'] = function(block) {
+    block.setDeletable(false);
+    block.setMovable(false);
     var value_describe_text = Blockly.JavaScript.valueToCode(block, 'DESCRIBE_TEXT', Blockly.JavaScript.ORDER_ATOMIC);
     var statements_it = Blockly.JavaScript.statementToCode(block, 'IT');
     // TODO: Assemble JavaScript into code variable.

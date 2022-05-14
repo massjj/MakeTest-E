@@ -51,6 +51,7 @@
     <script>
         var codeTosave;
         const cypress = require("cypress");
+        // cypress.open()
     </script>
     <script src="./script/notifications.js"></script>
 </head>
@@ -59,36 +60,43 @@
 <body>
     <div class="app-bar">
         <nav class="tool-bar">
-            <button class="w3-bar-item w3-button">
-                <img id="NewFile" src="assets/image/NewFile.svg" onclick="newFile()" />
-            </button>
-            <button class="w3-bar-item w3-button" onclick="openFile()">
-                <img id="Import" src="assets/image/Import.svg" />
-            </button>
-            <button class="w3-bar-item w3-button" onclick="saveButton()">
-                <img id="Save" src="assets/image/Save.svg" />
-            </button>
-            <!-- <script src="./script/saveFile.js"></script> -->
-            <!-- <button class="w3-bar-item w3-button">
+            <div style="width: 60%;">
+                <button class="w3-bar-item w3-button">
+                    <img id="NewFile" src="assets/image/NewFile.svg" onclick="newFile()" />
+                </button>
+                <button class="w3-bar-item w3-button" onclick="openFile()">
+                    <img id="Import" src="assets/image/Import.svg" />
+                </button>
+                <button class="w3-bar-item w3-button" onclick="saveButton()">
+                    <img id="Save" src="assets/image/Save.svg" />
+                </button>
+                <!-- <script src="./script/saveFile.js"></script> -->
+                <!-- <button class="w3-bar-item w3-button">
           <img id="RecordWeb" src="assets/image/Recorder.svg" />
         </button> -->
-            <button class="w3-bar-item w3-button" onclick="toSpecFile()">
-                <img id="Run" src="assets/image/Run.svg" />
-            </button>
-            <div id="location">
+                <button class="w3-bar-item w3-button" onclick="toSpecFile()">
+                    <img id="Run" src="assets/image/Run.svg" />
+                </button>
+            </div>
+            <div style="width: 40%;">
+               <div id="location">
                 <p> | - </br>
                     [ Location : - ]
                 </p>
+            </div> 
             </div>
         </nav>
     </div>
 
     <div class="main">
         <div class="layout-container">
-            <div class="workspace-container">
+            <div style="width: 70%; height: 100%;" >
+                <div class="workspace-container" >
                 <div id="blocklyDiv"></div>
+                </div>
             </div>
-            <div class="output">
+            <div style="width: 30%;">
+               <div class="output">
                 <div class="webview-container">
                     <div class="input-web">
                         <input
@@ -142,12 +150,14 @@
                     <textarea id="showCode"></textarea>
                     <script type="text/javascript" src="./script/showcode.js"></script>
                 </div>
+            </div> 
             </div>
+            
         </div>
     </div>
 </body>
 <xml id="starter">
-    <block type="_001" x="88" y="88">
+    <block type="_001" deletable="false" movable="false" x="88" y="88">
         <value name="DESCRIBE_TEXT">
             <shadow type="text">
                 <field name="TEXT"></field>
@@ -163,6 +173,39 @@
     let fileHandle = null;
     let fileName = null;
 
+    ipcRenderer.on('send-function', (event, toDo) => {
+        switch (toDo) {
+            case 'new file':
+                newFile();
+                break;
+            case 'open file':
+                openFile();
+                break;
+            case 'save as':
+                toXML();
+                break;
+            case 'save':
+                saveButton();
+                break;
+            case 'run':
+                toSpecFile();
+                break;
+            case 'undo':
+                var current = Blockly.Xml.workspaceToDom(workspace);
+                var currentText = Blockly.Xml.domToPrettyText(current);
+                if(currentText!==xmlInit){
+                   workspace.undo(false); 
+                }
+                break;
+            case 'redo':
+                workspace.undo(true);
+                break;
+            case 'cypress':
+                cypress.open();
+
+        }
+
+    })
     var workspace = Blockly.inject("blocklyDiv", {
         comments: true,
         collapse: true,
@@ -214,11 +257,13 @@
     workspace.addChangeListener(myUpdateFunction);
 
     function showLocation() {
-        fileName = fileHandle.split("\\");
-        document.getElementById("location").innerHTML = '<p> | ' + fileName[fileName.length - 1] + `</br>
+        if (fileHandle !== null) {
+            fileName = fileHandle.split("\\");
+            document.getElementById("location").innerHTML = '<p> | ' + fileName[fileName.length - 1] + `</br>
                 [ Location : `+ fileHandle + ` ]
             </p>`
-        console.log("change location");
+            console.log("change location");
+        }
     }
 
     function runFile() {
@@ -242,8 +287,9 @@
     function toSpecFile() {
         const path = require("path");
         const fs = require("fs");
-        fs.writeFile(
-            "./cypress/integration/test1.spec.js",
+        if(fileName!=null){
+          fs.writeFile(
+            "./cypress/integration/"+fileName+".spec.js",
             codeTosave,
             function (err) {
                 if (err) {
@@ -255,7 +301,25 @@
                     //alert("Successfully Saved !");
                 }
             }
-        );
+        );  
+        }
+        else{
+            fs.writeFile(
+            "./cypress/integration/buffer.spec.js",
+            codeTosave,
+            function (err) {
+                if (err) {
+                    throw err;
+                    console.log("Cancelled");
+                } else {
+                    console.log("Saved!");
+                    runFile();
+                    //alert("Successfully Saved !");
+                }
+            }
+        );  
+        }
+        
     }
 
     function openFile() {
@@ -296,7 +360,6 @@
             if (status === 0) {
                 //ไม่เคยสร้างไฟล์มาก่อน
                 console.log(xmlText + "\n" + xmlInit);
-
                 if (xmlText === xmlInit) {
                     importFile();
                 } else {
@@ -325,27 +388,59 @@
     function newFile() {
         var xml = Blockly.Xml.workspaceToDom(workspace);
         var xmlText = Blockly.Xml.domToPrettyText(xml);
-
-        //ตรวจสอบการแก้ไขไฟล์
-        ipcRenderer.send("file-compare", fileHandle, xmlText);
-        ipcRenderer.once("compare-reply", (event, status) => {
-            console.log(status);
-            if (status === false) {
-                //มีการเปลี่ยนแปลง
-                console.log("save dee");
-                ipcRenderer.send("modal-leave-from-import"); //เรียกไดอะล็อก save, dont't save, cancel
-                ipcRenderer.once("leave-import-reply", (event, res) => {
+        console.log(fileHandle);
+        if (fileHandle != null) {
+            //ตรวจสอบการแก้ไขไฟล์
+            console.log("dd")
+            ipcRenderer.send("file-compare", fileHandle, xmlText);
+            ipcRenderer.once("compare-reply", (event, status) => {
+                console.log(status);
+                if (status === false) {
+                    //มีการเปลี่ยนแปลง
+                    if (xmlText === xmlInit) {
+                        createNew()
+                    } else {
+                        ipcRenderer.send("modal-leave-from-import");
+                        //เรียกไดอะล็อก save, dont't save, cancel
+                        ipcRenderer.once("leave-import-reply", (event, res) => {
+                            if (res === 0) {
+                                //เลือก save
+                                console.log("re");
+                                ipcRenderer.send("update-file", xmlText, fileHandle);
+                                Blockly.Events.disable();
+                                workspace.clear();
+                                Blockly.Events.enable();
+                                Blockly.Xml.domToWorkspace(
+                                    document.getElementById("starter"),
+                                    workspace
+                                );
+                            }
+                            if (res === 1) {
+                                //เลือก don't save
+                                createNew();
+                            }
+                        });
+                    }
+                }
+                if (status) {
+                    //ไม่มีการเปลี่ยนแปลง
+                    createNew();
+                }
+            });
+        }
+        //ไม่เคยสร้างไฟล์มาก่อน
+       else {
+            if (xmlText === xmlInit) {
+                // console.log('ff')
+                createNew();
+            } else {
+                // console.log("create first");
+                ipcRenderer.send("modal-leave-file"); //เรียกไดอะล็อก save, dont't save, cancel
+                ipcRenderer.once("leave-reply", (event, res) => {
                     if (res === 0) {
-                        //เลือก save
-                        console.log("re");
-                        ipcRenderer.send("update-file", xmlText, fileHandle);
-                        Blockly.Events.disable();
-                        workspace.clear();
-                        Blockly.Events.enable();
-                        Blockly.Xml.domToWorkspace(
-                            document.getElementById("starter"),
-                            workspace
-                        );
+                        //เลือก save as
+                        console.log("save as");
+                        toXML();
                     }
                     if (res === 1) {
                         //เลือก don't save
@@ -353,31 +448,7 @@
                     }
                 });
             }
-            if (status === 0) {
-                //ไม่เคยสร้างไฟล์มาก่อน
-                if (xmlText === xmlInit) {
-                    createNew();
-                } else {
-                    console.log("create first");
-                    ipcRenderer.send("modal-leave-file"); //เรียกไดอะล็อก save, dont't save, cancel
-                    ipcRenderer.once("leave-reply", (event, res) => {
-                        if (res === 0) {
-                            //เลือก save as
-                            console.log("save as");
-                            toXML();
-                        }
-                        if (res === 1) {
-                            //เลือก don't save
-                            createNew();
-                        }
-                    });
-                }
-            }
-            if (status === true) {
-                //ไม่มีการเปลี่ยนแปลง
-                createNew();
-            }
-        });
+        }
     }
 
     function createNew() {
@@ -385,7 +456,7 @@
         var initText = Blockly.Xml.domToPrettyText(init);
         ipcRenderer.send("create-new", initText);
         ipcRenderer.once("create-reply", (event, arg) => {
-            if (arg.response) {
+            if (!arg.response) {
                 window.createNotification({
                     closeOnClick: true,
                     displayCloseButton: false,
@@ -402,21 +473,13 @@
                 workspace.clear();
                 Blockly.Events.enable();
                 Blockly.Xml.domToWorkspace(document.getElementById("starter"), workspace);
+                xmlDom = Blockly.Xml.workspaceToDom(workspace);
+                xmlInit = Blockly.Xml.domToPrettyText(xmlDom);
             }
-            if ((arg.response !== true) && (arg.response !== 'cancel')) {
-                window.createNotification({
-                    closeOnClick: true,
-                    displayCloseButton: false,
-                    positionClass: 'nfc-top-right',
-                    showDuration: 3000,
-                    theme: 'error'
-                })({
-                    title: 'Failed to create',
-                    message: arg.response
-                });
+            if (arg.response) {
+                fileHandle = arg.filePath;
+                console.log("cancel")
             }
-
-            // document.getElementById('location').value = fileHandle;
         });
     }
 
@@ -452,7 +515,7 @@
     function saveButton() {
         var xml = Blockly.Xml.workspaceToDom(workspace);
         var xmlText = Blockly.Xml.domToPrettyText(xml);
-        if (fileHandle === null) {
+        if (fileHandle == null) {
             ipcRenderer.send("modal-never-create"); //เรียกไดอะล็อก save, dont't save, cancel
             ipcRenderer.once("never-create-reply", (event, res) => {
                 if (res === 0) {
@@ -462,18 +525,19 @@
             });
         } else {
             console.log("save dee");
-            ipcRenderer.send("modal-save-button"); //เรียกไดอะล็อก save, dont't save, cancel
-            ipcRenderer.once("save-button-reply", (event, res) => {
-                if (res === 0) {
-                    //เลือก save
-                    console.log("save");
-                    toUpdate();
-                }
-                if (res === 1) {
-                    //เลือก save as
-                    toXML();
-                }
-            });
+            toUpdate();
+            // ipcRenderer.send("modal-save-button"); //เรียกไดอะล็อก save, dont't save, cancel
+            // ipcRenderer.once("save-button-reply", (event, res) => {
+            //     if (res === 0) {
+            //         //เลือก save
+            //         console.log("save");
+
+            //     }
+            //     if (res === 1) {
+            //         //เลือก save as
+            //         toXML();
+            //     }
+            // });
         }
     }
 

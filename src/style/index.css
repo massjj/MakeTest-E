@@ -9,7 +9,7 @@ body {
 
 #blocklyDiv {
     text-align: left;
-    height: 92vh;
+    height: 93.3%;
     width: 100%;
 }
 
@@ -21,6 +21,7 @@ body {
 
 .workspace-container {
     display: flex;
+    height: 100%;
     flex: 2 2 0;
 }
 
@@ -28,10 +29,11 @@ body {
     display: flex;
     flex-direction: column;
     flex: 1 1 0;
+    height: 93.3%;
 }
 
 .codeDiv {
     padding: 0%;
-    height: 50vh;
+    height: 52vh;
     /* width: calc(500- 900);  */
 }
