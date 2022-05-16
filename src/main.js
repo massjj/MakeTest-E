@@ -60,16 +60,20 @@ const createWindow = () => {
     {
       label: "Edit",
       submenu: [
-        { label: "Undo",
-        accelerator: "Ctrl+Z",
-        click: async () => {
-          mainWindow.webContents.send("send-function", "undo");
-        }, },
-        { label: "Redo",
-        accelerator: "Ctrl+Y",
-        click: async () => {
-          mainWindow.webContents.send("send-function", "redo");
-        }, },
+        {
+          label: "Undo",
+          accelerator: "Ctrl+Z",
+          click: async () => {
+            mainWindow.webContents.send("send-function", "undo");
+          },
+        },
+        {
+          label: "Redo",
+          accelerator: "Ctrl+Y",
+          click: async () => {
+            mainWindow.webContents.send("send-function", "redo");
+          },
+        },
         { type: "separator" },
         { role: "cut" },
         { role: "copy" },
@@ -100,11 +104,11 @@ const createWindow = () => {
           },
         },
         {
-            label: "Run As Selecting",
-            accelerator: "Ctrl+F5",
-            click: async () => {
-                mainWindow.webContents.send("send-function", "cypress");
-            },
+          label: "Run As Selecting",
+          accelerator: "Ctrl+F5",
+          click: async () => {
+            mainWindow.webContents.send("send-function", "cypress");
+          },
         },
       ],
     },
@@ -424,31 +428,45 @@ const createWindow = () => {
     }
     if (pathFile === null) event.reply("compare-reply", 0);
   });
+
+  ipcMain.on('first-time',(event)=>{
+    const cypress = require("cypress"); 
+    fs.writeFile("./isFirstTime.txt", "Firsttime running cypress", (err) => {
+      if (err) throw err;
+      else {
+        dialog.showMessageBox(mainWindow, {
+          type: "info",
+          icon: "M-Logo-Whi.ico",
+          buttons: ["&Ok"],
+          title: "Welcome to MakeTest",
+          message: "Welcome to MakeTest for the first time.",
+          detail: "Please press 'Ok' to install extra tools to finish MakeTest.",
+          noLink: true,
+          cancelId: 1,
+        }).then((data) => {
+          switch (data.response) {
+            //ok
+            case 0:
+              cypress.open();
+              break;
+            //cancel
+            case 1:
+              cypress.open()
+              break;
+          }
+        })
+      }}
+    )
+  })
 };
+
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   createWindow();
-  const cypress = require("cypress");
-  const firstTimeFilePath = path.resolve(app.getPath('userData'), '.first-time-huh');
-  let isFirstTime;
-  try {
-      fs.closeSync(fs.openSync(firstTimeFilePath, 'wx'));
-      isFirstTime = true;
-  } catch (e) {
-      if (e.code === 'EEXIST') {
-          isFirstTime = false;
-      } else {
-          // something gone wrong
-          throw e;
-      }
-  }
-  if (isFirstTime) {
-      //add guide window na ja dee
-      cypress.open()
-  }
+ 
 
   app.on("activate", () => {
     // On macOS it's common to re-create a window in the app when the
