@@ -54,9 +54,31 @@ var codelabToolbox1 = `
       </value>
     </block>
     <block type="_012" />
-    <block type="_010" />
+    <block type="_010">
+      <value name="CHAINER_1">
+        <block type="_013">
+          <field name="PROPERTY">be.exist</field>
+        </block>
+      </value>
+      <value name="CHAINER_2">
+        <block type="_013">
+          <field name="PROPERTY">be.exist</field>
+        </block>
+      </value>
+    </block>
     <block type="_013" />
-    <block type="_014" />
+    <block type="_014" >
+      <value name="CONDITION_1">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="CONDITION_2">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+    </block>
     <block type="_006">
       <value name="IF0">
         <shadow type="_012">
@@ -224,6 +246,9 @@ var codelabToolbox1 = `
       <field name="CONDITION">true</field>
     </block>
     <block type="_036">
+      <value name="FOR_INDEX">
+        <block type="variables_get"></block>
+      </value>
       <value name="FOR_NUM">
         <shadow type="math_number">
           <field name="NUM">0</field>
@@ -387,9 +412,28 @@ var codelabToolbox1 = `
       </block>
     </category>
     <category name="Array" colour="#0D929B">
+      <block type="variables_set">
+        <field name="VAR">list</field>
+        <value name="VALUE">
+          <shadow type="_047">
+            <mutation items="2"></mutation>
+          </shadow>
+        </value>
+      </block>
       <block type="_047"></block>
-      <block type="_048"></block>
+      <block type="_048">
+        <value name="VALUE">
+          <block type="variables_get">
+            <field name="VAR">list</field>
+          </block>
+        </value>
+      </block>
       <block type="_049">
+        <value name="ARRAY_VAR">
+          <block type="variables_get">
+            <field name="VAR">list</field>
+          </block>
+        </value>
         <value name="INDEX">
           <shadow type="_063">
             <field name="NUM">0</field>
@@ -397,16 +441,44 @@ var codelabToolbox1 = `
         </value>
       </block>
       <block type="_050">
+        <value name="ARRAY">
+          <block type="variables_get">
+            <field name="VAR">list</field>
+          </block>
+        </value>
         <value name="INDEX">
           <shadow type="_063">
             <field name="NUM">0</field>
           </shadow>
         </value>
       </block>
-      <block type="_051"></block>
-      <block type="_052"></block>
-      <block type="_053"></block>
+      <block type="_051">
+        <value name="ARRAY">
+          <block type="variables_get">
+            <field name="VAR">list</field>
+          </block>
+        </value>
+      </block>
+      <block type="_052">
+        <value name="ARRAY">
+          <block type="variables_get">
+            <field name="VAR">list</field>
+          </block>
+        </value>
+      </block>
+      <block type="_053">
+        <value name="ARRAY">
+          <block type="variables_get">
+            <field name="VAR">list</field>
+          </block>
+        </value>
+      </block>
       <block type="_054">
+        <value name="ARRAY">
+          <block type="variables_get">
+            <field name="VAR">list</field>
+          </block>
+        </value>
         <value name="INDEX">
           <shadow type="_063">
             <field name="NUM">0</field>
@@ -419,6 +491,11 @@ var codelabToolbox1 = `
         </value>
       </block>
       <block type="_055">
+        <value name="ARRAY">
+          <block type="variables_get">
+            <field name="VAR">list</field>
+          </block>
+        </value>
         <value name="SET_VALUE">
           <shadow type="text">
             <field name="TEXT"></field>
@@ -426,6 +503,11 @@ var codelabToolbox1 = `
         </value>
       </block>
       <block type="_058">
+        <value name="ARRAY">
+          <block type="variables_get">
+            <field name="VAR">list</field>
+          </block>
+        </value>
         <value name="INDEX">
           <shadow type="_063">
             <field name="NUM">0</field>
@@ -433,6 +515,11 @@ var codelabToolbox1 = `
         </value>
       </block>
       <block type="_060">
+        <value name="ARRAY">
+          <block type="variables_get">
+            <field name="VAR">list</field>
+          </block>
+        </value>
         <value name="INDEX">
           <shadow type="_063">
             <field name="NUM">0</field>
@@ -445,13 +532,24 @@ var codelabToolbox1 = `
         </value>
       </block>
       <block type="_061">
+        <value name="ARRAY">
+          <block type="variables_get">
+            <field name="VAR">list</field>
+          </block>
+        </value>
         <value name="GET_VALUE">
           <shadow type="text">
             <field name="TEXT"></field>
           </shadow>
         </value>
       </block>
-      <block type="_062"></block>
+      <block type="_062">
+        <value name="NAME">
+          <block type="variables_get">
+            <field name="VAR">list</field>
+          </block>
+        </value>
+      </block>
     </category>
   </category>
 

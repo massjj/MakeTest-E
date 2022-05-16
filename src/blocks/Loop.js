@@ -61,7 +61,7 @@ Blockly.defineBlocksWithJsonArray([{
         "args0": [{
                 "type": "input_value",
                 "name": "FOR_INDEX",
-                "check": "Index"
+                "check": "Var"
             },
             {
                 "type": "input_value",
@@ -118,7 +118,7 @@ Blockly.defineBlocksWithJsonArray([{
         "message0": "break",
         "inputsInline": true,
         "previousStatement": "Action",
-        "nextStatement": "Action ",
+        "nextStatement": "Action",
         "colour": "#E7A03C",
         "tooltip": "",
         "helpUrl": ""
@@ -176,7 +176,7 @@ Blockly.JavaScript['_036'] = function(block) {
     var value_for_num = Blockly.JavaScript.valueToCode(block, 'FOR_NUM', Blockly.JavaScript.ORDER_ATOMIC);
     var statements_for_action = Blockly.JavaScript.statementToCode(block, 'FOR_ACTION');
     // TODO: Assemble JavaScript into code variable.
-    var code = '\nfor(let ' + value_for_index + '=' + value_for_num + '; index < [ times ]; index++){' + statements_for_action + '\n}';
+    var code = '\nfor(' + value_for_index + '= 0; ' + value_for_index + '<' + value_for_num + '; ' + value_for_index + '++){' + statements_for_action + '\n}';
     return code;
 };
 

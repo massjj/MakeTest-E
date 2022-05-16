@@ -137,7 +137,7 @@ Blockly.defineBlocksWithJsonArray([{
         "previousStatement": "Action",
         "nextStatement": "Action",
         "colour": "#006583",
-        "tooltip": "",
+        "tooltip": "ส่วนใหญ่มักใช้ร่วมกับ expect()",
         "helpUrl": ""
     },
     {
