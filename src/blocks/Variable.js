@@ -38,6 +38,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         ],
         "previousStatement": "Action",
         "nextStatement": "Action",
+        "inputsInline": true,
         "style": "variable_blocks",
         "tooltip": "",
         "helpUrl": "",

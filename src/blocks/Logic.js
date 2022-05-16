@@ -161,7 +161,7 @@ Blockly.defineBlocksWithJsonArray([{
                 "type": "input_value",
                 "name": "CONDITION_2",
                 "check": [
-                    "Boolean",
+                    "String",
                     "Number"
                 ]
             }
@@ -209,36 +209,36 @@ Blockly.defineBlocksWithJsonArray([{
     }
 ]);
 
-// Blockly.defineBlocksWithJsonArray([ // Mutator blocks. Do not extract.
-//     // Block representing the if statement in the controls_if mutator.
-//     {
-//         "type": "controls_if_if",
-//         "message0": "if",
-//         "nextStatement": null,
-//         "enableContextMenu": false,
-//         "colour": "#5DA688",
-//         "tooltip": ""
-//     },
-//     // Block representing the else-if statement in the controls_if mutator.
-//     {
-//         "type": "controls_if_elseif",
-//         "message0": "else if",
-//         "previousStatement": null,
-//         "nextStatement": null,
-//         "enableContextMenu": false,
-//         "colour": "#5DA688",
-//         "tooltip": ""
-//     },
-//     // Block representing the else statement in the controls_if mutator.
-//     {
-//         "type": "controls_if_else",
-//         "message0": "else",
-//         "previousStatement": null,
-//         "enableContextMenu": false,
-//         "colour": "#5DA688",
-//         "tooltip": ""
-//     }
-// ]);
+Blockly.defineBlocksWithJsonArray([ // Mutator blocks. Do not extract.
+    // Block representing the if statement in the controls_if mutator.
+    {
+        "type": "controls_if_if",
+        "message0": "if",
+        "nextStatement": null,
+        "enableContextMenu": false,
+        "colour": "#5DA688",
+        "tooltip": ""
+    },
+    // Block representing the else-if statement in the controls_if mutator.
+    {
+        "type": "controls_if_elseif",
+        "message0": "else if",
+        "previousStatement": null,
+        "nextStatement": null,
+        "enableContextMenu": false,
+        "colour": "#5DA688",
+        "tooltip": ""
+    },
+    // Block representing the else statement in the controls_if mutator.
+    {
+        "type": "controls_if_else",
+        "message0": "else",
+        "previousStatement": null,
+        "enableContextMenu": false,
+        "colour": "#5DA688",
+        "tooltip": ""
+    }
+]);
 
 Blockly.Blocks['_006'] = {
     init: function() {
@@ -518,11 +518,17 @@ Blockly.JavaScript['_009'] = function(block) {
 };
 
 Blockly.JavaScript['_010'] = function(block) {
+
     var value_chainer_1 = Blockly.JavaScript.valueToCode(block, 'CHAINER_1', Blockly.JavaScript.ORDER_NONE);
+    var checks = block.getInput('CHAINER_1').connection.getCheck();
     var dropdown_oparation = block.getFieldValue('OPARATION');
     var value_chainer_2 = Blockly.JavaScript.valueToCode(block, 'CHAINER_2', Blockly.JavaScript.ORDER_NONE);
     // TODO: Assemble JavaScript into code variable.
-    var code = value_chainer_1 + '.' + dropdown_oparation + value_chainer_2;
+    console.log(checks)
+    if (checks == "Boolean") {
+        var code = value_chainer_1 + 'and' + value_chainer_2;
+    }
+    // var code = value_chainer_1 + '.' + dropdown_oparation + value_chainer_2;
     // TODO: Change ORDER_NONE to the correct strength.
     return [code, Blockly.JavaScript.ORDER_NONE];
 };
@@ -563,7 +569,7 @@ Blockly.JavaScript['_013'] = function(block) {
             break;
         case 'not.equal':
             var container = Blockly.JavaScript.valueToCode(block, 'CONTAIN', Blockly.JavaScript.ORDER_ATOMIC);
-            var code = '\'not.equal\', ' + container;
+            var code = '(\'not.equal\', ' + container + ')';
             break;
         case 'not.be.contain':
             var container = Blockly.JavaScript.valueToCode(block, 'CONTAIN', Blockly.JavaScript.ORDER_ATOMIC);
@@ -588,26 +594,26 @@ Blockly.JavaScript['_014'] = function(block) {
     // TODO: Assemble JavaScript into code variable.
     switch (dropdown_oparation) {
         case 'equal':
-            var code = value_condition_1 + '==' + value_condition_2;
+            var code = '(' + value_condition_1 + '==' + value_condition_2 + ')';
             break;
         case 'not_equal':
-            var code = value_condition_1 + '!=' + value_condition_2;
+            var code = '(' + value_condition_1 + '!=' + value_condition_2 + ')';
             break;
         case 'greater':
-            var code = value_condition_1 + '>' + value_condition_2;
+            var code = '(' + value_condition_1 + '>' + value_condition_2 + ')';
             break;
         case 'greater_Equal':
-            var code = value_condition_1 + '>=' + value_condition_2;
+            var code = '(' + value_condition_1 + '>=' + value_condition_2 + ')';
             break;
         case 'less':
-            var code = value_condition_1 + '<' + value_condition_2;
+            var code = '(' + value_condition_1 + '<' + value_condition_2 + ')';
             break;
         case 'less_equal':
-            var code = value_condition_1 + '<=' + value_condition_2;
+            var code = '(' + value_condition_1 + '<=' + value_condition_2 + ')';
             break;
     }
     // TODO: Change ORDER_NONE to the correct strength.
-    return code
+    return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
 Blockly.JavaScript['_023'] = function(block) {

@@ -32,7 +32,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     },
     {
         "type": "_071",
-        "message0": "parse to number %1",
+        "message0": "convert %1 to number ",
         "args0": [{
             "type": "input_value",
             "name": "STRING_PARSE",
@@ -46,7 +46,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     },
     {
         "type": "_072",
-        "message0": "split %1 at %2",
+        "message0": "split %1 by %2",
         "args0": [{
                 "type": "input_value",
                 "name": "STRING",

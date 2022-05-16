@@ -311,48 +311,46 @@
         let check = {
             status: 'wait'
         }
-            // ipcRenderer.send('check-wins')
-            if (fileHandle != null) {
-                var onlyName = fileName[fileName.length - 1].split(".xml");
-                cypress
-                    .run({
-                        // the path is relative to the current working directory
-                        headed: true,
-                        spec: "./cypress/integration/" + onlyName[0] + ".spec.js",
-                        exit: false,
-                    })
-                    .then((results) => {
-                        console.log("Yes: ", results);
-                        check.status = 'receive';
+        if (fileHandle != null) {
+            var onlyName = fileName[fileName.length - 1].split(".xml");
+            cypress
+                .run({
+                    // the path is relative to the current working directory
+                    headed: true,
+                    spec: "./cypress/integration/" + onlyName[0] + ".spec.js",
+                    exit: false,
+                })
+                .then((results) => {
+                    console.log("Yes: ", results.status);
+                    check.status = 'receive';
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
+
+        } else {
+            cypress
+                .run({
+                    // the path is relative to the current working directory
+                    headed: true,
+                    spec: "./cypress/integration/buffer.spec.js",
+                    exit: false,
+                })
+                .then((results) => {
+                    console.log("Yes: ", results.status);
+                    check.status = 'receive';
+
                     })
                     .catch((err) => {
                         console.error(err);
                     });
 
-            } else {
-                cypress
-                    .run({
-                        // the path is relative to the current working directory
-                        headed: true,
-                        spec: "./cypress/integration/buffer.spec.js",
-                        exit: false,
-                    })
-                    .then((results) => {
-                        console.log('2. run complete', results);
+        }
 
-                    })
-                    .catch((err) => {
-                        console.error(err);
-                    });
-
-            }
-            
-            interval = window.setInterval(function () {
-                if (check.status === 'receive') {
-                    loader.className += " hidden";
-                    check.status = 'wait';
-                }
-            }, 100)
+        setTimeout(() => {
+            loader.className += " hidden";
+            check.status = 'wait';
+        }, 60000)
     }
 
 
@@ -373,7 +371,6 @@
                         // runFile();
                         loader.className += "show"; // class "loader hidden"
                         console.log("run: ", runFile())
-
                     }
                 }
             );
@@ -388,6 +385,7 @@
                     } else {
                         console.log("Saved!");
                         // runFile();
+                        loader.className += "show";
                         console.log("run: ", runFile())
                         //alert("Successfully Saved !");
                     }

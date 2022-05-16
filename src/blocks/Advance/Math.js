@@ -162,7 +162,7 @@ Blockly.JavaScript['_063'] = function(block) {
     // TODO: Assemble JavaScript into code variable.
     var code = text_NUM;
     // TODO: Change ORDER_NONE to the correct strength.
-    return [code, Blockly.JavaScript.ORDER_NONE];
+    return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
 Blockly.JavaScript['_064'] = function(block) {
@@ -181,6 +181,7 @@ Blockly.JavaScript['_064'] = function(block) {
     // TODO: Change ORDER_NONE to the correct strength.
     return [code, Blockly.JavaScript.ORDER_NONE];
 };
+
 
 Blockly.JavaScript['_065'] = function(block) {
     var value_number_1 = Blockly.JavaScript.valueToCode(block, 'NUMBER_1', Blockly.JavaScript.ORDER_NONE);
@@ -214,16 +215,16 @@ Blockly.JavaScript['_066'] = function(block) {
     // TODO: Assemble JavaScript into code variable.
     switch (dropdown_oparation) {
         case 'round':
-            var code = 'Math.round' + value_number
+            var code = 'Math.round(' + value_number + ')'
             break;
         case 'ceil':
-            var code = 'Math.ceil' + value_number
+            var code = 'Math.ceil(' + value_number + ')'
             break;
         case 'floor':
-            var code = 'Math.floor' + value_number
+            var code = 'Math.floor(' + value_number + ')'
             break;
         case 'truncate':
-            var code = 'Math.trunc' + value_number
+            var code = 'Math.trunc(' + value_number + ')'
             break;
     }
     // TODO: Change ORDER_NONE to the correct strength.

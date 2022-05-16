@@ -4,7 +4,7 @@ Blockly.defineBlocksWithJsonArray([{
         "args0": [{
             "type": "input_value",
             "name": "VALUE",
-            "check": ["String", "Array"]
+            "check": ["String", "Array", "Var"]
         }],
         "inputsInline": true,
         "output": "Number",
@@ -20,7 +20,7 @@ Blockly.defineBlocksWithJsonArray([{
                 "name": "ARRAY_VAR",
                 "check": [
                     "Array",
-                    "Variable"
+                    "Var"
                 ]
             },
             {
@@ -41,7 +41,10 @@ Blockly.defineBlocksWithJsonArray([{
         "args0": [{
                 "type": "input_value",
                 "name": "ARRAY",
-                "check": "Array"
+                "check": [
+                    "Array",
+                    "Var"
+                ]
             },
             {
                 "type": "input_value",
@@ -61,7 +64,10 @@ Blockly.defineBlocksWithJsonArray([{
         "args0": [{
             "type": "input_value",
             "name": "ARRAY",
-            "check": "Array"
+            "check": [
+                "Array",
+                "Var"
+            ]
         }],
         "inputsInline": true,
         "output": "Array",
@@ -75,7 +81,10 @@ Blockly.defineBlocksWithJsonArray([{
         "args0": [{
             "type": "input_value",
             "name": "ARRAY",
-            "check": "Array"
+            "check": [
+                "Array",
+                "Var"
+            ]
         }],
         "inputsInline": true,
         "output": "Array",
@@ -89,7 +98,10 @@ Blockly.defineBlocksWithJsonArray([{
         "args0": [{
             "type": "input_value",
             "name": "ARRAY",
-            "check": "Array"
+            "check": [
+                "Array",
+                "Var"
+            ]
         }],
         "inputsInline": true,
         "output": "Array",
@@ -103,7 +115,10 @@ Blockly.defineBlocksWithJsonArray([{
         "args0": [{
                 "type": "input_value",
                 "name": "ARRAY",
-                "check": "Array"
+                "check": [
+                    "Array",
+                    "Var"
+                ]
             },
             {
                 "type": "input_value",
@@ -132,7 +147,10 @@ Blockly.defineBlocksWithJsonArray([{
         "args0": [{
                 "type": "input_value",
                 "name": "ARRAY",
-                "check": "Array"
+                "check": [
+                    "Array",
+                    "Var"
+                ]
             },
             {
                 "type": "input_value",
@@ -156,7 +174,10 @@ Blockly.defineBlocksWithJsonArray([{
         "args0": [{
                 "type": "input_value",
                 "name": "ARRAY",
-                "check": "Array"
+                "check": [
+                    "Array",
+                    "Var"
+                ]
             },
             {
                 "type": "input_value",
@@ -177,7 +198,10 @@ Blockly.defineBlocksWithJsonArray([{
         "args0": [{
                 "type": "input_value",
                 "name": "ARRAY",
-                "check": "Array"
+                "check": [
+                    "Array",
+                    "Var"
+                ]
             },
             {
                 "type": "input_value",
@@ -206,7 +230,10 @@ Blockly.defineBlocksWithJsonArray([{
         "args0": [{
                 "type": "input_value",
                 "name": "ARRAY",
-                "check": "Array"
+                "check": [
+                    "Array",
+                    "Var"
+                ]
             },
             {
                 "type": "input_value",
@@ -226,7 +253,10 @@ Blockly.defineBlocksWithJsonArray([{
         "args0": [{
             "type": "input_value",
             "name": "NAME",
-            "check": "Array"
+            "check": [
+                "Array",
+                "Var"
+            ]
         }],
         "inputsInline": true,
         "previousStatement": "Action",

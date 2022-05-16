@@ -93,11 +93,6 @@ Blockly.Blocks['_008'] = {
     }
 };
 
-// ['not be exist', 'not.be.exist'],
-// ['not be contain', 'not.be.contain'],
-// ['not equal', 'not.equal'],
-// ['not have value', 'not.have.value'],
-// ['not match', 'not.match']
 Blockly.JavaScript['_008'] = function(block) {
     var value_expect_param = Blockly.JavaScript.valueToCode(block, 'EXPECT_PARAM', Blockly.JavaScript.ORDER_ATOMIC);
     // TODO: Assemble JavaScript into code variable.
@@ -105,44 +100,44 @@ Blockly.JavaScript['_008'] = function(block) {
     // var code = dropdown_property;
     switch (dropdown_property) {
         case 'be.exist':
-            var code = 'expect' + value_expect_param + '.to.exist';
+            var code = '\nexpect' + value_expect_param + '.to.exist';
             break;
         case 'be.contain':
             var container = Blockly.JavaScript.valueToCode(block, 'CONTAIN', Blockly.JavaScript.ORDER_ATOMIC);
-            var code = 'expect' + value_expect_param + '.to.contain(' + container + ')';
+            var code = '\nexpect' + value_expect_param + '.to.contain(' + container + ')';
             break;
         case 'equal':
             var container = Blockly.JavaScript.valueToCode(block, 'CONTAIN', Blockly.JavaScript.ORDER_ATOMIC);
-            var code = 'expect' + value_expect_param + '.to.equal(' + container + ')';
+            var code = '\nexpect' + value_expect_param + '.to.equal(' + container + ')';
             break;
         case 'have.value':
             var container = Blockly.JavaScript.valueToCode(block, 'CONTAIN', Blockly.JavaScript.ORDER_ATOMIC);
-            var code = 'expect' + value_expect_param + '.to.have.value(' + container + ')';
+            var code = '\nexpect' + value_expect_param + '.to.have.value(' + container + ')';
             break;
         case 'match':
             var container = Blockly.JavaScript.valueToCode(block, 'CONTAIN', Blockly.JavaScript.ORDER_ATOMIC);
-            var code = 'expect' + value_expect_param + '.to.match(' + container + ')';
+            var code = '\nexpect' + value_expect_param + '.to.match(' + container + ')';
             break;
         case 'be.true':
-            var code = 'expect' + value_expect_param + '.to.be.true';
+            var code = '\nexpect' + value_expect_param + '.to.be.true';
             break;
         case 'be.false':
-            var code = 'expect' + value_expect_param + '.to.be.false';
+            var code = '\nexpect' + value_expect_param + '.to.be.false';
             break;
         case 'not.be.exist':
-            var code = 'expect' + value_expect_param + '.not.to.exist';
+            var code = '\nexpect' + value_expect_param + '.not.to.exist';
             break;
         case 'not.be.contain':
             var container = Blockly.JavaScript.valueToCode(block, 'CONTAIN', Blockly.JavaScript.ORDER_ATOMIC);
-            var code = 'expect' + value_expect_param + '.not.to.contain(' + container + ')';
+            var code = '\nexpect' + value_expect_param + '.not.to.contain(' + container + ')';
             break;
         case 'not.equal':
             var container = Blockly.JavaScript.valueToCode(block, 'CONTAIN', Blockly.JavaScript.ORDER_ATOMIC);
-            var code = 'expect' + value_expect_param + '.to.not.equal(' + container + ')';
+            var code = '\nexpect' + value_expect_param + '.to.not.equal(' + container + ')';
             break;
         case 'be.visible':
             var container = Blockly.JavaScript.valueToCode(block, 'CONTAIN', Blockly.JavaScript.ORDER_ATOMIC);
-            var code = 'expect' + value_expect_param + '.to.be.visible';
+            var code = '\nexpect' + value_expect_param + '.to.be.visible';
             break;
     }
     return code;
