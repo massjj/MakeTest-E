@@ -274,7 +274,7 @@
     function runFile() {
         var path = require("path");
         console.log("in running process !!");
-        if(fileHandle!==null){
+        if(fileHandle!=null){
             var onlyName =  fileName[fileName.length - 1].split(".xml");
             cypress
             .run({
@@ -351,7 +351,8 @@
         var xml = Blockly.Xml.workspaceToDom(workspace);
         var xmlText = Blockly.Xml.domToPrettyText(xml);
         //check ว่ามีการเปลี่ยนแปลงมั้ย dialog.showMessageBox()
-        ipcRenderer.send("file-compare", fileHandle, xmlText);
+        if(fileHandle!=null){
+           ipcRenderer.send("file-compare", fileHandle, xmlText);
         ipcRenderer.once("compare-reply", (event, status) => {
             console.log(status);
             if (status === false) {
@@ -407,7 +408,29 @@
                 //ไม่มีการเปลี่ยนแปลง
                 importFile();
             }
-        });
+        }); 
+        }
+        else{
+            if (xmlText === xmlInit) {
+                // console.log('ff')
+                importFile ();
+            } else {
+                // console.log("create first");
+                ipcRenderer.send("modal-leave-file"); //เรียกไดอะล็อก save, dont't save, cancel
+                ipcRenderer.once("leave-reply", (event, res) => {
+                    if (res === 0) {
+                        //เลือก save as
+                        console.log("save as");
+                        toXML();
+                    }
+                    if (res === 1) {
+                        //เลือก don't save
+                        importFile();
+                    }
+                });
+            }
+        }
+        
     }
 
     function newFile() {
