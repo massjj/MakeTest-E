@@ -301,7 +301,7 @@
         let check = {
             status: 'wait'
         }
-        if (fileHandle !== null) {
+        if (fileHandle != null) {
             var onlyName = fileName[fileName.length - 1].split(".xml");
             cypress
                 .run({
@@ -389,63 +389,85 @@
         var xml = Blockly.Xml.workspaceToDom(workspace);
         var xmlText = Blockly.Xml.domToPrettyText(xml);
         //check ว่ามีการเปลี่ยนแปลงมั้ย dialog.showMessageBox()
-        ipcRenderer.send("file-compare", fileHandle, xmlText);
-        ipcRenderer.once("compare-reply", (event, status) => {
-            console.log(status);
-            if (status === false) {
-                //มีการเปลี่ยนแปลง
-                console.log("save dee");
-                ipcRenderer.send("modal-leave-from-import"); //เรียกไดอะล็อก save, dont't save, cancel
-                ipcRenderer.once("leave-import-reply", (event, res) => {
-                    if (res === 0) {
-                        //เลือก save
-                        console.log("re");
-                        ipcRenderer.send("update-file", xmlText, fileHandle);
-                        ipcRenderer.once("update-reply", (event, reply) => {
-                            if (reply) {
-                                console.log("show noti")
-                                window.createNotification({
-                                    closeOnClick: true,
-                                    displayCloseButton: false,
-                                    positionClass: 'nfc-top-right',
-                                    showDuration: 3000,
-                                    theme: 'success'
-                                })({
-                                    title: 'Save successfully',
-                                    message: 'The file has been succesfully saved'
-                                });
-                                importFile();
-                            }
-                        })
-                    }
-                });
-            }
-            if (status === 0) {
-                //ไม่เคยสร้างไฟล์มาก่อน
-                console.log(xmlText + "\n" + xmlInit);
-                if (xmlText === xmlInit) {
-                    importFile();
-                } else {
-                    console.log("create first");
-                    ipcRenderer.send("modal-leave-file"); //เรียกไดอะล็อก save, dont't save, cancel
-                    ipcRenderer.once("leave-reply", (event, res) => {
+        if (fileHandle != null) {
+            ipcRenderer.send("file-compare", fileHandle, xmlText);
+            ipcRenderer.once("compare-reply", (event, status) => {
+                console.log(status);
+                if (status === false) {
+                    //มีการเปลี่ยนแปลง
+                    console.log("save dee");
+                    ipcRenderer.send("modal-leave-from-import"); //เรียกไดอะล็อก save, dont't save, cancel
+                    ipcRenderer.once("leave-import-reply", (event, res) => {
                         if (res === 0) {
-                            //เลือก save as
-                            console.log("save as");
-                            toXML();
-                        }
-                        if (res === 1) {
-                            //เลือก don't save
-                            importFile();
+                            //เลือก save
+                            console.log("re");
+                            ipcRenderer.send("update-file", xmlText, fileHandle);
+                            ipcRenderer.once("update-reply", (event, reply) => {
+                                if (reply) {
+                                    console.log("show noti")
+                                    window.createNotification({
+                                        closeOnClick: true,
+                                        displayCloseButton: false,
+                                        positionClass: 'nfc-top-right',
+                                        showDuration: 3000,
+                                        theme: 'success'
+                                    })({
+                                        title: 'Save successfully',
+                                        message: 'The file has been succesfully saved'
+                                    });
+                                    importFile();
+                                }
+                            })
                         }
                     });
                 }
-            }
-            if (status === true) {
-                //ไม่มีการเปลี่ยนแปลง
+                if (status === 0) {
+                    //ไม่เคยสร้างไฟล์มาก่อน
+                    console.log(xmlText + "\n" + xmlInit);
+                    if (xmlText === xmlInit) {
+                        importFile();
+                    } else {
+                        console.log("create first");
+                        ipcRenderer.send("modal-leave-file"); //เรียกไดอะล็อก save, dont't save, cancel
+                        ipcRenderer.once("leave-reply", (event, res) => {
+                            if (res === 0) {
+                                //เลือก save as
+                                console.log("save as");
+                                toXML();
+                            }
+                            if (res === 1) {
+                                //เลือก don't save
+                                importFile();
+                            }
+                        });
+                    }
+                }
+                if (status === true) {
+                    //ไม่มีการเปลี่ยนแปลง
+                    importFile();
+                }
+            });
+        } else {
+            if (xmlText === xmlInit) {
+                // console.log('ff')
                 importFile();
+            } else {
+                // console.log("create first");
+                ipcRenderer.send("modal-leave-file"); //เรียกไดอะล็อก save, dont't save, cancel
+                ipcRenderer.once("leave-reply", (event, res) => {
+                    if (res === 0) {
+                        //เลือก save as
+                        console.log("save as");
+                        toXML();
+                    }
+                    if (res === 1) {
+                        //เลือก don't save
+                        importFile();
+                    }
+                });
             }
-        });
+        }
+
     }
 
     function newFile() {
