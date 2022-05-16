@@ -13,7 +13,11 @@
     <link rel="stylesheet" href="https://unpkg.com/tachyons@4.8.0/css/tachyons.min.css" />
     <link rel="stylesheet" href="./style/webView.css" />
     <link rel="stylesheet" href="./style/notifications.css" />
+    <link rel="stylesheet" href="./style/loader.css" />
     <script src="https://kit.fontawesome.com/ea3fb95b41.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenLite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/plugins/CSSPlugin.min.js"></script> -->
 
     <!-- blockly -->
     <!-- <script src="./node_modules/blockly/blockly_compressed.js"></script>
@@ -35,7 +39,11 @@
     <script src="./blocks/URL.js"></script>
     <script src="./blocks/XML.js"></script>
     <script src="./blocks/Expect.js"></script>
+    <script src="./blocks/Variable.js"></script>
+    <script src="./blocks/Variable_dynamic.js"></script>
     <script src="./blocks/custom-dialog.js"></script>
+
+
     <script src="./blocks/Advance/Text.js"></script>
     <script src="./blocks/Advance/Math.js"></script>
     <script src="./blocks/Advance/Time.js"></script>
@@ -43,6 +51,8 @@
     <script src="./blocks/Advance/Array.js"></script>
     <script src="./script/custom_renderer.js"></script>
     <script src="../node_modules/blockly/msg/en.js"></script>
+
+
 
     <!-- codemirror -->
     <script src="../node_modules/codemirror/lib/codemirror.js"></script>
@@ -54,10 +64,26 @@
         // cypress.open()
     </script>
     <script src="./script/notifications.js"></script>
+    <script src="./script/loader.js"></script>
 </head>
 <!-- Body  -->
 
 <body>
+
+    <div class="loader">
+        <div class="container">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+        </div>
+        <script>
+            window.addEventListener("load", function() {
+                const loader = document.querySelector(".loader");
+                loader.className += " hidden"; // class "loader hidden"
+            });
+        </script>
+    </div>
     <div class="app-bar">
         <nav class="tool-bar">
             <div style="width: 60%;">
@@ -79,82 +105,79 @@
                 </button>
             </div>
             <div style="width: 40%;">
-               <div id="location">
-                <p> | - </br>
-                    [ Location : - ]
-                </p>
-            </div> 
+                <div id="location">
+                    <p> | - </br>
+                        [ Location : - ]
+                    </p>
+                </div>
             </div>
         </nav>
     </div>
 
     <div class="main">
         <div class="layout-container">
-            <div style="width: 70%; height: 100%;" >
-                <div class="workspace-container" >
-                <div id="blocklyDiv"></div>
+            <div style="width: 70%; height: 100%;">
+                <div class="workspace-container">
+                    <div id="blocklyDiv"></div>
                 </div>
             </div>
             <div style="width: 30%;">
-               <div class="output">
-                <div class="webview-container">
-                    <div class="input-web">
-                        <input
-                            class="f6 f5-l input-reset bn fl black-80 bg-white pa3 lh-solid w-60 w-75-m w-80-l br2-ns br--left-ns"
-                            value="https://www.github.com" type="url" id="URL" />
-                        <button
-                            class="f6 f5-l button-reset fl pv3 tc bn bg-black hover-bg-green white pointer w-100 w-25-m w-20-l br2-ns br--right-ns"
-                            type="submit" id="submit" onclick="getUrl()">
+                <div class="output">
+                    <div class="webview-container">
+                        <div class="input-web">
+                            <input class="f6 f5-l input-reset bn fl black-80 bg-white pa3 lh-solid w-60 w-75-m w-80-l br2-ns br--left-ns" value="https://www.github.com" type="url" id="URL" />
+                            <button class="f6 f5-l button-reset fl pv3 tc bn bg-black hover-bg-green white pointer w-100 w-25-m w-20-l br2-ns br--right-ns" type="submit" id="submit" onclick="getUrl()">
                             <i class="fa-solid fa-magnifying-glass"></i>
                             search
                         </button>
-                    </div>
-                    <div class="webview-c">
-                        <webview id="foo" src="https://www.github.com" preload="script/selector.js" disableguestresize>
-                        </webview>
-                    </div>
-                    <div class="selector-container" id="selector-container">
-                        <button id="selector-button" value="selector : OFF" class="selector w3-button w3-border"
-                            style="background-color: #eeeefa" onclick="Buttontoggle();">
+                        </div>
+                        <div class="webview-c">
+                            <webview id="foo" src="https://www.github.com" preload="script/selector.js" disableguestresize>
+                            </webview>
+                        </div>
+                        <div class="selector-container" id="selector-container">
+                            <button id="selector-button" value="selector : OFF" class="selector w3-button w3-border" style="background-color: #eeeefa" onclick="Buttontoggle();">
                             <img id="selector-img" src="./assets/image/Selector.svg" width="23" />
                             selector
                         </button>
-                        <!-- <input type="button" style="background-color: #EEEEFA ;" value="selector : OFF" id="selector-button" class="selector w3-button w3-border" aria-pressed="false" onclick="Buttontoggle();"> -->
-                        <script>
-                            function getUrl() {
-                                let message = document.getElementById("URL").value;
+                            <!-- <input type="button" style="background-color: #EEEEFA ;" value="selector : OFF" id="selector-button" class="selector w3-button w3-border" aria-pressed="false" onclick="Buttontoggle();"> -->
+                            <script>
+                                function getUrl() {
+                                    let message = document.getElementById("URL").value;
 
-                                console.log(message);
-                                //check url
-                                if (message.includes("http\:\/\/", 0)) {
-                                    document.getElementById("foo").src = message;
-                                    document.getElementById("URL").value = message;
-                                } else if (message.includes("https\:\/\/", 0)) {
-                                    document.getElementById("foo").src = message;
-                                    document.getElementById("URL").value = message;
-                                    //   this.url = message;
-                                    //   this.message = message;
-                                } else {
-                                    let suffix = "https\:\/\/";
-                                    document.getElementById("foo").src = suffix.concat(message);
-                                    document.getElementById("URL").value =
-                                        suffix.concat(message);
+                                    console.log(message);
+                                    //check url
+                                    if (message.includes("http\:\/\/", 0)) {
+                                        document.getElementById("foo").src = message;
+                                        document.getElementById("URL").value = message;
+                                    } else if (message.includes("https\:\/\/", 0)) {
+                                        document.getElementById("foo").src = message;
+                                        document.getElementById("URL").value = message;
+                                        //   this.url = message;
+                                        //   this.message = message;
+                                    } else {
+                                        let suffix = "https\:\/\/";
+                                        document.getElementById("foo").src = suffix.concat(message);
+                                        document.getElementById("URL").value =
+                                            suffix.concat(message);
+                                    }
+                                    // this.message = this.url;
                                 }
-                                // this.message = this.url;
-                            }
-                        </script>
-                        <!-- </input> -->
+                            </script>
+                            <!-- </input> -->
+                        </div>
+                    </div>
+                    <div class="codeDiv">
+                        <textarea id="showCode"></textarea>
+                        <script type="text/javascript" src="./script/showcode.js"></script>
                     </div>
                 </div>
-                <div class="codeDiv">
-                    <textarea id="showCode"></textarea>
-                    <script type="text/javascript" src="./script/showcode.js"></script>
-                </div>
-            </div> 
             </div>
-            
+
         </div>
     </div>
+    <script>
+    </script>
 </body>
 <xml id="starter">
     <block type="_001" deletable="false" movable="false" x="88" y="88">
@@ -172,6 +195,7 @@
     } = require("electron");
     let fileHandle = null;
     let fileName = null;
+    const loader = document.querySelector(".loader");
 
     ipcRenderer.on('send-function', (event, toDo) => {
         switch (toDo) {
@@ -193,8 +217,8 @@
             case 'undo':
                 var current = Blockly.Xml.workspaceToDom(workspace);
                 var currentText = Blockly.Xml.domToPrettyText(current);
-                if(currentText!==xmlInit){
-                   workspace.undo(false); 
+                if (currentText !== xmlInit) {
+                    workspace.undo(false);
                 }
                 break;
             case 'redo':
@@ -255,7 +279,7 @@
         codeTosave = code;
         var current = Blockly.Xml.workspaceToDom(workspace);
         var currentText = Blockly.Xml.domToPrettyText(current);
-        if(currentText===xmlInit){
+        if (currentText === xmlInit) {
             workspace.clearUndo();
         }
     }
@@ -265,7 +289,7 @@
         if (fileHandle !== null) {
             fileName = fileHandle.split("\\");
             document.getElementById("location").innerHTML = '<p> | ' + fileName[fileName.length - 1] + `</br>
-                [ Location : `+ fileHandle + ` ]
+                [ Location : ` + fileHandle + ` ]
             </p>`
             console.log("change location");
         }
@@ -274,77 +298,91 @@
     function runFile() {
         var path = require("path");
         console.log("in running process !!");
-        if(fileHandle!==null){
-            var onlyName =  fileName[fileName.length - 1].split(".xml");
+        let check = {
+            status: 'wait'
+        }
+        if (fileHandle !== null) {
+            var onlyName = fileName[fileName.length - 1].split(".xml");
             cypress
-            .run({
-                // the path is relative to the current working directory
-                headed: true,
-                spec: "./cypress/integration/"+onlyName[0]+".spec.js",
-                exit: false,
-            })
-            .then((results) => {
-                console.log(results);
-            })
-            .catch((err) => {
-                console.error(err);
-            });
+                .run({
+                    // the path is relative to the current working directory
+                    headed: true,
+                    spec: "./cypress/integration/" + onlyName[0] + ".spec.js",
+                    exit: true,
+                })
+                .then((results) => {
+                    console.log("Yes: ", results);
+                    check.status = 'receive';
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
+
+        } else {
+            cypress
+                .run({
+                    // the path is relative to the current working directory
+                    headed: true,
+                    spec: "./cypress/integration/buffer.spec.js",
+                    exit: false,
+                })
+                .then((results) => {
+                    // console.log('2. run complete', results);
+
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
+
         }
-        else{
-           cypress
-            .run({
-                // the path is relative to the current working directory
-                headed: true,
-                spec: "./cypress/integration/buffer.spec.js",
-                exit: false,
-            })
-            .then((results) => {
-                console.log(results);
-            })
-            .catch((err) => {
-                console.error(err);
-            }); 
-        }
-        
+        interval = window.setInterval(function() {
+            if (check.status === 'receive') {
+                loader.className += " hidden";
+                check.status = 'wait';
+            }
+        }, 100)
     }
+
 
     function toSpecFile() {
         const path = require("path");
         const fs = require("fs");
-        if(fileName!=null){
-          var onlyName =  fileName[fileName.length - 1].split(".xml");
-          fs.writeFile(
-            "./cypress/integration/"+onlyName[0]+".spec.js",
-            codeTosave,
-            function (err) {
-                if (err) {
-                    throw err;
-                    console.log("Cancelled");
-                } else {
-                    console.log("Saved!");
-                    runFile();
-                    //alert("Successfully Saved !");
-                }
-            }
-        );  
-        }
-        else{
+        if (fileName != null) {
+            var onlyName = fileName[fileName.length - 1].split(".xml");
             fs.writeFile(
-            "./cypress/integration/buffer.spec.js",
-            codeTosave,
-            function (err) {
-                if (err) {
-                    throw err;
-                    console.log("Cancelled");
-                } else {
-                    console.log("Saved!");
-                    runFile();
-                    //alert("Successfully Saved !");
+                "./cypress/integration/" + onlyName[0] + ".spec.js",
+                codeTosave,
+                function(err) {
+                    if (err) {
+                        throw err;
+                        console.log("Cancelled");
+                    } else {
+                        console.log("Saved!");
+                        // runFile();
+                        loader.className += "show"; // class "loader hidden"
+                        console.log("run: ", runFile())
+
+                    }
                 }
-            }
-        );  
+            );
+        } else {
+            fs.writeFile(
+                "./cypress/integration/buffer.spec.js",
+                codeTosave,
+                function(err) {
+                    if (err) {
+                        throw err;
+                        console.log("Cancelled");
+                    } else {
+                        console.log("Saved!");
+                        // runFile();
+                        console.log("run: ", runFile())
+                            //alert("Successfully Saved !");
+                    }
+                }
+            );
         }
-        
+
     }
 
     function openFile() {
@@ -454,7 +492,7 @@
             });
         }
         //ไม่เคยสร้างไฟล์มาก่อน
-       else {
+        else {
             if (xmlText === xmlInit) {
                 // console.log('ff')
                 createNew();
@@ -609,8 +647,7 @@
                 fileHandle = arg.filePath;
                 showLocation();
                 // document.getElementById('location').value = fileHandle; 
-            }
-            else {
+            } else {
                 window.createNotification({
                     closeOnClick: true,
                     displayCloseButton: false,
@@ -683,7 +720,7 @@
 
         console.log("----Start selector----");
 
-        interval = window.setInterval(function () {
+        interval = window.setInterval(function() {
             if (element.status === "return_element") {
                 var xmlText =
                     `
@@ -701,7 +738,7 @@
             }
         }, 100);
     }
-    workspace.addChangeListener(function () {
+    workspace.addChangeListener(function() {
         console.log("Now on " + fileHandle);
     });
 </script>

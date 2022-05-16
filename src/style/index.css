@@ -37,3 +37,7 @@ body {
     height: 52vh;
     /* width: calc(500- 900);  */
 }
+
+#location {
+    font-size: small;
+}

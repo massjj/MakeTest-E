@@ -1,9 +1,36 @@
 <xml xmlns="https://developers.google.com/blockly/xml">
-  <block type="_001" id="M@^0KXQE6+~IqP?e6z*l" x="88" y="88">
+  <block type="_001" id="OsA~8yISgt[|}Q**2Zm(" deletable="false" movable="false" x="88" y="88">
     <value name="DESCRIBE_TEXT">
-      <shadow type="text" id="+oZf@+{/#(5Ff]jWqwgL">
-        <field name="TEXT"></field>
+      <shadow type="text" id="s3o6x7aF!:Nl(w,$#G?z">
+        <field name="TEXT">asd</field>
       </shadow>
     </value>
+    <statement name="IT">
+      <block type="_002" id="md86ewY[8!+FzJnj]D*1">
+        <value name="IT_TEXT">
+          <shadow type="text" id="~6pjwQmSdDltL:2.x`I#">
+            <field name="TEXT">asd</field>
+          </shadow>
+        </value>
+        <statement name="ACTION">
+          <block type="_040" id="Ad#{??;_lk}S/+6bmDt(">
+            <value name="VISIT_TEXT">
+              <shadow type="text" id="qlyoqlg(UzIxP][?M.cN">
+                <field name="TEXT">https://www.github.com</field>
+              </shadow>
+            </value>
+            <next>
+              <block type="_040" id="bp7n$aZ}-kIK4VhT:K|L">
+                <value name="VISIT_TEXT">
+                  <shadow type="text" id="5s5ZVXt!7=`jGi|#D3[G">
+                    <field name="TEXT">https://developers.google.com/blockly/</field>
+                  </shadow>
+                </value>
+              </block>
+            </next>
+          </block>
+        </statement>
+      </block>
+    </statement>
   </block>
 </xml>

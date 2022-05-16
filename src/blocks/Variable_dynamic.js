@@ -1,19 +1,19 @@
 Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
     // Block for variable getter.
-    // {
-    //     "type": "variables_get_dynamic",
-    //     "message0": "%1",
-    //     "args0": [{
-    //         "type": "field_variable",
-    //         "name": "VAR",
-    //         "variable": "item"
-    //     }],
-    //     "output": null,
-    //     "style": "variable_dynamic_blocks",
-    //     "helpUrl": "",
-    //     "tooltip": "",
-    //     "extensions": ["contextMenu_variableDynamicSetterGetter"]
-    // },
+    {
+        "type": "variables_get_dynamic",
+        "message0": "%1",
+        "args0": [{
+            "type": "field_variable",
+            "name": "VAR",
+            "variable": "item"
+        }],
+        "output": "Var",
+        "style": "variable_dynamic_blocks",
+        "helpUrl": "",
+        "tooltip": "",
+        "extensions": ["contextMenu_variableDynamicSetterGetter"]
+    },
     // Block for variable setter.
     {
         "type": "variables_set_dynamic",
@@ -28,8 +28,8 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
                 "name": "VALUE"
             }
         ],
-        "previousStatement": null,
-        "nextStatement": null,
+        "previousStatement": "Action",
+        "nextStatement": "Action",
         "style": "variable_dynamic_blocks",
         "tooltip": "",
         "helpUrl": "",
