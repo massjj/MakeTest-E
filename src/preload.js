@@ -9,11 +9,11 @@ window.addEventListener('DOMContentLoaded', () => {
         if (element) element.innerText = text
     }
 
-    for (const dependency of['chrome', 'node', 'electron']) {
+    for(const dependency of ['chrome', 'node', 'electron']) {
         replaceText(`${dependency}-version`, process.versions[dependency])
     }
 })
 
-// contextBridge.exposeInMainWorld('api', {
-//     openDialog: (method, config) => ipcRenderer.invoke('dialog', method, config)
-//   });
+    
+  
+

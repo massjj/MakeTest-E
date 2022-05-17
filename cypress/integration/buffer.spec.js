@@ -1,5 +1,7 @@
-describe('x' , () => {
-  it('x', () => {
-    cy.visit('https://www.github.com')
+describe('' , () => {
+  it('', () => {
+    cy.visit('')
+  })
+  it('', () => {
   })
 })

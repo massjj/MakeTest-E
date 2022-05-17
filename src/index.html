@@ -82,11 +82,11 @@
             window.addEventListener("load", function () {
                 const loader = document.querySelector(".loader");
                 loader.className += " hidden"; // class "loader hidden"
-                if (!fs.existsSync("./isFirstTime.txt")){
+                if (!fs.existsSync("./isFirstTime.txt")) {
                     ipcRenderer.send("first-time");
                 }
             });
-            
+
         </script>
     </div>
     <div class="app-bar">
@@ -225,16 +225,28 @@
             case 'run':
                 toSpecFile();
                 break;
-            case 'undo':
-                var current = Blockly.Xml.workspaceToDom(workspace);
-                var currentText = Blockly.Xml.domToPrettyText(current);
-                if (currentText !== xmlInit) {
-                    workspace.undo(false);
-                }
+            case 'exit':
+                beforeExit();
+                console.log("exit")
+            // event.reply('function-reply',beforeExit());
                 break;
-            case 'redo':
-                workspace.undo(true);
-                break;
+            // case 'undo':
+            //     var current = Blockly.Xml.workspaceToDom(workspace);
+            //     var currentText = Blockly.Xml.domToPrettyText(current);
+            //     if (currentText !== xmlInit) {
+            //         workspace.undo(false);
+            //     }
+            //     break;
+            // case 'redo':
+            //     workspace.undo(true);
+            //     break;
+            // case 'copy':
+            //     console.log('copy')
+            //     Blockly.clipboard.copy();
+            //     break;
+            // case 'paste':
+            //     Blockly.clipboard.paste();
+            //     break;
             case 'cypress':
                 cypress.open();
 
@@ -318,7 +330,7 @@
                     // the path is relative to the current working directory
                     headed: true,
                     spec: "./cypress/integration/" + onlyName[0] + ".spec.js",
-                    exit: false,
+                    exit: false
                 })
                 .then((results) => {
                     console.log("Yes: ", results.status);
@@ -334,30 +346,29 @@
                     // the path is relative to the current working directory
                     headed: true,
                     spec: "./cypress/integration/buffer.spec.js",
-                    exit: false,
+                    exit: false
                 })
                 .then((results) => {
                     console.log("Yes: ", results.status);
                     check.status = 'receive';
 
-                    })
-                    .catch((err) => {
-                        console.error(err);
-                    });
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
 
         }
 
         setTimeout(() => {
             loader.className += " hidden";
             check.status = 'wait';
-        }, 60000)
+        }, 30000)
     }
 
 
     function toSpecFile() {
         const path = require("path");
-        
-           if (fileName != null) {
+        if (fileName != null) {
             var onlyName = fileName[fileName.length - 1].split(".xml");
             fs.writeFile(
                 "./cypress/integration/" + onlyName[0] + ".spec.js",
@@ -391,7 +402,7 @@
                     }
                 }
             );
-        } 
+        }
     }
 
     function openFile() {
@@ -476,7 +487,6 @@
                 });
             }
         }
-
     }
 
     function newFile() {
@@ -770,9 +780,77 @@
             }
         }, 100);
     }
-    workspace.addChangeListener(function () {
-        console.log("Now on " + fileHandle);
-    });
+
+    function beforeExit() {
+        var xml = Blockly.Xml.workspaceToDom(workspace);
+        var xmlText = Blockly.Xml.domToPrettyText(xml);
+        //check ว่ามีการเปลี่ยนแปลงมั้ย dialog.showMessageBox()
+        if (fileHandle != null) {
+            ipcRenderer.send("file-compare", fileHandle, xmlText);
+            ipcRenderer.once("compare-reply", (event, status) => {
+                console.log(status);
+                if (status == false) {
+                    //มีการเปลี่ยนแปลง
+                    console.log("save dee");
+                    ipcRenderer.send("modal-before-exit", fileHandle); //เรียกไดอะล็อก save, dont't save, cancel
+                    ipcRenderer.once("exit-reply", (event, res) => {
+                        if (res == 0) {
+                            //เลือก save
+                            console.log("re");
+                            ipcRenderer.send("update-file", xmlText, fileHandle);
+                            ipcRenderer.once("update-reply", (event, reply) => {
+                                if (reply) {
+                                    console.log("show noti")
+                                    window.createNotification({
+                                        closeOnClick: true,
+                                        displayCloseButton: false,
+                                        positionClass: 'nfc-top-right',
+                                        showDuration: 3000,
+                                        theme: 'success'
+                                    })({
+                                        title: 'Save successfully',
+                                        message: 'The file has been succesfully saved'
+                                    });
+                                }
+                            })
+                        }
+                        if (res == 1) {
+                            //เลือก save as
+                            toXML();
+                            
+                        }
+                        else{
+                            ipcRenderer.send("function-reply",true)
+                        }
+                    });
+                }
+                if (status === true) {
+                    //ไม่มีการเปลี่ยนแปลง
+                    ipcRenderer.send("function-reply",true)  
+                }
+            });
+        } else {
+            if (xmlText === xmlInit) {
+                // console.log('ff')
+                ipcRenderer.send("function-reply",true)    
+            } else {
+                console.log("create first");
+                ipcRenderer.send("modal-before-exit"); //เรียกไดอะล็อก save, dont't save, cancel
+                ipcRenderer.once("exit-reply", (event, res) => {
+                    if (res === 0) {
+                        //เลือก save as
+                        console.log("save as");
+                        toXML();
+                        
+                    }
+                    else{
+                        ipcRenderer.send("function-reply",true)
+                    }   
+                });
+            }
+        }  
+    }
+
 </script>
 
 </html>
