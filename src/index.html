@@ -77,12 +77,13 @@
             <div class="shape shape-3"></div>
             <div class="shape shape-4"></div>
         </div>
-        <script>
-            window.addEventListener("load", function() {
-                const loader = document.querySelector(".loader");
-                loader.className += " hidden"; // class "loader hidden"
-            });
-        </script>
+    </div>
+    <script>
+        window.addEventListener("load", function() {
+            const loader = document.querySelector(".loader");
+            loader.className += " hidden"; // class "loader hidden"
+        });
+    </script>
     </div>
     <div class="app-bar">
         <nav class="tool-bar">
@@ -334,13 +335,19 @@
                 .catch((err) => {
                     console.error(err);
                 });
-
         }
+        interval = window.setInterval(function() {
+            setTimeout(() => {
+                // var text = document.createTextNode("This just got added");
+                check.status = 'wait';
+                document.addEventListener('click', () => {
+                    document.getElementById("p").textContent += " Click to close";
+                    loader.className += " hidden";
 
-        setTimeout(() => {
-            loader.className += " hidden";
-            check.status = 'wait';
-        }, 60000)
+                })
+            }, 10000)
+        }, 10000)
+
     }
 
 
