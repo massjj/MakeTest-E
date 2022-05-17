@@ -77,13 +77,16 @@
             <div class="shape shape-3"></div>
             <div class="shape shape-4"></div>
         </div>
-    </div>
-    <script>
-        window.addEventListener("load", function() {
-            const loader = document.querySelector(".loader");
-            loader.className += " hidden"; // class "loader hidden"
-        });
-    </script>
+        <script>
+            const fs = require("fs");
+            window.addEventListener("load", function() {
+                const loader = document.querySelector(".loader");
+                loader.className += " hidden"; // class "loader hidden"
+                if (!fs.existsSync("./isFirstTime.txt")) {
+                    ipcRenderer.send("first-time");
+                }
+            });
+        </script>
     </div>
     <div class="app-bar">
         <nav class="tool-bar">
@@ -128,9 +131,9 @@
                         <div class="input-web">
                             <input class="f6 f5-l input-reset bn fl black-80 bg-white pa3 lh-solid w-60 w-75-m w-80-l br2-ns br--left-ns" value="https://www.github.com" type="url" id="URL" />
                             <button class="f6 f5-l button-reset fl pv3 tc bn bg-black hover-bg-green white pointer w-100 w-25-m w-20-l br2-ns br--right-ns" type="submit" id="submit" onclick="getUrl()">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                            search
-                        </button>
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                search
+                            </button>
                         </div>
                         <div class="webview-c">
                             <webview id="foo" src="https://www.github.com" preload="script/selector.js" disableguestresize>
@@ -138,9 +141,9 @@
                         </div>
                         <div class="selector-container" id="selector-container">
                             <button id="selector-button" value="selector : OFF" class="selector w3-button w3-border" style="background-color: #eeeefa" onclick="Buttontoggle();">
-                            <img id="selector-img" src="./assets/image/Selector.svg" width="23" />
-                            selector
-                        </button>
+                                <img id="selector-img" src="./assets/image/Selector.svg" width="23" />
+                                selector
+                            </button>
                             <!-- <input type="button" style="background-color: #EEEEFA ;" value="selector : OFF" id="selector-button" class="selector w3-button w3-border" aria-pressed="false" onclick="Buttontoggle();"> -->
                             <script>
                                 function getUrl() {
@@ -181,7 +184,7 @@
     </script>
 </body>
 <xml id="starter">
-    <block type="_001" deletable="false" movable="false" x="88" y="88">
+    <block type="_001" deletable="false" x="88" y="88">
         <value name="DESCRIBE_TEXT">
             <shadow type="text">
                 <field name="TEXT"></field>
@@ -297,7 +300,6 @@
     }
 
     function runFile() {
-        var path = require("path");
         console.log("in running process !!");
         let check = {
             status: 'wait'
@@ -353,7 +355,7 @@
 
     function toSpecFile() {
         const path = require("path");
-        const fs = require("fs");
+
         if (fileName != null) {
             var onlyName = fileName[fileName.length - 1].split(".xml");
             fs.writeFile(
@@ -389,7 +391,6 @@
                 }
             );
         }
-
     }
 
     function openFile() {
@@ -499,13 +500,14 @@
                                 //เลือก save
                                 console.log("re");
                                 ipcRenderer.send("update-file", xmlText, fileHandle);
-                                Blockly.Events.disable();
-                                workspace.clear();
-                                Blockly.Events.enable();
-                                Blockly.Xml.domToWorkspace(
-                                    document.getElementById("starter"),
-                                    workspace
-                                );
+                                // Blockly.Events.disable();
+                                // workspace.clear();
+                                // Blockly.Events.enable();
+                                // Blockly.Xml.domToWorkspace(
+                                //     document.getElementById("starter"),
+                                //     workspace
+                                // );
+                                createNew();
                             }
                             if (res === 1) {
                                 //เลือก don't save
