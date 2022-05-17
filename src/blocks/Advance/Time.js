@@ -42,7 +42,7 @@ Blockly.defineBlocksWithJsonArray([{
 Blockly.JavaScript['_075'] = function(block) {
     var value_time = Blockly.JavaScript.valueToCode(block, 'TIME', Blockly.JavaScript.ORDER_NONE);
     // TODO: Assemble JavaScript into code variable.
-    var code = 'cy.wait(' + value_time + ')';
+    var code = '\ncy.wait(' + value_time + ')';
     return code;
 };
 
@@ -50,6 +50,6 @@ Blockly.JavaScript['_076'] = function(block) {
     var value_name = Blockly.JavaScript.valueToCode(block, 'TIME', Blockly.JavaScript.ORDER_ATOMIC);
     var statements_name = Blockly.JavaScript.statementToCode(block, 'TIME_ACTION');
     // TODO: Assemble JavaScript into code variable.
-    var code = 'cy.clock().then((clock) => {' + statements_name + '\nclock.time(' + value_name + ')' + '\n})';
+    var code = '\ncy.clock().then((clock) => {' + statements_name + '\nclock.time(' + value_name + ')' + '\n})';
     return code;
 };

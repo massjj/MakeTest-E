@@ -472,7 +472,7 @@ Blockly.Blocks['_013'] = {
         if (Input) {
             if (!inputExists) {
                 this.appendValueInput('CONTAIN')
-                    .setCheck(['Number', 'String']);
+                    .setCheck(['Number', 'String', 'Var']);
             }
         } else if (inputExists) {
             this.removeInput('CONTAIN');
