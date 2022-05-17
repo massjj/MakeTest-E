@@ -3,8 +3,6 @@
 const { app, BrowserWindow, Menu, dialog, ipcMain } = require("electron");
 const path = require("path");
 const fs = require("fs");
-const cypress = require("cypress");
-
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -75,10 +73,8 @@ const createWindow = () => {
           },
         },
         { type: "separator" },
-        { role: "cut" },
-        { role: "copy" },
-        { role: "paste" },
-        { role: "delete" },
+        { role: "copy"},
+        { role: "paste" }
       ],
     },
     // { role: 'viewMenu' }
@@ -412,6 +408,67 @@ const createWindow = () => {
       });
   });
 
+  ipcMain.on("modal-before-exit", (event, fileHandle) => {
+    //new file โดยที่ยังไม่เคย import
+    if(fileHandle!=null){
+      dialog
+      .showMessageBox(mainWindow, {
+        type: "question",
+        icon: "M-Logo-Whi.ico",
+        buttons: ["&Save", "&Save as", "&Exit"],
+        title: "Save or Save As",
+        message: "Do you want to save or save as before you quit?",
+        detail: "Your work will be lost if you didn't save them.",
+        noLink: true,
+        cancelId: 2,
+      })
+      .then((data) => {
+        console.log(data.response);
+        switch (data.response) {
+          //save 
+          case 0:
+            event.reply("exit-reply", 0);
+            break;
+          //save as
+          case 1:
+            event.reply("exit-reply", 1);
+            break;
+          //exit
+          case 2:
+            event.reply("exit-reply", 2);
+            break;
+        }
+      });
+    }
+    else{
+      dialog
+      .showMessageBox(mainWindow, {
+        type: "question",
+        icon: "M-Logo-Whi.ico",
+        buttons: ["&Save as", "&Exit"],
+        title: "Save As",
+        message: "Do you want to save as before you quit?",
+        detail: "Your work will be lost if you didn't save them.",
+        noLink: true,
+        cancelId: 1,
+      })
+      .then((data) => {
+        console.log(data.response);
+        switch (data.response) {
+          //save as
+          case 0:
+            event.reply("exit-reply", 0);
+            break;
+          //exit
+          case 1:
+            event.reply("exit-reply", 1);
+            break;
+        }
+      });
+    }
+    
+  });
+
   ipcMain.on("file-compare", (event, pathFile, xmlText) => {
     if (pathFile !== null) {
       fs.readFile(pathFile, "utf-8", function (err, data) {
@@ -458,6 +515,33 @@ const createWindow = () => {
       }}
     )
   })
+
+  mainWindow.on('close', e => { // Line 49
+    e.preventDefault()
+    mainWindow.webContents.send("send-function","exit");
+    ipcMain.on("function-reply",(event, func)=>{
+      if(func){
+        mainWindow.destroy()
+        app.quit()
+      }
+    })
+    
+    // dialog.showMessageBox(mainWindow, {
+    //   type: 'info',
+    //   buttons: ['Ok', 'Exit'],
+    //   cancelId: 1,
+    //   defaultId: 0,
+    //   noLink: true,
+    //   title: 'Warning',
+    //   detail: 'Hey, wait! There\'s something you should know...'
+    // }).then(({ response, checkboxChecked }) => {
+    //   console.log(`response: ${response}`)
+    //   if (response) {
+    //     mainWindow.destroy()
+    //     app.quit()
+    //   }
+    // })
+  })
 };
 
 
@@ -466,20 +550,23 @@ const createWindow = () => {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   createWindow();
- 
-
+  
   app.on("activate", () => {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
+
+  
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") app.quit();
+  if (process.platform !== "darwin"){
+    app.quit();
+  } 
 });
 
 // In this file you can include the rest of your app's specific main process
