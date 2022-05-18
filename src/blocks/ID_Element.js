@@ -105,7 +105,7 @@ Blockly.defineBlocksWithJsonArray([{
             {
                 "type": "input_value",
                 "name": "ELEMENT_MATCHCASE",
-                "check": "String"
+                "check": ["String", "Var"]
             }
         ],
         "inputsInline": true,

@@ -4,544 +4,530 @@ const { app, BrowserWindow, Menu, dialog, ipcMain } = require("electron");
 const path = require("path");
 const fs = require("fs");
 const createWindow = () => {
-  // Create the browser window.
-  const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
-    webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false,
-      webviewTag: true,
-      enableRemoteModule: true,
-      preload: path.join(__dirname, "preload.js"),
-    },
-  });
-
-  const mainMenuTemplate = [
-    {
-      label: "File",
-      submenu: [
-        {
-          label: "New File",
-          accelerator: "Ctrl+N",
-          click: async () => {
-            mainWindow.webContents.send("send-function", "new file");
-          },
+    // Create the browser window.
+    const mainWindow = new BrowserWindow({
+        width: 800,
+        height: 600,
+        webPreferences: {
+            nodeIntegration: true,
+            contextIsolation: false,
+            webviewTag: true,
+            enableRemoteModule: true,
+            preload: path.join(__dirname, "preload.js"),
         },
-        {
-          label: "Open File",
-          accelerator: "Ctrl+O",
-          click: async () => {
-            mainWindow.webContents.send("send-function", "open file");
-          },
-        },
-        { type: "separator" },
-        {
-          label: "Save",
-          accelerator: "Ctrl+S",
-          click: async () => {
-            mainWindow.webContents.send("send-function", "save");
-          },
-        },
-        {
-          label: "Save As",
-          accelerator: "Ctrl+Shift+S",
-          click: async () => {
-            mainWindow.webContents.send("send-function", "save as");
-          },
-        },
-        { type: "separator" },
-        { role: "quit" },
-      ],
-    },
-    // { role: 'editMenu' }
-    {
-      label: "Edit",
-      submenu: [
-        {
-          label: "Undo",
-          accelerator: "Ctrl+Z",
-          click: async () => {
-            mainWindow.webContents.send("send-function", "undo");
-          },
-        },
-        {
-          label: "Redo",
-          accelerator: "Ctrl+Y",
-          click: async () => {
-            mainWindow.webContents.send("send-function", "redo");
-          },
-        },
-        { type: "separator" },
-        { role: "copy"},
-        { role: "paste" }
-      ],
-    },
-    // { role: 'viewMenu' }
-    {
-      label: "View",
-      submenu: [
-        { role: "reload" },
-        { role: "forceReload" },
-        { type: "separator" },
-        { role: 'toggleDevTools' },
-        { role: "togglefullscreen" },
-      ],
-    },
-    // { role: 'windowMenu' }
-    {
-      label: "Run",
-      submenu: [
-        {
-          label: "Run",
-          accelerator: "F5",
-          click: async () => {
-            mainWindow.webContents.send("send-function", "run");
-          },
-        },
-        {
-          label: "Run As Selecting",
-          accelerator: "Ctrl+F5",
-          click: async () => {
-            mainWindow.webContents.send("send-function", "cypress");
-          },
-        },
-      ],
-    },
-    {
-      role: "help",
-      submenu: [
-        {
-          label: "Learn More",
-          click: async () => {
-            const { shell } = require("electron");
-            await shell.openExternal("https://electronjs.org");
-          },
-        },
-      ],
-    },
-  ];
-  const mainMenu = Menu.buildFromTemplate(mainMenuTemplate);
-  Menu.setApplicationMenu(mainMenu);
-
-  mainWindow.maximize();
-
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
-
-  // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, "index.html"));
-
-  let fileHandle;
-
-  // for saving xml file
-  ipcMain.on("save-file-as", (event, content) => {
-    dialog
-      .showSaveDialog(mainWindow, {
-        title: "Save file as",
-        defaultPath: path.join(__dirname, ".../MakeTest.xml"),
-        buttonLabel: "Save",
-        // Restricting the user to only Text Files.
-        filters: [
-          {
-            name: "XML files",
-            extensions: ["xml"],
-          },
-        ],
-        properties: [],
-        cancelId: "cancel",
-      })
-      .then((file) => {
-        // Stating whether dialog operation was cancelled or not.
-        console.log(file.canceled);
-        if (!file.canceled) {
-          console.log(file.filePath.toString());
-          // Creating and Writing to the sample.txt file
-          fs.writeFile(file.filePath.toString(), content, function (err) {
-            if (err) throw err;
-            console.log("Saved!");
-            fileHandle = file.filePath.toString();
-            fileData = {
-              filePath: fileHandle,
-              response: true,
-            };
-            console.log("1 " + fileHandle);
-            event.reply("save-as-reply", fileData);
-          });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        fileData = {
-          filePath: fileHandle,
-          response: err,
-        };
-        event.reply("save-as-reply", fileData);
-      });
-  });
-
-  ipcMain.on("create-new", (event, content) => {
-    dialog
-      .showSaveDialog(mainWindow, {
-        title: "Create new file",
-        defaultPath: path.join(__dirname, ".../MakeTest.xml"),
-        buttonLabel: "Create",
-        // Restricting the user to only Text Files.
-        filters: [
-          {
-            name: "XML files",
-            extensions: ["xml"],
-          },
-        ],
-        properties: [],
-        cancelId: true,
-      })
-      .then((file) => {
-        // Stating whether dialog operation was cancelled or not.
-        console.log(file.canceled);
-        if (!file.canceled) {
-          console.log(file.filePath.toString());
-          // Creating and Writing to the sample.txt file
-          fs.writeFile(file.filePath.toString(), content, function (err) {
-            if (err) throw err;
-            console.log("file created!");
-            fileHandle = file.filePath.toString();
-            fileData = {
-              filePath: fileHandle,
-              response: file.canceled,
-            };
-            event.reply("create-reply", fileData);
-          });
-        } else {
-          fileData = {
-            filePath: fileHandle,
-            response: file.canceled,
-          };
-          event.reply("create-reply", fileData);
-        }
-      })
-      .catch((err) => {
-        fileData = {
-          filePath: fileHandle,
-          response: err,
-        };
-        event.reply("create-reply", fileData);
-        console.log(err);
-      });
-  });
-
-  ipcMain.on("update-file", (event, content, fileHandle) => {
-    fs.writeFile(fileHandle, content, (err) => {
-      if (err) {
-        // alert("An error ocurred updating the file" + err.message);
-        console.log(err);
-        event.reply("update-reply", err);
-      } else {
-        console.log("The file has been succesfully saved");
-        event.reply("update-reply", true);
-      }
     });
-  });
 
-  ipcMain.on("import-file", (event) => {
-    dialog
-      .showOpenDialog(mainWindow, {
-        title: "Import file",
-        // defaultPath: path.join(__dirname, '.../'),
-        buttonLabel: "Open",
-        // Restricting the user to only Text Files.
-        filters: [
-          {
-            name: "XML files",
-            extensions: ["xml"],
-          },
-        ],
-        properties: [],
-        cancelId: "cancel",
-      })
-      .then((file) => {
-        // Stating whether dialog operation was cancelled or not.
-        console.log(file.canceled);
-        if (!file.canceled) {
-          console.log(file.filePaths.toString());
-          // Creating and Writing to the sample.txt file
-          fs.readFile(file.filePaths.toString(), "utf-8", function (err, data) {
-            if (err) throw err;
-            console.log("Import success!");
-            fileHandle = file.filePaths.toString();
-            fileData = {
-              text: data,
-              filePath: fileHandle,
-              response: true,
-            };
-            event.reply("import-reply", fileData);
-          });
+    const mainMenuTemplate = [{
+            label: "File",
+            submenu: [{
+                    label: "New File",
+                    accelerator: "Ctrl+N",
+                    click: async() => {
+                        mainWindow.webContents.send("send-function", "new file");
+                    },
+                },
+                {
+                    label: "Open File",
+                    accelerator: "Ctrl+O",
+                    click: async() => {
+                        mainWindow.webContents.send("send-function", "open file");
+                    },
+                },
+                { type: "separator" },
+                {
+                    label: "Save",
+                    accelerator: "Ctrl+S",
+                    click: async() => {
+                        mainWindow.webContents.send("send-function", "save");
+                    },
+                },
+                {
+                    label: "Save As",
+                    accelerator: "Ctrl+Shift+S",
+                    click: async() => {
+                        mainWindow.webContents.send("send-function", "save as");
+                    },
+                },
+                { type: "separator" },
+                { role: "quit" },
+            ],
+        },
+        // { role: 'editMenu' }
+        {
+            label: "Edit",
+            submenu: [{
+                    label: "Undo",
+                    accelerator: "Ctrl+Z",
+                    click: async() => {
+                        mainWindow.webContents.send("send-function", "undo");
+                    },
+                },
+                {
+                    label: "Redo",
+                    accelerator: "Ctrl+Y",
+                    click: async() => {
+                        mainWindow.webContents.send("send-function", "redo");
+                    },
+                },
+                { type: "separator" },
+                { role: "copy" },
+                { role: "paste" }
+            ],
+        },
+        // { role: 'viewMenu' }
+        {
+            label: "View",
+            submenu: [
+                { role: "reload" },
+                { role: "forceReload" },
+                { type: "separator" },
+                { role: 'toggleDevTools' },
+                { role: "togglefullscreen" },
+            ],
+        },
+        // { role: 'windowMenu' }
+        {
+            label: "Run",
+            submenu: [{
+                    label: "Run",
+                    accelerator: "F5",
+                    click: async() => {
+                        mainWindow.webContents.send("send-function", "run");
+                    },
+                },
+                {
+                    label: "Run As Selecting",
+                    accelerator: "Ctrl+F5",
+                    click: async() => {
+                        mainWindow.webContents.send("send-function", "cypress");
+                    },
+                },
+            ],
+        },
+        {
+            role: "help",
+            submenu: [{
+                label: "Learn More",
+                click: async() => {
+                    const { shell } = require("electron");
+                    await shell.openExternal("https://electronjs.org");
+                },
+            }, ],
+        },
+    ];
+    const mainMenu = Menu.buildFromTemplate(mainMenuTemplate);
+    Menu.setApplicationMenu(mainMenu);
+
+    mainWindow.maximize();
+
+    // Open the DevTools.
+    // mainWindow.webContents.openDevTools();
+
+    // and load the index.html of the app.
+    mainWindow.loadFile(path.join(__dirname, "index.html"));
+
+    let fileHandle;
+
+    // for saving xml file
+    ipcMain.on("save-file-as", (event, content) => {
+        dialog
+            .showSaveDialog(mainWindow, {
+                title: "Save file as",
+                defaultPath: path.join(__dirname, ".../MakeTest.xml"),
+                buttonLabel: "Save",
+                // Restricting the user to only Text Files.
+                filters: [{
+                    name: "XML files",
+                    extensions: ["xml"],
+                }, ],
+                properties: [],
+                cancelId: "cancel",
+            })
+            .then((file) => {
+                // Stating whether dialog operation was cancelled or not.
+                console.log(file.canceled);
+                if (!file.canceled) {
+                    console.log(file.filePath.toString());
+                    // Creating and Writing to the sample.txt file
+                    fs.writeFile(file.filePath.toString(), content, function(err) {
+                        if (err) throw err;
+                        console.log("Saved!");
+                        fileHandle = file.filePath.toString();
+                        fileData = {
+                            filePath: fileHandle,
+                            response: true,
+                        };
+                        console.log("1 " + fileHandle);
+                        event.reply("save-as-reply", fileData);
+                    });
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+                fileData = {
+                    filePath: fileHandle,
+                    response: err,
+                };
+                event.reply("save-as-reply", fileData);
+            });
+    });
+
+    ipcMain.on("create-new", (event, content) => {
+        dialog
+            .showSaveDialog(mainWindow, {
+                title: "Create new file",
+                defaultPath: path.join(__dirname, ".../MakeTest.xml"),
+                buttonLabel: "Create",
+                // Restricting the user to only Text Files.
+                filters: [{
+                    name: "XML files",
+                    extensions: ["xml"],
+                }, ],
+                properties: [],
+                cancelId: true,
+            })
+            .then((file) => {
+                // Stating whether dialog operation was cancelled or not.
+                console.log(file.canceled);
+                if (!file.canceled) {
+                    console.log(file.filePath.toString());
+                    // Creating and Writing to the sample.txt file
+                    fs.writeFile(file.filePath.toString(), content, function(err) {
+                        if (err) throw err;
+                        console.log("file created!");
+                        fileHandle = file.filePath.toString();
+                        fileData = {
+                            filePath: fileHandle,
+                            response: file.canceled,
+                        };
+                        event.reply("create-reply", fileData);
+                    });
+                } else {
+                    fileData = {
+                        filePath: fileHandle,
+                        response: file.canceled,
+                    };
+                    event.reply("create-reply", fileData);
+                }
+            })
+            .catch((err) => {
+                fileData = {
+                    filePath: fileHandle,
+                    response: err,
+                };
+                event.reply("create-reply", fileData);
+                console.log(err);
+            });
+    });
+
+    ipcMain.on("update-file", (event, content, fileHandle) => {
+        fs.writeFile(fileHandle, content, (err) => {
+            if (err) {
+                // alert("An error ocurred updating the file" + err.message);
+                console.log(err);
+                event.reply("update-reply", err);
+            } else {
+                console.log("The file has been succesfully saved");
+                event.reply("update-reply", true);
+            }
+        });
+    });
+
+    ipcMain.on("import-file", (event) => {
+        dialog
+            .showOpenDialog(mainWindow, {
+                title: "Import file",
+                // defaultPath: path.join(__dirname, '.../'),
+                buttonLabel: "Open",
+                // Restricting the user to only Text Files.
+                filters: [{
+                    name: "XML files",
+                    extensions: ["xml"],
+                }, ],
+                properties: [],
+                cancelId: "cancel",
+            })
+            .then((file) => {
+                // Stating whether dialog operation was cancelled or not.
+                console.log(file.canceled);
+                if (!file.canceled) {
+                    console.log(file.filePaths.toString());
+                    // Creating and Writing to the sample.txt file
+                    fs.readFile(file.filePaths.toString(), "utf-8", function(err, data) {
+                        if (err) throw err;
+                        console.log("Import success!");
+                        fileHandle = file.filePaths.toString();
+                        fileData = {
+                            text: data,
+                            filePath: fileHandle,
+                            response: true,
+                        };
+                        event.reply("import-reply", fileData);
+                    });
+                } else {
+                    event.reply("import-reply", "cancel");
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    });
+
+    ipcMain.on("modal-leave-from-import", (event) => {
+        //new file หลัง import
+        dialog
+            .showMessageBox(mainWindow, {
+                type: "question",
+                icon: "M-Logo-Whi.ico",
+                buttons: ["&Save", "&Don't save", "&Cancel"],
+                title: "Save file",
+                message: "Do you want to save this file?",
+                detail: "Your work will be lost if you didn't save them.",
+                noLink: true,
+                cancelId: 2,
+            })
+            .then((data) => {
+                console.log(data.response);
+                switch (data.response) {
+                    //save
+                    case 0:
+                        event.reply("leave-import-reply", 0);
+                        break;
+                        //don't save
+                    case 1:
+                        event.reply("leave-import-reply", 1);
+                        break;
+                        //cancel
+                    case 2:
+                        event.reply("leave-import-reply", 2);
+                        break;
+                }
+            });
+    });
+
+    ipcMain.on("modal-leave-file", (event) => {
+        //new file โดยที่ยังไม่เคย import
+        dialog
+            .showMessageBox(mainWindow, {
+                type: "question",
+                icon: "M-Logo-Whi.ico",
+                buttons: ["&Save as", "&Don't save", "&Cancel"],
+                title: "Save as file",
+                message: "Do you want to save as this file?",
+                detail: "Your work will be lost if you didn't save them.",
+                noLink: true,
+                cancelId: 2,
+            })
+            .then((data) => {
+                console.log(data.response);
+                switch (data.response) {
+                    //save as
+                    case 0:
+                        event.reply("leave-reply", 0);
+                        break;
+                        //don't save
+                    case 1:
+                        event.reply("leave-reply", 1);
+                        break;
+                        //cancel
+                    case 2:
+                        event.reply("leave-reply", 2);
+                        break;
+                }
+            });
+    });
+
+    ipcMain.on("modal-save-button", (event) => {
+        dialog
+            .showMessageBox(mainWindow, {
+                type: "question",
+                icon: "M-Logo-Whi.ico",
+                buttons: ["&Save", "&Save as", "&Cancel"],
+                title: "Save or Save as",
+                message: "Do you want to 'Save' or 'Save as' ?",
+                detail: "Press 'Save' to update this file. Press 'Save as' to create as the new file.",
+                noLink: true,
+                cancelId: 2,
+            })
+            .then((data) => {
+                console.log(data.response);
+                switch (data.response) {
+                    //save
+                    case 0:
+                        event.reply("save-button-reply", 0);
+                        break;
+                        //save as
+                    case 1:
+                        event.reply("save-button-reply", 1);
+                        break;
+                        //cancel
+                    case 2:
+                        event.reply("save-button-reply", 2);
+                        break;
+                }
+            });
+    });
+
+    ipcMain.on("modal-never-create", (event) => {
+        dialog
+            .showMessageBox(mainWindow, {
+                type: "question",
+                icon: "M-Logo-Whi.ico",
+                buttons: ["&Create", "&Cancel"],
+                title: "Save or Save as",
+                message: "Can't save, the file was never created.",
+                detail: "You should create this file first.",
+                noLink: true,
+                cancelId: 1,
+            })
+            .then((data) => {
+                console.log(data.response);
+                switch (data.response) {
+                    //save as
+                    case 0:
+                        event.reply("never-create-reply", 0);
+                        break;
+                        //cancel
+                    case 1:
+                        event.reply("never-create-reply", 1);
+                        break;
+                }
+            });
+    });
+
+    ipcMain.on("modal-before-exit", (event, fileHandle) => {
+        //new file โดยที่ยังไม่เคย import
+        if (fileHandle != null) {
+            dialog
+                .showMessageBox(mainWindow, {
+                    type: "question",
+                    icon: "M-Logo-Whi.ico",
+                    buttons: ["&Save", "&Save as", "&Exit"],
+                    title: "Save or Save As",
+                    message: "Do you want to save or save as before you quit?",
+                    detail: "Your work will be lost if you didn't save them.",
+                    noLink: true,
+                    cancelId: 2,
+                })
+                .then((data) => {
+                    console.log(data.response);
+                    switch (data.response) {
+                        //save 
+                        case 0:
+                            event.reply("exit-reply", 0);
+                            break;
+                            //save as
+                        case 1:
+                            event.reply("exit-reply", 1);
+                            break;
+                            //exit
+                        case 2:
+                            event.reply("exit-reply", 2);
+                            break;
+                    }
+                });
         } else {
-          event.reply("import-reply", "cancel");
+            dialog
+                .showMessageBox(mainWindow, {
+                    type: "question",
+                    icon: "M-Logo-Whi.ico",
+                    buttons: ["&Save as", "&Exit"],
+                    title: "Save As",
+                    message: "Do you want to save as before you quit?",
+                    detail: "Your work will be lost if you didn't save them.",
+                    noLink: true,
+                    cancelId: 1,
+                })
+                .then((data) => {
+                    console.log(data.response);
+                    switch (data.response) {
+                        //save as
+                        case 0:
+                            event.reply("exit-reply", 0);
+                            break;
+                            //exit
+                        case 1:
+                            event.reply("exit-reply", 1);
+                            break;
+                    }
+                });
         }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  });
 
-  ipcMain.on("modal-leave-from-import", (event) => {
-    //new file หลัง import
-    dialog
-      .showMessageBox(mainWindow, {
-        type: "question",
-        icon: "M-Logo-Whi.ico",
-        buttons: ["&Save", "&Don't save", "&Cancel"],
-        title: "Save file",
-        message: "Do you want to save this file?",
-        detail: "Your work will be lost if you didn't save them.",
-        noLink: true,
-        cancelId: 2,
-      })
-      .then((data) => {
-        console.log(data.response);
-        switch (data.response) {
-          //save
-          case 0:
-            event.reply("leave-import-reply", 0);
-            break;
-          //don't save
-          case 1:
-            event.reply("leave-import-reply", 1);
-            break;
-          //cancel
-          case 2:
-            event.reply("leave-import-reply", 2);
-            break;
-        }
-      });
-  });
+    });
 
-  ipcMain.on("modal-leave-file", (event) => {
-    //new file โดยที่ยังไม่เคย import
-    dialog
-      .showMessageBox(mainWindow, {
-        type: "question",
-        icon: "M-Logo-Whi.ico",
-        buttons: ["&Save as", "&Don't save", "&Cancel"],
-        title: "Save as file",
-        message: "Do you want to save as this file?",
-        detail: "Your work will be lost if you didn't save them.",
-        noLink: true,
-        cancelId: 2,
-      })
-      .then((data) => {
-        console.log(data.response);
-        switch (data.response) {
-          //save as
-          case 0:
-            event.reply("leave-reply", 0);
-            break;
-          //don't save
-          case 1:
-            event.reply("leave-reply", 1);
-            break;
-          //cancel
-          case 2:
-            event.reply("leave-reply", 2);
-            break;
+    ipcMain.on("file-compare", (event, pathFile, xmlText) => {
+        if (pathFile !== null) {
+            fs.readFile(pathFile, "utf-8", function(err, data) {
+                if (err) throw err;
+                console.log(data);
+                console.log(xmlText);
+                if (data != xmlText) {
+                    event.reply("compare-reply", false);
+                }
+                if (data == xmlText) {
+                    event.reply("compare-reply", true);
+                }
+            });
         }
-      });
-  });
+        if (pathFile === null) event.reply("compare-reply", 0);
+    });
 
-  ipcMain.on("modal-save-button", (event) => {
-    dialog
-      .showMessageBox(mainWindow, {
-        type: "question",
-        icon: "M-Logo-Whi.ico",
-        buttons: ["&Save", "&Save as", "&Cancel"],
-        title: "Save or Save as",
-        message: "Do you want to 'Save' or 'Save as' ?",
-        detail:
-          "Press 'Save' to update this file. Press 'Save as' to create as the new file.",
-        noLink: true,
-        cancelId: 2,
-      })
-      .then((data) => {
-        console.log(data.response);
-        switch (data.response) {
-          //save
-          case 0:
-            event.reply("save-button-reply", 0);
-            break;
-          //save as
-          case 1:
-            event.reply("save-button-reply", 1);
-            break;
-          //cancel
-          case 2:
-            event.reply("save-button-reply", 2);
-            break;
-        }
-      });
-  });
-
-  ipcMain.on("modal-never-create", (event) => {
-    dialog
-      .showMessageBox(mainWindow, {
-        type: "question",
-        icon: "M-Logo-Whi.ico",
-        buttons: ["&Create", "&Cancel"],
-        title: "Save or Save as",
-        message: "Can't save, the file was never created.",
-        detail: "You should create this file first.",
-        noLink: true,
-        cancelId: 1,
-      })
-      .then((data) => {
-        console.log(data.response);
-        switch (data.response) {
-          //save as
-          case 0:
-            event.reply("never-create-reply", 0);
-            break;
-          //cancel
-          case 1:
-            event.reply("never-create-reply", 1);
-            break;
-        }
-      });
-  });
-
-  ipcMain.on("modal-before-exit", (event, fileHandle) => {
-    //new file โดยที่ยังไม่เคย import
-    if(fileHandle!=null){
-      dialog
-      .showMessageBox(mainWindow, {
-        type: "question",
-        icon: "M-Logo-Whi.ico",
-        buttons: ["&Save", "&Save as", "&Exit"],
-        title: "Save or Save As",
-        message: "Do you want to save or save as before you quit?",
-        detail: "Your work will be lost if you didn't save them.",
-        noLink: true,
-        cancelId: 2,
-      })
-      .then((data) => {
-        console.log(data.response);
-        switch (data.response) {
-          //save 
-          case 0:
-            event.reply("exit-reply", 0);
-            break;
-          //save as
-          case 1:
-            event.reply("exit-reply", 1);
-            break;
-          //exit
-          case 2:
-            event.reply("exit-reply", 2);
-            break;
-        }
-      });
-    }
-    else{
-      dialog
-      .showMessageBox(mainWindow, {
-        type: "question",
-        icon: "M-Logo-Whi.ico",
-        buttons: ["&Save as", "&Exit"],
-        title: "Save As",
-        message: "Do you want to save as before you quit?",
-        detail: "Your work will be lost if you didn't save them.",
-        noLink: true,
-        cancelId: 1,
-      })
-      .then((data) => {
-        console.log(data.response);
-        switch (data.response) {
-          //save as
-          case 0:
-            event.reply("exit-reply", 0);
-            break;
-          //exit
-          case 1:
-            event.reply("exit-reply", 1);
-            break;
-        }
-      });
-    }
-    
-  });
-
-  ipcMain.on("file-compare", (event, pathFile, xmlText) => {
-    if (pathFile !== null) {
-      fs.readFile(pathFile, "utf-8", function (err, data) {
-        if (err) throw err;
-        console.log(data);
-        console.log(xmlText);
-        if (data != xmlText) {
-          event.reply("compare-reply", false);
-        }
-        if (data == xmlText) {
-          event.reply("compare-reply", true);
-        }
-      });
-    }
-    if (pathFile === null) event.reply("compare-reply", 0);
-  });
-
-  ipcMain.on('first-time',(event)=>{
-    const cypress = require("cypress"); 
-    fs.writeFile("./isFirstTime.txt", "Firsttime running cypress", (err) => {
-      if (err) throw err;
-      else {
-        dialog.showMessageBox(mainWindow, {
-          type: "info",
-          icon: "M-Logo-Whi.ico",
-          buttons: ["&Ok"],
-          title: "Welcome to MakeTest",
-          message: "Welcome to MakeTest for the first time.",
-          detail: "Please press 'Ok' to install extra tools to finish MakeTest.",
-          noLink: true,
-          cancelId: 1,
-        }).then((data) => {
-          switch (data.response) {
-            //ok
-            case 0:
-              cypress.open();
-              break;
-            //cancel
-            case 1:
-              cypress.open()
-              break;
-          }
+    ipcMain.on('first-time', (event) => {
+        const cypress = require("cypress");
+        fs.writeFile("./isFirstTime.txt", "Firsttime running cypress", (err) => {
+            if (err) throw err;
+            else {
+                dialog.showMessageBox(mainWindow, {
+                    type: "info",
+                    icon: "M-Logo-Whi.ico",
+                    buttons: ["&Ok"],
+                    title: "Welcome to MakeTest",
+                    message: "Welcome to MakeTest for the first time.",
+                    detail: "Please press 'Ok' to install extra tools to finish MakeTest.",
+                    noLink: true,
+                    cancelId: 1,
+                }).then((data) => {
+                    switch (data.response) {
+                        //ok
+                        case 0:
+                            cypress.open();
+                            break;
+                            //cancel
+                        case 1:
+                            cypress.open()
+                            break;
+                    }
+                })
+            }
         })
-      }}
-    )
-  })
-
-  mainWindow.on('close', e => { // Line 49
-    e.preventDefault()
-    mainWindow.webContents.send("send-function","exit");
-    ipcMain.on("function-reply",(event, func)=>{
-      if(func){
-        mainWindow.destroy()
-        app.quit()
-      }
     })
-    
-    // dialog.showMessageBox(mainWindow, {
-    //   type: 'info',
-    //   buttons: ['Ok', 'Exit'],
-    //   cancelId: 1,
-    //   defaultId: 0,
-    //   noLink: true,
-    //   title: 'Warning',
-    //   detail: 'Hey, wait! There\'s something you should know...'
-    // }).then(({ response, checkboxChecked }) => {
-    //   console.log(`response: ${response}`)
-    //   if (response) {
-    //     mainWindow.destroy()
-    //     app.quit()
-    //   }
-    // })
-  })
+
+    mainWindow.on('close', e => { // Line 49
+        e.preventDefault()
+        mainWindow.webContents.send("send-function", "exit");
+        ipcMain.on("function-reply", (event, func) => {
+            if (func) {
+                mainWindow.destroy()
+                app.quit()
+            }
+        })
+
+        // dialog.showMessageBox(mainWindow, {
+        //   type: 'info',
+        //   buttons: ['Ok', 'Exit'],
+        //   cancelId: 1,
+        //   defaultId: 0,
+        //   noLink: true,
+        //   title: 'Warning',
+        //   detail: 'Hey, wait! There\'s something you should know...'
+        // }).then(({ response, checkboxChecked }) => {
+        //   console.log(`response: ${response}`)
+        //   if (response) {
+        //     mainWindow.destroy()
+        //     app.quit()
+        //   }
+        // })
+    })
 };
 
 
@@ -549,24 +535,24 @@ const createWindow = () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
-  createWindow();
-  
-  app.on("activate", () => {
-    // On macOS it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) createWindow();
-  });
+    createWindow();
 
-  
+    app.on("activate", () => {
+        // On macOS it's common to re-create a window in the app when the
+        // dock icon is clicked and there are no other windows open.
+        if (BrowserWindow.getAllWindows().length === 0) createWindow();
+    });
+
+
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on("window-all-closed", () => {
-  if (process.platform !== "darwin"){
-    app.quit();
-  } 
+    if (process.platform !== "darwin") {
+        app.quit();
+    }
 });
 
 // In this file you can include the rest of your app's specific main process
