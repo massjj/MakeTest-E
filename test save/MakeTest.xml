@@ -2,14 +2,14 @@
   <block type="_001" id="OsA~8yISgt[|}Q**2Zm(" deletable="false" movable="false" x="88" y="88">
     <value name="DESCRIBE_TEXT">
       <shadow type="text" id="s3o6x7aF!:Nl(w,$#G?z">
-        <field name="TEXT"></field>
+        <field name="TEXT">x</field>
       </shadow>
     </value>
     <statement name="IT">
       <block type="_002" id="md86ewY[8!+FzJnj]D*1">
         <value name="IT_TEXT">
           <shadow type="text" id="~6pjwQmSdDltL:2.x`I#">
-            <field name="TEXT"></field>
+            <field name="TEXT">x</field>
           </shadow>
         </value>
         <statement name="ACTION">

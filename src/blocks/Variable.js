@@ -45,3 +45,19 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "extensions": ["contextMenu_variableSetterGetter"]
     }
 ]);
+
+Blockly.JavaScript['variables_get'] = function(block) {
+    // Variable getter.
+    var code = '\n' + Blockly.JavaScript.nameDB_.getName(block.getFieldValue('VAR'),
+        Blockly.VARIABLE_CATEGORY_NAME);
+    return [code, Blockly.JavaScript.ORDER_ATOMIC];
+};
+
+Blockly.JavaScript['variables_set'] = function(block) {
+    // Variable setter.
+    var argument0 = Blockly.JavaScript.valueToCode(block, 'VALUE',
+        Blockly.JavaScript.ORDER_ATOMIC) || '0';
+    var varName = Blockly.JavaScript.nameDB_.getName(
+        block.getFieldValue('VAR'), Blockly.VARIABLE_CATEGORY_NAME);
+    return '\n' + varName + ' = ' + argument0 + ';';
+};

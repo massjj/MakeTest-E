@@ -1,0 +1,586 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <variables>
+    <variable id="l~d4c{eB3RfI9QjiMD$A">phone_name</variable>
+    <variable id="AfECKHjJ,}zB~:4Akh7t">price</variable>
+  </variables>
+  <block type="_001" id="Qn}h%?f/UIRcnnUi=]}." deletable="false" x="-512" y="-2463">
+    <value name="DESCRIBE_TEXT">
+      <shadow type="text" id="I{bo~aG;n9usanYvQZ(-">
+        <field name="TEXT">Maketest Block Testing Survey</field>
+      </shadow>
+    </value>
+    <statement name="IT">
+      <block type="_002" id="95S6.g|QUjt7c~}VOiB4">
+        <value name="IT_TEXT">
+          <shadow type="text" id="sSmD[W:;,HGE.+lhYt6@">
+            <field name="TEXT">TC00-Check url</field>
+          </shadow>
+        </value>
+        <statement name="ACTION">
+          <block type="_040" id="L7gu|B4F?,9RBOEISw2M">
+            <value name="VISIT_TEXT">
+              <shadow type="text" id="qdDj/?8xFv.Ga;pybAuj">
+                <field name="TEXT">https://www.demoblaze.com/</field>
+              </shadow>
+            </value>
+            <next>
+              <block type="_041" id="P{0;B*VuYOQK:iJ*8HYD">
+                <value name="URL_LOGIC">
+                  <block type="_013" id="a6ZE|bNabg,J-@y+zf9}">
+                    <mutation xmlns="http://www.w3.org/1999/xhtml" contain_input="true"></mutation>
+                    <field name="PROPERTY">be.contain</field>
+                    <value name="CONTAIN">
+                      <block type="text" id="bs2iOfz@go(k`Xp;K0QT">
+                        <field name="TEXT">demoblaze</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+              </block>
+            </next>
+          </block>
+        </statement>
+        <next>
+          <block type="_002" id="RHeFCU~5C$/NLLHx{IPF">
+            <value name="IT_TEXT">
+              <shadow type="text" id="h~VK;{,9j{bF;_5t--aN">
+                <field name="TEXT">TC01-Wrong password Test</field>
+              </shadow>
+            </value>
+            <statement name="ACTION">
+              <block type="_040" id=",gJ73y[S9tBqk.%UTyxw">
+                <value name="VISIT_TEXT">
+                  <shadow type="text" id="6N~tX5ZKvQ]d?GbviSc^">
+                    <field name="TEXT">https://www.demoblaze.com/</field>
+                  </shadow>
+                </value>
+                <next>
+                  <block type="_016" id="=syy*^5+,~HKbq{,aE@Y">
+                    <value name="CLICK_ID">
+                      <shadow type="_027" id="]LmRL-tl[PpG(jH[PExI">
+                        <field name="ID_ELE">ID element</field>
+                      </shadow>
+                      <block type="_027" id=")*v^*^D$77(4K2yRryj|">
+                        <field name="ID_ELE">#login2</field>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="_075" id="@}Sd?Lrz)RKVzqglD/@V">
+                        <value name="TIME">
+                          <shadow type="_063" id="c58C96|N4BC5#XZq}r*0">
+                            <field name="NUM">1000</field>
+                          </shadow>
+                        </value>
+                        <next>
+                          <block type="_020" id="?z~dEWDDOt8RzQ@^|(;_">
+                            <value name="TYPE_TEXT">
+                              <shadow type="text" id="}/L]+@cU}=3y}2TW/;SW">
+                                <field name="TEXT">maketest1</field>
+                              </shadow>
+                            </value>
+                            <value name="TYPE_ID">
+                              <shadow type="_027" id="gxj^S_Vc$cF,0mYJmL|n">
+                                <field name="ID_ELE">ID element</field>
+                              </shadow>
+                              <block type="_027" id="lEL3;pAY1nuJx@ICZ,$5">
+                                <field name="ID_ELE">#loginusername</field>
+                              </block>
+                            </value>
+                            <next>
+                              <block type="_020" id="*Zr9MVMT}[9V2z}G|K~[">
+                                <value name="TYPE_TEXT">
+                                  <shadow type="text" id="f|6Rj$b`eCT!Hf~NU^z;">
+                                    <field name="TEXT">654321</field>
+                                  </shadow>
+                                </value>
+                                <value name="TYPE_ID">
+                                  <shadow type="_027" id="gxj^S_Vc$cF,0mYJmL|n">
+                                    <field name="ID_ELE">ID element</field>
+                                  </shadow>
+                                  <block type="_027" id="r/x,V!Y0it%b`bO6Dgbw">
+                                    <field name="ID_ELE">#loginpassword</field>
+                                  </block>
+                                </value>
+                                <next>
+                                  <block type="_016" id="7sZe0szwA4U$1?zOc2;n">
+                                    <value name="CLICK_ID">
+                                      <shadow type="_027" id="h.+Q_.}$;%7Kd4C@:vul">
+                                        <field name="ID_ELE">ID element</field>
+                                      </shadow>
+                                      <block type="_027" id="}y0V-7N?~dfs64xjRx~y">
+                                        <field name="ID_ELE">#logInModal .btn-primary</field>
+                                      </block>
+                                    </value>
+                                    <next>
+                                      <block type="_023" id="^$y^rYY4NFGWpIJT[ZE8">
+                                        <field name="POPUP_CHECK">window:alert</field>
+                                        <value name="POPUP_TEXT">
+                                          <shadow type="text" id="2ExkW7p^?JGQ_w![oOn1">
+                                            <field name="TEXT">Wrong password.</field>
+                                          </shadow>
+                                        </value>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </statement>
+            <next>
+              <block type="_002" id="OQPEp8vbr^gSUb^XE`T!">
+                <value name="IT_TEXT">
+                  <shadow type="text" id="rs+CYCXzjtX=esK8ob%S">
+                    <field name="TEXT">TC02-Buying somthing in website</field>
+                  </shadow>
+                </value>
+                <statement name="ACTION">
+                  <block type="variables_set" id="Utat9E;Bd(6(@lvh3%3q">
+                    <field name="VAR" id="l~d4c{eB3RfI9QjiMD$A">phone_name</field>
+                    <value name="VALUE">
+                      <block type="text" id="fo?-xC8uZOscgFW9`ps9">
+                        <field name="TEXT">Nokia lumia 1520</field>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="variables_set" id="(w{%ne0WY+%Wa]qSnjGr">
+                        <field name="VAR" id="AfECKHjJ,}zB~:4Akh7t">price</field>
+                        <value name="VALUE">
+                          <block type="text" id="u_aH7HS^]8)?U.Ik|m,4">
+                            <field name="TEXT">820</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="_040" id="r53L)l;Sx5~)jQ])Kd[E">
+                            <value name="VISIT_TEXT">
+                              <shadow type="text" id="Dri^cm7(r/)`KoIPC~*,">
+                                <field name="TEXT">https://www.demoblaze.com/</field>
+                              </shadow>
+                            </value>
+                            <next>
+                              <block type="_016" id="qYR?u^*?P]?}/r5cF)u3">
+                                <value name="CLICK_ID">
+                                  <shadow type="_027" id="]LmRL-tl[PpG(jH[PExI">
+                                    <field name="ID_ELE">ID element</field>
+                                  </shadow>
+                                  <block type="_027" id="+=h*.5)ks)uCA0A=RiQT">
+                                    <field name="ID_ELE">#login2</field>
+                                  </block>
+                                </value>
+                                <next>
+                                  <block type="_075" id="Bk,ZN#5(RLyJ5{~l#4.H">
+                                    <value name="TIME">
+                                      <shadow type="_063" id="m:9ozCBO{l?+=1t`8zKl">
+                                        <field name="NUM">1000</field>
+                                      </shadow>
+                                    </value>
+                                    <next>
+                                      <block type="_020" id="dvDX1?ew[5AN=_h`Z..F">
+                                        <value name="TYPE_TEXT">
+                                          <shadow type="text" id="Kx:f!WdE/%/{VTvQ;u!,">
+                                            <field name="TEXT">maketest1</field>
+                                          </shadow>
+                                        </value>
+                                        <value name="TYPE_ID">
+                                          <shadow type="_027" id="gxj^S_Vc$cF,0mYJmL|n">
+                                            <field name="ID_ELE">ID element</field>
+                                          </shadow>
+                                          <block type="_027" id=".y%jCZ[.u97g-5E%$%vi">
+                                            <field name="ID_ELE">#loginusername</field>
+                                          </block>
+                                        </value>
+                                        <next>
+                                          <block type="_020" id="Zxu)rgP|%(8F+:1RM^qV">
+                                            <value name="TYPE_TEXT">
+                                              <shadow type="text" id="$diHJJpM^Rbbu*t!GS+T">
+                                                <field name="TEXT">123456</field>
+                                              </shadow>
+                                            </value>
+                                            <value name="TYPE_ID">
+                                              <shadow type="_027" id="gxj^S_Vc$cF,0mYJmL|n">
+                                                <field name="ID_ELE">ID element</field>
+                                              </shadow>
+                                              <block type="_027" id="zk+[19CCp_i.;Iegsm;]">
+                                                <field name="ID_ELE">#loginpassword</field>
+                                              </block>
+                                            </value>
+                                            <next>
+                                              <block type="_016" id="+ch0+By{G1PY093EM/%C">
+                                                <value name="CLICK_ID">
+                                                  <shadow type="_027" id="h.+Q_.}$;%7Kd4C@:vul">
+                                                    <field name="ID_ELE">ID element</field>
+                                                  </shadow>
+                                                  <block type="_027" id="TS$qjQ.|Ey|9VE-%C}0W">
+                                                    <field name="ID_ELE">#logInModal .btn-primary</field>
+                                                  </block>
+                                                </value>
+                                                <next>
+                                                  <block type="_075" id="7v-dSw/{8sq![?9/dj_?">
+                                                    <value name="TIME">
+                                                      <shadow type="_063" id="|5F}SvC+`4`v*%^VQ!@Z">
+                                                        <field name="NUM">1000</field>
+                                                      </shadow>
+                                                    </value>
+                                                    <next>
+                                                      <block type="_007" id="KK]^v)wuqCKz6AdcGp+L">
+                                                        <value name="ID">
+                                                          <shadow type="_027" id="LOplz=`]LygC%PdW6gr.">
+                                                            <field name="ID_ELE">ID element</field>
+                                                          </shadow>
+                                                          <block type="_027" id="LReXD5O@f8L3fvixN9bh">
+                                                            <field name="ID_ELE">#nameofuser</field>
+                                                          </block>
+                                                        </value>
+                                                        <value name="LOGIC">
+                                                          <block type="_013" id="[dVdOhuD/$bA*oLq{_1u">
+                                                            <mutation xmlns="http://www.w3.org/1999/xhtml" contain_input="true"></mutation>
+                                                            <field name="PROPERTY">be.contain</field>
+                                                            <value name="CONTAIN">
+                                                              <block type="text" id="s(~yl.y~V+Hvb~B7+Y%G">
+                                                                <field name="TEXT">Welcome maketest1</field>
+                                                              </block>
+                                                            </value>
+                                                          </block>
+                                                        </value>
+                                                        <next>
+                                                          <block type="_016" id="v+O%Z(sMdt|;S{0DsUDi">
+                                                            <value name="CLICK_ID">
+                                                              <shadow type="_027" id="G}N%L{K+GGceCZEQ=OO4">
+                                                                <field name="ID_ELE">ID element</field>
+                                                              </shadow>
+                                                              <block type="_030" id="=Q]UZ(b8q*NeE]q*?1.c">
+                                                                <field name="MATCH_CASE">not_match_case</field>
+                                                                <value name="ELEMENT_MATCHCASE">
+                                                                  <shadow type="text" id="^JbrLL{Z*7cwX;qZWo;:">
+                                                                    <field name="TEXT">Nokia lumia 1520</field>
+                                                                  </shadow>
+                                                                </value>
+                                                              </block>
+                                                            </value>
+                                                            <next>
+                                                              <block type="_007" id="**%GZB{Wn:+I.Up``z?`">
+                                                                <value name="ID">
+                                                                  <shadow type="_027" id="*{zTDZw]jJeqFYzAZA|C">
+                                                                    <field name="ID_ELE">ID element</field>
+                                                                  </shadow>
+                                                                  <block type="_027" id="D/P]9{[?uKqyq@/pS|PU">
+                                                                    <field name="ID_ELE">.name</field>
+                                                                  </block>
+                                                                </value>
+                                                                <value name="LOGIC">
+                                                                  <block type="_013" id="zTY9J,)wHw-{1l[mK}lP">
+                                                                    <mutation xmlns="http://www.w3.org/1999/xhtml" contain_input="true"></mutation>
+                                                                    <field name="PROPERTY">be.contain</field>
+                                                                    <value name="CONTAIN">
+                                                                      <block type="variables_get" id="FBhgSAq~@U|@-8FqTPmJ">
+                                                                        <field name="VAR" id="l~d4c{eB3RfI9QjiMD$A">phone_name</field>
+                                                                      </block>
+                                                                    </value>
+                                                                  </block>
+                                                                </value>
+                                                                <next>
+                                                                  <block type="_007" id="h@=qsQ:A2w/a|[9e-F.)">
+                                                                    <value name="ID">
+                                                                      <shadow type="_027" id="i1rNwrAU?:pxof!%^D%I">
+                                                                        <field name="ID_ELE">ID element</field>
+                                                                      </shadow>
+                                                                      <block type="_027" id="REON.3!X_R)O*/I.+9.(">
+                                                                        <field name="ID_ELE">.price-container</field>
+                                                                      </block>
+                                                                    </value>
+                                                                    <value name="LOGIC">
+                                                                      <block type="_013" id="^h{T8@o:Yfr;_4W3u4ON">
+                                                                        <mutation xmlns="http://www.w3.org/1999/xhtml" contain_input="true"></mutation>
+                                                                        <field name="PROPERTY">be.contain</field>
+                                                                        <value name="CONTAIN">
+                                                                          <block type="variables_get" id="~7YdWycbC(La7bO~A=ba">
+                                                                            <field name="VAR" id="AfECKHjJ,}zB~:4Akh7t">price</field>
+                                                                          </block>
+                                                                        </value>
+                                                                      </block>
+                                                                    </value>
+                                                                    <next>
+                                                                      <block type="_016" id="-.KXeUrwOs-L4`%.}gAA">
+                                                                        <value name="CLICK_ID">
+                                                                          <shadow type="_027" id="rV0yrD0J6WU,}XPcKd{a">
+                                                                            <field name="ID_ELE">ID element</field>
+                                                                          </shadow>
+                                                                          <block type="_027" id="1vsV?)?tV@5(sZS#O90j">
+                                                                            <field name="ID_ELE">.btn-success</field>
+                                                                          </block>
+                                                                        </value>
+                                                                        <next>
+                                                                          <block type="_023" id="L)*JmGMgocpP)Yh|!wVS">
+                                                                            <field name="POPUP_CHECK">window:alert</field>
+                                                                            <value name="POPUP_TEXT">
+                                                                              <shadow type="text" id="GPv9~)[N7IK^3nJj$ouT">
+                                                                                <field name="TEXT">Product added.</field>
+                                                                              </shadow>
+                                                                            </value>
+                                                                            <next>
+                                                                              <block type="_016" id="]#GuB.+a;{.IJ:Sn@:`}">
+                                                                                <value name="CLICK_ID">
+                                                                                  <shadow type="_027" id="0r.-w|#xVz-w|S0ge{]n">
+                                                                                    <field name="ID_ELE">ID element</field>
+                                                                                  </shadow>
+                                                                                  <block type="_027" id="/`[Y#iphVMCcKAJmSIh@">
+                                                                                    <field name="ID_ELE">#cartur</field>
+                                                                                  </block>
+                                                                                </value>
+                                                                                <next>
+                                                                                  <block type="_007" id="29EL:M|#cZs_aw0@wyV*">
+                                                                                    <value name="ID">
+                                                                                      <shadow type="_027" id="DgfgAY{4RT`u{:%91C)z">
+                                                                                        <field name="ID_ELE">ID element</field>
+                                                                                      </shadow>
+                                                                                      <block type="_027" id="0WyA}zWR9D3@//(g4{[B">
+                                                                                        <field name="ID_ELE">td:nth-child(2)</field>
+                                                                                      </block>
+                                                                                    </value>
+                                                                                    <value name="LOGIC">
+                                                                                      <block type="_013" id="!u0ITx(ewtIV2-[FR+Q0">
+                                                                                        <mutation xmlns="http://www.w3.org/1999/xhtml" equal_input="false"></mutation>
+                                                                                        <field name="PROPERTY">be.exist</field>
+                                                                                      </block>
+                                                                                    </value>
+                                                                                    <next>
+                                                                                      <block type="_007" id="gtMSizE)w|$7y`()(pGE">
+                                                                                        <value name="ID">
+                                                                                          <shadow type="_027" id="2*;{hhG@NUr)s{$b8IMt">
+                                                                                            <field name="ID_ELE">ID element</field>
+                                                                                          </shadow>
+                                                                                          <block type="_027" id=")vmu@lNu!LX)M{wLQRvv">
+                                                                                            <field name="ID_ELE">#totalp</field>
+                                                                                          </block>
+                                                                                        </value>
+                                                                                        <value name="LOGIC">
+                                                                                          <block type="_013" id="p6](C8dtD9`L)!KmyLQ1">
+                                                                                            <mutation xmlns="http://www.w3.org/1999/xhtml" contain_input="true"></mutation>
+                                                                                            <field name="PROPERTY">be.contain</field>
+                                                                                            <value name="CONTAIN">
+                                                                                              <block type="variables_get" id="0NBHAKa;L.H^}!;|=U(Z">
+                                                                                                <field name="VAR" id="AfECKHjJ,}zB~:4Akh7t">price</field>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                          </block>
+                                                                                        </value>
+                                                                                        <next>
+                                                                                          <block type="_016" id="PKt#p@GN$/aJnE}QcEPZ">
+                                                                                            <value name="CLICK_ID">
+                                                                                              <shadow type="_027" id="|L]fybop=C+)U@dIg-i7">
+                                                                                                <field name="ID_ELE">ID element</field>
+                                                                                              </shadow>
+                                                                                              <block type="_027" id="K1m*;Y%vpd#;WOCcf;;2">
+                                                                                                <field name="ID_ELE">.btn-success</field>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                            <next>
+                                                                                              <block type="_007" id="RAd/Xv1sV1+2GCN@Jry4">
+                                                                                                <value name="ID">
+                                                                                                  <shadow type="_027" id="pW)3E8LfLkCaXb3x;|Q~">
+                                                                                                    <field name="ID_ELE">ID element</field>
+                                                                                                  </shadow>
+                                                                                                  <block type="_027" id="Tjo5VJ%!%Lru^xMXNduD">
+                                                                                                    <field name="ID_ELE">#totalm</field>
+                                                                                                  </block>
+                                                                                                </value>
+                                                                                                <value name="LOGIC">
+                                                                                                  <block type="_013" id="[W}Z,KDhCN$4.m#UBx@2">
+                                                                                                    <mutation xmlns="http://www.w3.org/1999/xhtml" equal_input="false"></mutation>
+                                                                                                    <field name="PROPERTY">be.exist</field>
+                                                                                                  </block>
+                                                                                                </value>
+                                                                                                <next>
+                                                                                                  <block type="_020" id="BRTe+({~:n;}dWj,77[Y">
+                                                                                                    <value name="TYPE_TEXT">
+                                                                                                      <shadow type="text" id="r!,5b`x,7H5+.b0W=is`">
+                                                                                                        <field name="TEXT">MakeTest1</field>
+                                                                                                      </shadow>
+                                                                                                    </value>
+                                                                                                    <value name="TYPE_ID">
+                                                                                                      <shadow type="_027" id="R(;QhghE?`-gHnrz{uoz">
+                                                                                                        <field name="ID_ELE">ID element</field>
+                                                                                                      </shadow>
+                                                                                                      <block type="_027" id="a][Jq]u_r=6-+g{b%FU+">
+                                                                                                        <field name="ID_ELE">#name</field>
+                                                                                                      </block>
+                                                                                                    </value>
+                                                                                                    <next>
+                                                                                                      <block type="_020" id="5ddA,wuWJ/TP6DC26+Qr">
+                                                                                                        <value name="TYPE_TEXT">
+                                                                                                          <shadow type="text" id="3M1T:QH$U5gY$TOqckHM">
+                                                                                                            <field name="TEXT">TH</field>
+                                                                                                          </shadow>
+                                                                                                        </value>
+                                                                                                        <value name="TYPE_ID">
+                                                                                                          <shadow type="_027" id="R(;QhghE?`-gHnrz{uoz">
+                                                                                                            <field name="ID_ELE">ID element</field>
+                                                                                                          </shadow>
+                                                                                                          <block type="_027" id="$LY0(?HFwICu;%USntJE">
+                                                                                                            <field name="ID_ELE">#country</field>
+                                                                                                          </block>
+                                                                                                        </value>
+                                                                                                        <next>
+                                                                                                          <block type="_020" id="^~iK.kuP#mytrCHPf8b8">
+                                                                                                            <value name="TYPE_TEXT">
+                                                                                                              <shadow type="text" id="1t9av8`vu,8M)h2`2,E1">
+                                                                                                                <field name="TEXT">BKK</field>
+                                                                                                              </shadow>
+                                                                                                            </value>
+                                                                                                            <value name="TYPE_ID">
+                                                                                                              <shadow type="_027" id="R(;QhghE?`-gHnrz{uoz">
+                                                                                                                <field name="ID_ELE">ID element</field>
+                                                                                                              </shadow>
+                                                                                                              <block type="_027" id="JM)mdqW4qq2:)6K-`Y59">
+                                                                                                                <field name="ID_ELE">#city</field>
+                                                                                                              </block>
+                                                                                                            </value>
+                                                                                                            <next>
+                                                                                                              <block type="_020" id="`];FKB9^}wSkO`nt/cI}">
+                                                                                                                <value name="TYPE_TEXT">
+                                                                                                                  <shadow type="text" id="F,PC{qb*Mf-bK?Lwj(B9">
+                                                                                                                    <field name="TEXT">123456878</field>
+                                                                                                                  </shadow>
+                                                                                                                </value>
+                                                                                                                <value name="TYPE_ID">
+                                                                                                                  <shadow type="_027" id=")%%mf%PFr$nDmptQ|EVz">
+                                                                                                                    <field name="ID_ELE">ID element</field>
+                                                                                                                  </shadow>
+                                                                                                                  <block type="_027" id="i^)^BY.TeGX}z/Wu@G|Q">
+                                                                                                                    <field name="ID_ELE">#card</field>
+                                                                                                                  </block>
+                                                                                                                </value>
+                                                                                                                <next>
+                                                                                                                  <block type="_020" id="+TXyua[Ha,2io*V~:EX!">
+                                                                                                                    <value name="TYPE_TEXT">
+                                                                                                                      <shadow type="text" id="O`1NP0m0k8pK$Ehm~TL9">
+                                                                                                                        <field name="TEXT">xx</field>
+                                                                                                                      </shadow>
+                                                                                                                    </value>
+                                                                                                                    <value name="TYPE_ID">
+                                                                                                                      <shadow type="_027" id=")%%mf%PFr$nDmptQ|EVz">
+                                                                                                                        <field name="ID_ELE">ID element</field>
+                                                                                                                      </shadow>
+                                                                                                                      <block type="_027" id="@9#KV*xBBd,5fdkkyy5;">
+                                                                                                                        <field name="ID_ELE">#month</field>
+                                                                                                                      </block>
+                                                                                                                    </value>
+                                                                                                                    <next>
+                                                                                                                      <block type="_020" id="-0nCxCfkj#Lrtoo59LyC">
+                                                                                                                        <value name="TYPE_TEXT">
+                                                                                                                          <shadow type="text" id="@KjFc7Ufw_%^.1t?s*2_">
+                                                                                                                            <field name="TEXT">xx</field>
+                                                                                                                          </shadow>
+                                                                                                                        </value>
+                                                                                                                        <value name="TYPE_ID">
+                                                                                                                          <shadow type="_027" id=")%%mf%PFr$nDmptQ|EVz">
+                                                                                                                            <field name="ID_ELE">ID element</field>
+                                                                                                                          </shadow>
+                                                                                                                          <block type="_027" id="U!TSXrvO,v[Ai%:^OHiZ">
+                                                                                                                            <field name="ID_ELE">#year</field>
+                                                                                                                          </block>
+                                                                                                                        </value>
+                                                                                                                        <next>
+                                                                                                                          <block type="_016" id="${GYXU4KLtkulz8Q}N~d">
+                                                                                                                            <value name="CLICK_ID">
+                                                                                                                              <shadow type="_027" id="i{@FfdY`OQys977QhGT-">
+                                                                                                                                <field name="ID_ELE">ID element</field>
+                                                                                                                              </shadow>
+                                                                                                                              <block type="_027" id="ubJd#liHoi*egnsE{W.^">
+                                                                                                                                <field name="ID_ELE">#orderModal .btn-primary</field>
+                                                                                                                              </block>
+                                                                                                                            </value>
+                                                                                                                            <next>
+                                                                                                                              <block type="_007" id="eHZ`}]g{-f5I+JMFSFnD">
+                                                                                                                                <value name="ID">
+                                                                                                                                  <shadow type="_027" id="M!0c@tLQ?tUUYWJ.|_Vl">
+                                                                                                                                    <field name="ID_ELE">ID element</field>
+                                                                                                                                  </shadow>
+                                                                                                                                  <block type="_027" id="l`XSjIVdZx?yJ%`~D44Z">
+                                                                                                                                    <field name="ID_ELE">h2:nth-child(6)</field>
+                                                                                                                                  </block>
+                                                                                                                                </value>
+                                                                                                                                <value name="LOGIC">
+                                                                                                                                  <block type="_013" id="K,IxqrWyV9Osx#yY9],l">
+                                                                                                                                    <mutation xmlns="http://www.w3.org/1999/xhtml" contain_input="true"></mutation>
+                                                                                                                                    <field name="PROPERTY">be.contain</field>
+                                                                                                                                    <value name="CONTAIN">
+                                                                                                                                      <block type="text" id=".sr#OoF{$o94mU;yrI68">
+                                                                                                                                        <field name="TEXT">Thank you for your purchase!</field>
+                                                                                                                                      </block>
+                                                                                                                                    </value>
+                                                                                                                                  </block>
+                                                                                                                                </value>
+                                                                                                                              </block>
+                                                                                                                            </next>
+                                                                                                                          </block>
+                                                                                                                        </next>
+                                                                                                                      </block>
+                                                                                                                    </next>
+                                                                                                                  </block>
+                                                                                                                </next>
+                                                                                                              </block>
+                                                                                                            </next>
+                                                                                                          </block>
+                                                                                                        </next>
+                                                                                                      </block>
+                                                                                                    </next>
+                                                                                                  </block>
+                                                                                                </next>
+                                                                                              </block>
+                                                                                            </next>
+                                                                                          </block>
+                                                                                        </next>
+                                                                                      </block>
+                                                                                    </next>
+                                                                                  </block>
+                                                                                </next>
+                                                                              </block>
+                                                                            </next>
+                                                                          </block>
+                                                                        </next>
+                                                                      </block>
+                                                                    </next>
+                                                                  </block>
+                                                                </next>
+                                                              </block>
+                                                            </next>
+                                                          </block>
+                                                        </next>
+                                                      </block>
+                                                    </next>
+                                                  </block>
+                                                </next>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </statement>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+  <block type="_027" id=";59B3$obY8u0N1$jC-o?" x="-401" y="188">
+    <field name="ID_ELE">.btn-primary</field>
+  </block>
+</xml>

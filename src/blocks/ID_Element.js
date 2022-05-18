@@ -130,7 +130,7 @@ Blockly.defineBlocksWithJsonArray([{
             {
                 "type": "input_statement",
                 "name": "THEN_ACTION",
-                "check": "Action"
+                "check": ["Action", "Var"]
             }
         ],
         "inputsInline": true,

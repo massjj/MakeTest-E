@@ -77,11 +77,15 @@
             <div class="shape shape-3"></div>
             <div class="shape shape-4"></div>
         </div>
+        <div class="text-container">
+            <p class="text1" id="text1"><u>Click to close</u></p>
+        </div>
         <script>
             const fs = require("fs");
             window.addEventListener("load", function() {
                 const loader = document.querySelector(".loader");
                 loader.className += " hidden"; // class "loader hidden"
+                console.log('start: ', loader.className)
                 if (!fs.existsSync("./isFirstTime.txt")) {
                     ipcRenderer.send("first-time");
                 }
@@ -350,17 +354,16 @@
                     console.error(err);
                 });
         }
-        interval = window.setInterval(function() {
-            setTimeout(() => {
-                // var text = document.createTextNode("This just got added");
-                check.status = 'wait';
-                document.addEventListener('click', () => {
-                    document.getElementById("p").textContent += " Click to close";
-                    loader.className += " hidden";
 
-                })
-            }, 10000)
-        }, 10000)
+        // setTimeout(() => {
+        //     // var text = document.createTextNode("This just got added");
+        //     check.status = 'wait';
+        //     document.addEventListener('click', () => {
+        //         loader.className -= " show";
+        //         loader.className += " hidden";
+        //     })
+        // }, 10000)
+
 
     }
 
@@ -379,9 +382,9 @@
                         console.log("Cancelled");
                     } else {
                         console.log("Saved!");
-                        // runFile();
-                        loader.className += "show"; // class "loader hidden"
                         console.log("run: ", runFile())
+                        load_page()
+
                     }
                 }
             );
@@ -396,13 +399,30 @@
                     } else {
                         console.log("Saved!");
                         // runFile();
-                        loader.className += "show";
                         console.log("run: ", runFile())
+                        load_page()
                             //alert("Successfully Saved !");
                     }
                 }
             );
         }
+    }
+
+    function load_page() {
+        const text_container = document.querySelector(".text-container")
+        console.log(text_container)
+        loader.className = 'loader';
+        setTimeout(() => {
+            text_container.className += 'show';
+        }, 10000)
+        document.addEventListener("click", () => {
+            loader.className += " hidden"; // class "loader hidden"
+            text_container.className = 'text-container';
+        })
+
+        console.log('Loader Run : ', loader.className);
+
+
     }
 
     function openFile() {
