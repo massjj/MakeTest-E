@@ -241,7 +241,7 @@ Blockly.JavaScript['_032'] = function(block) {
     var value_then_param = Blockly.JavaScript.valueToCode(block, 'THEN_PARAM', Blockly.JavaScript.ORDER_ATOMIC);
     var statements_then_action = Blockly.JavaScript.statementToCode(block, 'THEN_ACTION');
     // TODO: Assemble JavaScript into code variable.
-    var code = '\n' + value_then_id + '.then(' + value_then_param + ' => {' + statements_then_action + '\n})';
+    var code = '\n' + value_then_id + '.then((' + value_then_param + ') => {' + statements_then_action + '\n})';
     return code;
 };
 
@@ -250,6 +250,6 @@ Blockly.JavaScript['_033'] = function(block) {
     var value_within_param = Blockly.JavaScript.valueToCode(block, 'WITHIN_PARAM', Blockly.JavaScript.ORDER_ATOMIC);
     var statements_within_action = Blockly.JavaScript.statementToCode(block, 'WITHIN_ACTION');
     // TODO: Assemble JavaScript into code variable.
-    var code = '\n' + value_within_id + '.within(' + value_within_param + ' => {' + statements_within_action + '\n})';
+    var code = '\n' + value_within_id + '.within((' + value_within_param + ') => {' + statements_within_action + '\n})';
     return code;
 };
