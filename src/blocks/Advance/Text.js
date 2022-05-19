@@ -109,7 +109,7 @@ Blockly.JavaScript['_072'] = function(block) {
 Blockly.JavaScript['_074'] = function(block) {
     var value_number = Blockly.JavaScript.valueToCode(block, 'NUMBER', Blockly.JavaScript.ORDER_NONE);
     // TODO: Assemble JavaScript into code variable.
-    var code = 'convertToText(' + value_number + ')';
+    var code = value_number + '.toString()';
     // TODO: Change ORDER_NONE to the correct strength.
     return [code, Blockly.JavaScript.ORDER_NONE];
 };
