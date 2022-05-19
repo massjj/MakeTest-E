@@ -48,7 +48,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
 
 Blockly.JavaScript['variables_get'] = function(block) {
     // Variable getter.
-    var code = '\n' + Blockly.JavaScript.nameDB_.getName(block.getFieldValue('VAR'),
+    var code = Blockly.JavaScript.nameDB_.getName(block.getFieldValue('VAR'),
         Blockly.VARIABLE_CATEGORY_NAME);
     return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
