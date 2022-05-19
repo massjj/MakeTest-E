@@ -1,9 +1,5 @@
-var x;
-
-
-describe('x' , () => {
-  it('x', () => {
-    x = 'xx';
-    cy.contains(x, { matchCase: true }).should('be.contain', x)
+describe('' , () => {
+  it('', () => {
+    expect(0).to.equal(0)
   })
 })

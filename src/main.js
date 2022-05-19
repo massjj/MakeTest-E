@@ -107,10 +107,10 @@ const createWindow = () => {
         {
             role: "help",
             submenu: [{
-                label: "Learn More",
+                label: "Documentation",
                 click: async() => {
                     const { shell } = require("electron");
-                    await shell.openExternal("https://electronjs.org");
+                    await shell.openExternal("https://maketest.gitbook.io/maketest/");
                 },
             }, ],
         },
