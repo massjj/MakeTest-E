@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8" />
 
-
     <!-- style -->
     <link rel="stylesheet" href="./style/index.css" />
     <link rel="stylesheet" href="../node_modules/codemirror/lib/codemirror.css" />
@@ -60,11 +59,7 @@
     <!-- <script src="./script/app_dialog.js"></script> -->
     <script>
         var codeTosave;
-        const cypress = require("cypress");
         // cypress.open()
-        ipcRenderer.once('yes-first-time',()=>{
-            cypress.open();
-        })
     </script>
     <script src="./script/notifications.js"></script>
     <script src="./script/loader.js"></script>
@@ -204,10 +199,13 @@
     const {
         ipcRenderer
     } = require("electron");
+    const cypress = require("cypress");
     let fileHandle = null;
     let fileName = null;
     const loader = document.querySelector(".loader");
-
+    ipcRenderer.once('yes-first-time',()=>{
+            cypress.open();
+        })
     ipcRenderer.on('send-function', (event, toDo) => {
         switch (toDo) {
             case 'new file':
