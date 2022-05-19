@@ -48,9 +48,9 @@ var codelabToolbox1 = `
         </shadow>
       </value>
       <value name="FILTER_LOGIC">
-        <shadow type="_013">
+        <block type="_013">
           <field name="PROPERTY">be.exist</field>
-        </shadow>
+        </block>
       </value>
     </block>
     <block type="_012" />
@@ -243,7 +243,11 @@ var codelabToolbox1 = `
       </value>
     </block>
     <block type="_035">
-      <field name="CONDITION">true</field>
+      <value name="WHILE_LOGIC">
+        <shadow type="_012">
+          <field name="CONDITION">true</field>
+        </shadow>  
+      </value>
     </block>
     <block type="_036">
       <value name="FOR_INDEX">
@@ -415,9 +419,9 @@ var codelabToolbox1 = `
       <block type="variables_set">
         <field name="VAR">list</field>
         <value name="VALUE">
-          <shadow type="_047">
+          <block type="_047">
             <mutation items="2"></mutation>
-          </shadow>
+          </block>
         </value>
       </block>
       <block type="_047"></block>

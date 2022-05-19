@@ -121,7 +121,8 @@ Blockly.defineBlocksWithJsonArray([{
                 "name": "CONDITION_1",
                 "check": [
                     "Number",
-                    "String"
+                    "String",
+                    "Var"
                 ]
             },
             {
@@ -162,7 +163,8 @@ Blockly.defineBlocksWithJsonArray([{
                 "name": "CONDITION_2",
                 "check": [
                     "String",
-                    "Number"
+                    "Number",
+                    "Var"
                 ]
             }
         ],
@@ -247,6 +249,7 @@ Blockly.Blocks['_006'] = {
         this.appendValueInput('IF0')
             .setCheck('Boolean')
             .appendField('if');
+        this.setInputsInline(true);
         this.appendStatementInput('DO0')
             .appendField('do');
 
@@ -525,9 +528,8 @@ Blockly.JavaScript['_010'] = function(block) {
     var value_chainer_2 = Blockly.JavaScript.valueToCode(block, 'CHAINER_2', Blockly.JavaScript.ORDER_NONE);
     // TODO: Assemble JavaScript into code variable.
     console.log(checks)
-    if (checks == "Boolean") {
-        var code = value_chainer_1 + 'and' + value_chainer_2;
-    }
+    var code = value_chainer_1 + 'and' + value_chainer_2;
+
     // var code = value_chainer_1 + '.' + dropdown_oparation + value_chainer_2;
     // TODO: Change ORDER_NONE to the correct strength.
     return [code, Blockly.JavaScript.ORDER_NONE];
@@ -594,19 +596,19 @@ Blockly.JavaScript['_014'] = function(block) {
     // TODO: Assemble JavaScript into code variable.
     switch (dropdown_oparation) {
         case 'equal':
-            var code = '(' + value_condition_1 + '==' + value_condition_2 + ')';
+            var code = value_condition_1 + '==' + value_condition_2;
             break;
         case 'not_equal':
-            var code = '(' + value_condition_1 + '!=' + value_condition_2 + ')';
+            var code = value_condition_1 + '!=' + value_condition_2;
             break;
         case 'greater':
-            var code = '(' + value_condition_1 + '>' + value_condition_2 + ')';
+            var code = value_condition_1 + '>' + value_condition_2;
             break;
         case 'greater_Equal':
-            var code = '(' + value_condition_1 + '>=' + value_condition_2 + ')';
+            var code = value_condition_1 + '>=' + value_condition_2;
             break;
         case 'less':
-            var code = '(' + value_condition_1 + '<' + value_condition_2 + ')';
+            var code = value_condition_1 + '<' + value_condition_2;
             break;
         case 'less_equal':
             var code = '(' + value_condition_1 + '<=' + value_condition_2 + ')';

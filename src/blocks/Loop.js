@@ -26,18 +26,9 @@ Blockly.defineBlocksWithJsonArray([{
         "type": "_035",
         "message0": "while  %1 do %2 %3",
         "args0": [{
-                "type": "field_dropdown",
-                "name": "CONDITION",
-                "options": [
-                    [
-                        "true",
-                        "true"
-                    ],
-                    [
-                        "false",
-                        "false"
-                    ]
-                ]
+                "type": "input_value",
+                "name": "WHILE_LOGIC",
+                "check": "Boolean"
             },
             {
                 "type": "input_dummy"
@@ -55,6 +46,39 @@ Blockly.defineBlocksWithJsonArray([{
         "tooltip": "",
         "helpUrl": ""
     },
+    // {
+    //     "type": "_035",
+    //     "message0": "while  %1 do %2 %3",
+    //     "args0": [{
+    //             "type": "field_dropdown",
+    //             "name": "CONDITION",
+    //             "options": [
+    //                 [
+    //                     "true",
+    //                     "true"
+    //                 ],
+    //                 [
+    //                     "false",
+    //                     "false"
+    //                 ]
+    //             ]
+    //         },
+    //         {
+    //             "type": "input_dummy"
+    //         },
+    //         {
+    //             "type": "input_statement",
+    //             "name": "WHILE_CONDITION",
+    //             "check": "Action"
+    //         }
+    //     ],
+    //     "inputsInline": true,
+    //     "previousStatement": "Action",
+    //     "nextStatement": "Action",
+    //     "colour": "#E7A03C",
+    //     "tooltip": "",
+    //     "helpUrl": ""
+    // },
     {
         "type": "_036",
         "message0": "for %1 from 0 to %2 do %3 %4",
@@ -159,17 +183,25 @@ Blockly.JavaScript['_034'] = function(block) {
     var value_repeat_times = Blockly.JavaScript.valueToCode(block, 'REPEAT_TIMES', Blockly.JavaScript.ORDER_ATOMIC);
     var statements_repeat_action = Blockly.JavaScript.statementToCode(block, 'REPEAT_ACTION');
     // TODO: Assemble JavaScript into code variable.
-    var code = '\nfor(let index = ' + value_repeat_times + '; index < [times]; index++) {' + statements_repeat_action + '\n}';
+    var code = '\nfor(let count = 1; count <= ' + value_repeat_times + '; count++){' + statements_repeat_action + '\n}'
     return code;
 };
 
 Blockly.JavaScript['_035'] = function(block) {
-    var dropdown_condition = block.getFieldValue('CONDITION');
+    var value_while_logic = Blockly.JavaScript.valueToCode(block, 'WHILE_LOGIC', Blockly.JavaScript.ORDER_NONE);
     var statements_while_condition = Blockly.JavaScript.statementToCode(block, 'WHILE_CONDITION');
     // TODO: Assemble JavaScript into code variable.
-    var code = '\nwhile(' + dropdown_condition + '){' + statements_while_condition + '\n}';
+    var code = '\nwhile(' + value_while_logic + '){' + statements_while_condition + '\n}';
     return code;
 };
+
+// Blockly.JavaScript['_035'] = function(block) {
+//     var dropdown_condition = block.getFieldValue('CONDITION');
+//     var statements_while_condition = Blockly.JavaScript.statementToCode(block, 'WHILE_CONDITION');
+//     // TODO: Assemble JavaScript into code variable.
+//     var code = '\nwhile(' + dropdown_condition + '){' + statements_while_condition + '\n}';
+//     return code;
+// };
 
 Blockly.JavaScript['_036'] = function(block) {
     var value_for_index = Blockly.JavaScript.valueToCode(block, 'FOR_INDEX', Blockly.JavaScript.ORDER_ATOMIC);
@@ -185,7 +217,7 @@ Blockly.JavaScript['_037'] = function(block) {
     var value_foreach_id = Blockly.JavaScript.valueToCode(block, 'FOREACH_ID', Blockly.JavaScript.ORDER_NONE);
     var statements_foreach_action = Blockly.JavaScript.statementToCode(block, 'FOREACH_ACTION');
     // TODO: Assemble JavaScript into code variable.
-    var code = '\n' + value_foreach_id + '.each(' + value_foreach_param + ' => {' + statements_foreach_action + '\n})';
+    var code = '\n' + value_foreach_id + '.each((' + value_foreach_param + ') => {' + statements_foreach_action + '\n})';
     return code;
 };
 
