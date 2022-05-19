@@ -78,10 +78,7 @@
             <div class="shape shape-4"></div>
         </div>
         <div class="text-container">
-            <!-- <p class="text2" style="font-size: 10px;">Build file successfully. Please wait for cypress showing</p> -->
-            <p class="text1" style="text-decoration: underline;">Click to close</p>
-
-
+            <p class="text1" id="text1"><u>Click to close</u></p>
         </div>
         <script>
             const fs = require("fs");
@@ -228,25 +225,25 @@
             case 'exit':
                 beforeExit();
                 console.log("exit")
-                    // event.reply('function-reply',beforeExit());
+            // event.reply('function-reply',beforeExit());
                 break;
-                // case 'undo':
-                //     var current = Blockly.Xml.workspaceToDom(workspace);
-                //     var currentText = Blockly.Xml.domToPrettyText(current);
-                //     if (currentText !== xmlInit) {
-                //         workspace.undo(false);
-                //     }
-                //     break;
-                // case 'redo':
-                //     workspace.undo(true);
-                //     break;
-                // case 'copy':
-                //     console.log('copy')
-                //     Blockly.clipboard.copy();
-                //     break;
-                // case 'paste':
-                //     Blockly.clipboard.paste();
-                //     break;
+            // case 'undo':
+            //     var current = Blockly.Xml.workspaceToDom(workspace);
+            //     var currentText = Blockly.Xml.domToPrettyText(current);
+            //     if (currentText !== xmlInit) {
+            //         workspace.undo(false);
+            //     }
+            //     break;
+            // case 'redo':
+            //     workspace.undo(true);
+            //     break;
+            // case 'copy':
+            //     console.log('copy')
+            //     Blockly.clipboard.copy();
+            //     break;
+            // case 'paste':
+            //     Blockly.clipboard.paste();
+            //     break;
             case 'cypress':
                 cypress.open();
 
@@ -840,21 +837,22 @@
                         if (res == 1) {
                             //เลือก save as
                             toXML();
-
-                        } else {
-                            ipcRenderer.send("function-reply", true)
+                            
+                        }
+                        else{
+                            ipcRenderer.send("function-reply",true)
                         }
                     });
                 }
                 if (status === true) {
                     //ไม่มีการเปลี่ยนแปลง
-                    ipcRenderer.send("function-reply", true)
+                    ipcRenderer.send("function-reply",true)  
                 }
             });
         } else {
             if (xmlText === xmlInit) {
                 // console.log('ff')
-                ipcRenderer.send("function-reply", true)
+                ipcRenderer.send("function-reply",true)    
             } else {
                 console.log("create first");
                 ipcRenderer.send("modal-before-exit"); //เรียกไดอะล็อก save, dont't save, cancel
@@ -863,14 +861,16 @@
                         //เลือก save as
                         console.log("save as");
                         toXML();
-
-                    } else {
-                        ipcRenderer.send("function-reply", true)
+                        
                     }
+                    else{
+                        ipcRenderer.send("function-reply",true)
+                    }   
                 });
             }
-        }
+        }  
     }
+
 </script>
 
 </html>
