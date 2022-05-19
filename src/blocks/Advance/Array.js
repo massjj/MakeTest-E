@@ -26,7 +26,7 @@ Blockly.defineBlocksWithJsonArray([{
             {
                 "type": "input_value",
                 "name": "INDEX",
-                "check": "Number"
+                "check": ["Number", "Var"]
             }
         ],
         "inputsInline": true,
@@ -49,7 +49,7 @@ Blockly.defineBlocksWithJsonArray([{
             {
                 "type": "input_value",
                 "name": "INDEX",
-                "check": "Number"
+                "check": ["Number", "Var"]
             }
         ],
         "inputsInline": true,
@@ -123,14 +123,15 @@ Blockly.defineBlocksWithJsonArray([{
             {
                 "type": "input_value",
                 "name": "INDEX",
-                "check": "Number"
+                "check": ["Number", "Var"]
             },
             {
                 "type": "input_value",
                 "name": "SET_VALUE",
                 "check": [
                     "Number",
-                    "String"
+                    "String",
+                    "Var"
                 ]
             }
         ],
@@ -157,7 +158,8 @@ Blockly.defineBlocksWithJsonArray([{
                 "name": "SET_VALUE",
                 "check": [
                     "Number",
-                    "String"
+                    "String",
+                    "Var"
                 ]
             }
         ],
@@ -182,7 +184,7 @@ Blockly.defineBlocksWithJsonArray([{
             {
                 "type": "input_value",
                 "name": "INDEX",
-                "check": "Number"
+                "check": ["Number", "Var"]
             }
         ],
         "inputsInline": true,
@@ -206,14 +208,15 @@ Blockly.defineBlocksWithJsonArray([{
             {
                 "type": "input_value",
                 "name": "INDEX",
-                "check": "Number"
+                "check": ["Number", "Var"]
             },
             {
                 "type": "input_value",
                 "name": "SET_VALUE",
                 "check": [
                     "Number",
-                    "String"
+                    "String",
+                    "Var"
                 ]
             }
         ],
@@ -238,7 +241,7 @@ Blockly.defineBlocksWithJsonArray([{
             {
                 "type": "input_value",
                 "name": "GET_VALUE",
-                "check": "String"
+                "check": ["String", "Var"]
             }
         ],
         "inputsInline": true,
@@ -419,16 +422,16 @@ Blockly.JavaScript['_049'] = function(block) {
     // TODO: Assemble JavaScript into code variable.
     var code = value_array_var + '[' + value_index + ']';
     // TODO: Change ORDER_NONE to the correct strength.
-    return [code, Blockly.JavaScript.ORDER_NONE];
+    return [code, Blockly.JavaScript.ORDER_ATOMIC];
 }
 
 Blockly.JavaScript['_050'] = function(block) {
     var value_array = Blockly.JavaScript.valueToCode(block, 'ARRAY', Blockly.JavaScript.ORDER_MEMBER) || '[]';
     var value_index = Blockly.JavaScript.valueToCode(block, 'INDEX', Blockly.JavaScript.ORDER_ATOMIC);
     // TODO: Assemble JavaScript into code variable.
-    var code = value_array + '.removeAt(' + value_index + ')[' + value_index + ']';
+    var code = value_array + '.splice(' + value_index + ', 1)';
     // TODO: Change ORDER_NONE to the correct strength.
-    return [code, Blockly.JavaScript.ORDER_NONE];
+    return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
 Blockly.JavaScript['_051'] = function(block) {
@@ -450,7 +453,7 @@ Blockly.JavaScript['_052'] = function(block) {
 Blockly.JavaScript['_053'] = function(block) {
     var value_array = Blockly.JavaScript.valueToCode(block, 'ARRAY', Blockly.JavaScript.ORDER_ATOMIC);
     // TODO: Assemble JavaScript into code variable.
-    var code = value_array + '._pickRandom()';
+    var code = value_array + '.[Math.floor(Math.random()*' + value_array + '.length)]';
     // TODO: Change ORDER_NONE to the correct strength.
     return [code, Blockly.JavaScript.ORDER_NONE];
 };
@@ -476,7 +479,7 @@ Blockly.JavaScript['_058'] = function(block) {
     var value_array = Blockly.JavaScript.valueToCode(block, 'ARRAY', Blockly.JavaScript.ORDER_ATOMIC);
     var value_set_value = Blockly.JavaScript.valueToCode(block, 'INDEX', Blockly.JavaScript.ORDER_NONE);
     // TODO: Assemble JavaScript into code variable.
-    var code = value_array + '.removeAt(' + value_set_value + ')';
+    var code = value_array + '.splice(' + value_set_value + ',1)';
     return code;
 };
 
@@ -485,7 +488,7 @@ Blockly.JavaScript['_060'] = function(block) {
     var value_index = Blockly.JavaScript.valueToCode(block, 'INDEX', Blockly.JavaScript.ORDER_NONE);
     var value_set_value = Blockly.JavaScript.valueToCode(block, 'SET_VALUE', Blockly.JavaScript.ORDER_ATOMIC);
     // TODO: Assemble JavaScript into code variable.
-    var code = value_array + '.insertAt(' + value_index + ',' + value_set_value + ')';
+    var code = value_array + '.splice(' + value_index + ', 0, ' + value_set_value + ')';
     return code;
 };
 

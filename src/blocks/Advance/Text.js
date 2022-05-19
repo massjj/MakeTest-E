@@ -22,7 +22,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "input_value",
             "name": "STRING",
-            "check": "String"
+            "check": "Var"
         }],
         "inputsInline": true,
         "output": "String",
@@ -36,7 +36,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "input_value",
             "name": "STRING_PARSE",
-            "check": "String"
+            "check": "Var"
         }],
         "inputsInline": true,
         "output": "Number",
@@ -50,7 +50,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
                 "type": "input_value",
                 "name": "STRING",
-                "check": "String"
+                "check": "Var"
             },
             {
                 "type": "input_value",
@@ -70,7 +70,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
             "type": "input_value",
             "name": "NUMBER",
-            "check": "Number"
+            "check": "Var"
         }],
         "inputsInline": true,
         "output": "String",
@@ -84,9 +84,9 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
 Blockly.JavaScript['_069'] = function(block) {
     var value_string = Blockly.JavaScript.valueToCode(block, 'STRING', Blockly.JavaScript.ORDER_ATOMIC);
     // TODO: Assemble JavaScript into code variable.
-    var code = 'string.length(' + value_string + ')';
+    var code = value_string + '.length';
     // TODO: Change ORDER_NONE to the correct strength.
-    return [code, Blockly.JavaScript.ORDER_NONE];
+    return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
 Blockly.JavaScript['_071'] = function(block) {
@@ -101,9 +101,9 @@ Blockly.JavaScript['_072'] = function(block) {
     var value_string = Blockly.JavaScript.valueToCode(block, 'STRING', Blockly.JavaScript.ORDER_ATOMIC);
     var value_sep = Blockly.JavaScript.valueToCode(block, 'SEP', Blockly.JavaScript.ORDER_ATOMIC);
     // TODO: Assemble JavaScript into code variable.
-    var code = 'string.split(' + value_sep + ',' + value_string + ')';
+    var code = value_string + '.split(' + value_sep + ')';
     // TODO: Change ORDER_NONE to the correct strength.
-    return [code, Blockly.JavaScript.ORDER_NONE];
+    return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
 Blockly.JavaScript['_074'] = function(block) {

@@ -33,12 +33,12 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             {
                 "type": "input_value",
                 "name": "MIN_NUMBER",
-                "check": "Number"
+                "check": ["Number", "Var"]
             },
             {
                 "type": "input_value",
                 "name": "MAX_NUMBER",
-                "check": "Number"
+                "check": ["Number", "Var"]
             }
         ],
         "inputsInline": true,
@@ -53,7 +53,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
                 "type": "input_value",
                 "name": "NUMBER_1",
-                "check": "Number"
+                "check": ["Number", "Var"]
             },
             {
                 "type": "field_dropdown",
@@ -87,7 +87,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             {
                 "type": "input_value",
                 "name": "NUMBER_2",
-                "check": "Number"
+                "check": ["Number", "Var"]
             }
         ],
         "inputsInline": true,
@@ -124,7 +124,7 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
             {
                 "type": "input_value",
                 "name": "NUMBER",
-                "check": "Number"
+                "check": ["Number", "Var"]
             }
         ],
         "inputsInline": true,
@@ -139,12 +139,12 @@ Blockly.defineBlocksWithJsonArray([ // BEGIN JSON EXTRACT
         "args0": [{
                 "type": "input_value",
                 "name": "NUMBER_1",
-                "check": "Number"
+                "check": ["Number", "Var"]
             },
             {
                 "type": "input_value",
                 "name": "NUMBER_2",
-                "check": "Number"
+                "check": ["Number", "Var"]
             }
         ],
         "inputsInline": true,

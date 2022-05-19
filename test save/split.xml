@@ -1,0 +1,73 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <variables>
+    <variable id="bO$B*VyAOr4|MB~yJGU`">String</variable>
+  </variables>
+  <block type="_001" id="H$B6t1d|Ng9JjRjHcBH#" deletable="false" x="262" y="63">
+    <value name="DESCRIBE_TEXT">
+      <shadow type="text" id="x/lCtEwXz6d7DBtN3O]3">
+        <field name="TEXT"></field>
+      </shadow>
+    </value>
+    <statement name="IT">
+      <block type="_002" id="vsjt^H;[)Rq^J7B7GHOC">
+        <value name="IT_TEXT">
+          <shadow type="text" id="[NT=p0O5+%QH$7WYKy:g">
+            <field name="TEXT"></field>
+          </shadow>
+        </value>
+        <statement name="ACTION">
+          <block type="variables_set" id="9(j25i)d1{Q;0HEJ,jXH">
+            <field name="VAR" id="bO$B*VyAOr4|MB~yJGU`">String</field>
+            <value name="VALUE">
+              <block type="text" id="qz0$.(fd6(:=`pgal0hI">
+                <field name="TEXT">Sasikarn Aungkanakorn</field>
+              </block>
+            </value>
+            <next>
+              <block type="_077" id="GlH:RrJi)s@Q0(I4rq(a">
+                <value name="CONSOLE_STRING">
+                  <shadow type="text" id="Y.~E%h.7SnKmEvJ8$_BZ">
+                    <field name="TEXT"></field>
+                  </shadow>
+                  <block type="_072" id="P.KR+~s0|ab_@cw^M!a{">
+                    <value name="STRING">
+                      <block type="variables_get" id="UQ.Qe~5Jk+~U$,fZt!?0">
+                        <field name="VAR" id="bO$B*VyAOr4|MB~yJGU`">String</field>
+                      </block>
+                    </value>
+                    <value name="SEP">
+                      <shadow type="text" id="WgX3~L^=IUcDtR[);t@b">
+                        <field name="TEXT"> </field>
+                      </shadow>
+                    </value>
+                  </block>
+                </value>
+                <next>
+                  <block type="_077" id=")l/m.Dh9}U`HX@C}bS[-">
+                    <value name="CONSOLE_STRING">
+                      <shadow type="text" id="t`kjg#FX$e386;?za.fR">
+                        <field name="TEXT"></field>
+                      </shadow>
+                      <block type="_049" id="9%Sv!w@u:8aVea-}GRV)">
+                        <value name="ARRAY_VAR">
+                          <block type="variables_get" id="w/[.kegzVe;tj~0Np$|)">
+                            <field name="VAR" id="bO$B*VyAOr4|MB~yJGU`">String</field>
+                          </block>
+                        </value>
+                        <value name="INDEX">
+                          <shadow type="_063" id="iOc@!)2yclw-$U]RmUZ)">
+                            <field name="NUM">0</field>
+                          </shadow>
+                        </value>
+                      </block>
+                    </value>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </statement>
+      </block>
+    </statement>
+  </block>
+</xml>
