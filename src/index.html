@@ -62,6 +62,9 @@
         var codeTosave;
         const cypress = require("cypress");
         // cypress.open()
+        ipcRenderer.once('yes-first-time',()=>{
+            cypress.open();
+        })
     </script>
     <script src="./script/notifications.js"></script>
     <script src="./script/loader.js"></script>
