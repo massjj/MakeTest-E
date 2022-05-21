@@ -124,7 +124,7 @@ Blockly.JavaScript['_001'] = function(block) {
     var value_describe_text = Blockly.JavaScript.valueToCode(block, 'DESCRIBE_TEXT', Blockly.JavaScript.ORDER_ATOMIC);
     var statements_it = Blockly.JavaScript.statementToCode(block, 'IT');
     // TODO: Assemble JavaScript into code variable.
-    var code = 'describe(' + value_describe_text + ' , () => {' + statements_it + '\n})';;
+    var code = 'describe(' + value_describe_text + ' , () => {' + statements_it + '\n});';;
     return code;
 };
 
@@ -132,7 +132,7 @@ Blockly.JavaScript['_002'] = function(block) {
     var value_it_text = Blockly.JavaScript.valueToCode(block, 'IT_TEXT', Blockly.JavaScript.ORDER_ATOMIC);
     var statements_action = Blockly.JavaScript.statementToCode(block, 'ACTION');
     // TODO: Assemble JavaScript into code variable.
-    var code = '\nit(' + value_it_text + ', () => {' + statements_action + '\n})';
+    var code = '\nit(' + value_it_text + ', () => {' + statements_action + '\n});';
     return code;
 };
 
@@ -142,10 +142,10 @@ Blockly.JavaScript['_003'] = function(block) {
     // TODO: Assemble JavaScript into code variable.
     switch (dropdown_pre_times) {
         case 'one_times':
-            var code = '\nbefore(() => {' + statements_action + '\n})';
+            var code = '\nbefore(() => {' + statements_action + '\n});';
             break;
         case 'every_times':
-            var code = '\nbeforeEach(() => {' + statements_action + '\n})';
+            var code = '\nbeforeEach(() => {' + statements_action + '\n});';
             break;
     }
     return code;

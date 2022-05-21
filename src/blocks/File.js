@@ -53,13 +53,13 @@ Blockly.JavaScript['_044'] = function(block) {
     var dropdown_attach_file = block.getFieldValue('ATTACH_FILE');
     var value_attach_file = Blockly.JavaScript.valueToCode(block, 'ATTACH_FILE', Blockly.JavaScript.ORDER_NONE);
     // TODO: Assemble JavaScript into code variable.
-    var code = '\n' + value_attach_file + '.attachFile(' + dropdown_attach_file + ')';
+    var code = '\n' + value_attach_file + '.attachFile(' + dropdown_attach_file + ');';
     return code;
 };
 
 Blockly.JavaScript['_045'] = function(block) {
     var value_file_name = Blockly.JavaScript.valueToCode(block, 'FILE_NAME', Blockly.JavaScript.ORDER_ATOMIC);
     // TODO: Assemble JavaScript into code variable.
-    var code = '\ncy.readFile(' + value_file_name + ').should(\"exist\")';
+    var code = '\ncy.readFile(' + value_file_name + ').should(\"exist\");';
     return code;
 };

@@ -507,7 +507,7 @@ Blockly.JavaScript['_007'] = function(block) {
     var value_id = Blockly.JavaScript.valueToCode(block, 'ID', Blockly.JavaScript.ORDER_NONE);
     var value_logic = Blockly.JavaScript.valueToCode(block, 'LOGIC', Blockly.JavaScript.ORDER_NONE);
     // TODO: Assemble JavaScript into code variable.
-    var code = '\n' + value_id + '.should' + value_logic + '';
+    var code = '\n' + value_id + '.should' + value_logic + ';';
     return code;
 };
 
@@ -516,7 +516,7 @@ Blockly.JavaScript['_009'] = function(block) {
     var value_filter_text = Blockly.JavaScript.valueToCode(block, 'FILTER_TEXT', Blockly.JavaScript.ORDER_ATOMIC);
     var value_filter_logic = Blockly.JavaScript.valueToCode(block, 'FILTER_LOGIC', Blockly.JavaScript.ORDER_NONE);
     // TODO: Assemble JavaScript into code variable.
-    var code = '\n' + value_filter_id + '.filter(' + value_filter_text + ').should' + value_filter_logic;
+    var code = '\n' + value_filter_id + '.filter(' + value_filter_text + ').should' + value_filter_logic + ';';
     return code;
 };
 
@@ -622,6 +622,6 @@ Blockly.JavaScript['_023'] = function(block) {
     var dropdown_popup_check = block.getFieldValue('POPUP_CHECK');
     var value_popup_text = Blockly.JavaScript.valueToCode(block, 'POPUP_TEXT', Blockly.JavaScript.ORDER_ATOMIC);
     // TODO: Assemble JavaScript into code variable.
-    var code = '\ncy.on(\'' + dropdown_popup_check + '\'\, (text) => { \n expect(text).to.contain(' + value_popup_text + ') \n})';
+    var code = '\ncy.on(\'' + dropdown_popup_check + '\'\, (text) => { \n expect(text).to.contain(' + value_popup_text + ') \n});';
     return code;
 };

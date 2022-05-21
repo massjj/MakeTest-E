@@ -41,7 +41,7 @@ Blockly.defineBlocksWithJsonArray([{
 Blockly.JavaScript['_077'] = function(block) {
     var value_console_string = Blockly.JavaScript.valueToCode(block, 'CONSOLE_STRING', Blockly.JavaScript.ORDER_ATOMIC);
     // TODO: Assemble JavaScript into code variable.
-    var code = '\ncy.log(' + value_console_string + ')';
+    var code = '\ncy.log(' + value_console_string + ');';
     return code;
 };
 

@@ -65,20 +65,20 @@ Blockly.defineBlocksWithJsonArray([{
 Blockly.JavaScript['_040'] = function(block) {
     var value_visit_text = Blockly.JavaScript.valueToCode(block, 'VISIT_TEXT', Blockly.JavaScript.ORDER_ATOMIC);
     // TODO: Assemble JavaScript into code variable.
-    var code = '\ncy.visit(' + value_visit_text + ')';
+    var code = '\ncy.visit(' + value_visit_text + ');';
     return code;
 };
 
 Blockly.JavaScript['_041'] = function(block) {
     var value_url_logic = Blockly.JavaScript.valueToCode(block, 'URL_LOGIC', Blockly.JavaScript.ORDER_NONE);
     // TODO: Assemble JavaScript into code variable.
-    var code = '\ncy.url().should' + value_url_logic;
+    var code = '\ncy.url().should' + value_url_logic + ';';
     return code;
 };
 
 Blockly.JavaScript['_042'] = function(block) {
     // TODO: Assemble JavaScript into code variable.
-    var code = '\ncy.reload()';
+    var code = '\ncy.reload();';
     return code;
 };
 
@@ -87,10 +87,10 @@ Blockly.JavaScript['_043'] = function(block) {
     // TODO: Assemble JavaScript into code variable.
     switch (dropdown_go_position) {
         case 'back':
-            var code = '\ncy.go(\'back\')';
+            var code = '\ncy.go(\'back\');';
             break;
         case 'forward':
-            var code = '\ncy.go(\'forward\')';
+            var code = '\ncy.go(\'forward\');';
             break;
     }
     return code;

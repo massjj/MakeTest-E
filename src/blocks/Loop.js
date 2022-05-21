@@ -183,7 +183,7 @@ Blockly.JavaScript['_034'] = function(block) {
     var value_repeat_times = Blockly.JavaScript.valueToCode(block, 'REPEAT_TIMES', Blockly.JavaScript.ORDER_ATOMIC);
     var statements_repeat_action = Blockly.JavaScript.statementToCode(block, 'REPEAT_ACTION');
     // TODO: Assemble JavaScript into code variable.
-    var code = '\nfor(let count = 1; count <= ' + value_repeat_times + '; count++){' + statements_repeat_action + '\n}'
+    var code = '\nfor(let count = 1; count <= ' + value_repeat_times + '; count++){' + statements_repeat_action + '\n};'
     return code;
 };
 
@@ -191,7 +191,7 @@ Blockly.JavaScript['_035'] = function(block) {
     var value_while_logic = Blockly.JavaScript.valueToCode(block, 'WHILE_LOGIC', Blockly.JavaScript.ORDER_NONE);
     var statements_while_condition = Blockly.JavaScript.statementToCode(block, 'WHILE_CONDITION');
     // TODO: Assemble JavaScript into code variable.
-    var code = '\nwhile(' + value_while_logic + '){' + statements_while_condition + '\n}';
+    var code = '\nwhile(' + value_while_logic + '){' + statements_while_condition + '\n};';
     return code;
 };
 
@@ -208,7 +208,7 @@ Blockly.JavaScript['_036'] = function(block) {
     var value_for_num = Blockly.JavaScript.valueToCode(block, 'FOR_NUM', Blockly.JavaScript.ORDER_ATOMIC);
     var statements_for_action = Blockly.JavaScript.statementToCode(block, 'FOR_ACTION');
     // TODO: Assemble JavaScript into code variable.
-    var code = '\nfor(' + value_for_index + '= 0; ' + value_for_index + '<' + value_for_num + '; ' + value_for_index + '++){' + statements_for_action + '\n}';
+    var code = '\nfor(' + value_for_index + '= 0; ' + value_for_index + '<' + value_for_num + '; ' + value_for_index + '++){' + statements_for_action + '\n};';
     return code;
 };
 
@@ -217,7 +217,7 @@ Blockly.JavaScript['_037'] = function(block) {
     var value_foreach_id = Blockly.JavaScript.valueToCode(block, 'FOREACH_ID', Blockly.JavaScript.ORDER_NONE);
     var statements_foreach_action = Blockly.JavaScript.statementToCode(block, 'FOREACH_ACTION');
     // TODO: Assemble JavaScript into code variable.
-    var code = '\n' + value_foreach_id + '.each((' + value_foreach_param + ') => {' + statements_foreach_action + '\n})';
+    var code = '\n' + value_foreach_id + '.each((' + value_foreach_param + ') => {' + statements_foreach_action + '\n});';
     return code;
 };
 

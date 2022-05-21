@@ -28,6 +28,7 @@
     "author": "",
     "license": "ISC",
     "devDependencies": {
+        "cypress": "^9.6.1",
         "electron": "^17.1.2",
         "electron-builder": "^22.14.13"
     },
@@ -35,7 +36,6 @@
         "@medv/finder": "^2.1.0",
         "blockly": "^7.20211209.4",
         "codemirror": "^5.65.2",
-        "cypress": "^9.5.2",
         "os-utils": "0.0.14"
     },
     "type": "commonjs"
