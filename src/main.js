@@ -396,13 +396,12 @@ const createWindow = () => {
     });
 
     ipcMain.on("modal-before-exit", (event, fileHandle) => {
-        //new file โดยที่ยังไม่เคย import
         if (fileHandle != null) {
             dialog
                 .showMessageBox(mainWindow, {
                     type: "question",
                     icon: "M-Logo-Whi.ico",
-                    buttons: ["&Save", "&Save as", "&Exit"],
+                    buttons: ["&Save", "&Don't save", "&Cancel"],
                     title: "Save or Save As",
                     message: "Do you want to save or save as before you quit?",
                     detail: "Your work will be lost if you didn't save them.",
@@ -416,11 +415,11 @@ const createWindow = () => {
                         case 0:
                             event.reply("exit-reply", 0);
                             break;
-                            //save as
+                        //don't save
                         case 1:
                             event.reply("exit-reply", 1);
                             break;
-                            //exit
+                        //cancel
                         case 2:
                             event.reply("exit-reply", 2);
                             break;
@@ -431,12 +430,12 @@ const createWindow = () => {
                 .showMessageBox(mainWindow, {
                     type: "question",
                     icon: "M-Logo-Whi.ico",
-                    buttons: ["&Save as", "&Exit"],
+                    buttons: ["&Save as", "&Don't Save", "&Cancel"],
                     title: "Save As",
                     message: "Do you want to save as before you quit?",
                     detail: "Your work will be lost if you didn't save them.",
                     noLink: true,
-                    cancelId: 1,
+                    cancelId: 2,
                 })
                 .then((data) => {
                     console.log(data.response);
@@ -445,9 +444,12 @@ const createWindow = () => {
                         case 0:
                             event.reply("exit-reply", 0);
                             break;
-                            //exit
+                            //don't save
                         case 1:
                             event.reply("exit-reply", 1);
+                            break;
+                        case 2:
+                            event.reply("exit-reply", 2);
                             break;
                     }
                 });
@@ -512,22 +514,6 @@ const createWindow = () => {
                 app.quit()
             }
         })
-
-        // dialog.showMessageBox(mainWindow, {
-        //   type: 'info',
-        //   buttons: ['Ok', 'Exit'],
-        //   cancelId: 1,
-        //   defaultId: 0,
-        //   noLink: true,
-        //   title: 'Warning',
-        //   detail: 'Hey, wait! There\'s something you should know...'
-        // }).then(({ response, checkboxChecked }) => {
-        //   console.log(`response: ${response}`)
-        //   if (response) {
-        //     mainWindow.destroy()
-        //     app.quit()
-        //   }
-        // })
     })
 };
 
