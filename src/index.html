@@ -42,7 +42,6 @@
     <script src="./blocks/Variable_dynamic.js"></script>
     <script src="./blocks/custom-dialog.js"></script>
 
-
     <script src="./blocks/Advance/Text.js"></script>
     <script src="./blocks/Advance/Math.js"></script>
     <script src="./blocks/Advance/Time.js"></script>
@@ -50,7 +49,6 @@
     <script src="./blocks/Advance/Array.js"></script>
     <script src="./script/custom_renderer.js"></script>
     <script src="../node_modules/blockly/msg/en.js"></script>
-
 
 
     <!-- codemirror -->
@@ -102,10 +100,6 @@
                 <button class="w3-bar-item w3-button" onclick="saveButton()">
                     <img id="Save" src="assets/image/Save.svg" />
                 </button>
-                <!-- <script src="./script/saveFile.js"></script> -->
-                <!-- <button class="w3-bar-item w3-button">
-          <img id="RecordWeb" src="assets/image/Recorder.svg" />
-        </button> -->
                 <button class="w3-bar-item w3-button" onclick="toSpecFile()">
                     <img id="Run" src="assets/image/Run.svg" />
                 </button>
@@ -167,10 +161,8 @@
                                         document.getElementById("URL").value =
                                             suffix.concat(message);
                                     }
-                                    // this.message = this.url;
                                 }
                             </script>
-                            <!-- </input> -->
                         </div>
                     </div>
                     <div class="codeDiv">
@@ -203,9 +195,6 @@
     let fileHandle = null;
     let fileName = null;
     const loader = document.querySelector(".loader");
-    ipcRenderer.once('yes-first-time',()=>{
-            cypress.open();
-        })
     ipcRenderer.on('send-function', (event, toDo) => {
         switch (toDo) {
             case 'new file':
@@ -226,25 +215,7 @@
             case 'exit':
                 beforeExit();
                 console.log("exit")
-            // event.reply('function-reply',beforeExit());
                 break;
-            // case 'undo':
-            //     var current = Blockly.Xml.workspaceToDom(workspace);
-            //     var currentText = Blockly.Xml.domToPrettyText(current);
-            //     if (currentText !== xmlInit) {
-            //         workspace.undo(false);
-            //     }
-            //     break;
-            // case 'redo':
-            //     workspace.undo(true);
-            //     break;
-            // case 'copy':
-            //     console.log('copy')
-            //     Blockly.clipboard.copy();
-            //     break;
-            // case 'paste':
-            //     Blockly.clipboard.paste();
-            //     break;
             case 'cypress':
                 cypress.open();
 
@@ -355,17 +326,6 @@
                     console.error(err);
                 });
         }
-
-        // setTimeout(() => {
-        //     // var text = document.createTextNode("This just got added");
-        //     check.status = 'wait';
-        //     document.addEventListener('click', () => {
-        //         loader.className -= " show";
-        //         loader.className += " hidden";
-        //     })
-        // }, 10000)
-
-
     }
 
 
@@ -513,13 +473,13 @@
     function newFile() {
         var xml = Blockly.Xml.workspaceToDom(workspace);
         var xmlText = Blockly.Xml.domToPrettyText(xml);
-        console.log(fileHandle);
+
         if (fileHandle != null) {
             //ตรวจสอบการแก้ไขไฟล์
-            console.log("dd")
+         
             ipcRenderer.send("file-compare", fileHandle, xmlText);
             ipcRenderer.once("compare-reply", (event, status) => {
-                console.log(status);
+          
                 if (status === false) {
                     //มีการเปลี่ยนแปลง
                     if (xmlText === xmlInit) {
@@ -530,15 +490,8 @@
                         ipcRenderer.once("leave-import-reply", (event, res) => {
                             if (res === 0) {
                                 //เลือก save
-                                console.log("re");
+                               
                                 ipcRenderer.send("update-file", xmlText, fileHandle);
-                                // Blockly.Events.disable();
-                                // workspace.clear();
-                                // Blockly.Events.enable();
-                                // Blockly.Xml.domToWorkspace(
-                                //     document.getElementById("starter"),
-                                //     workspace
-                                // );
                                 createNew();
                             }
                             if (res === 1) {
@@ -557,10 +510,10 @@
         //ไม่เคยสร้างไฟล์มาก่อน
         else {
             if (xmlText === xmlInit) {
-                // console.log('ff')
+               
                 createNew();
             } else {
-                // console.log("create first");
+                
                 ipcRenderer.send("modal-leave-file"); //เรียกไดอะล็อก save, dont't save, cancel
                 ipcRenderer.once("leave-reply", (event, res) => {
                     if (res === 0) {
@@ -835,13 +788,11 @@
                                 }
                             })
                         }
-                        if (res == 1) {
-                            //เลือก save as
-                            toXML();
-                            
+                        if(res == 1){
+                            ipcRenderer.send("function-reply",true)
                         }
                         else{
-                            ipcRenderer.send("function-reply",true)
+                            ipcRenderer.send("function-reply",false)
                         }
                     });
                 }
@@ -858,14 +809,17 @@
                 console.log("create first");
                 ipcRenderer.send("modal-before-exit"); //เรียกไดอะล็อก save, dont't save, cancel
                 ipcRenderer.once("exit-reply", (event, res) => {
-                    if (res === 0) {
+                    if (res == 0) {
                         //เลือก save as
                         console.log("save as");
                         toXML();
                         
                     }
-                    else{
+                    if(res == 1){
                         ipcRenderer.send("function-reply",true)
+                    }
+                    else{
+                        ipcRenderer.send("function-reply",false)
                     }   
                 });
             }
