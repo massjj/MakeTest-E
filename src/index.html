@@ -203,9 +203,6 @@
     let fileHandle = null;
     let fileName = null;
     const loader = document.querySelector(".loader");
-    ipcRenderer.once('yes-first-time',()=>{
-            cypress.open();
-        })
     ipcRenderer.on('send-function', (event, toDo) => {
         switch (toDo) {
             case 'new file':
