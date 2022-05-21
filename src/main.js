@@ -497,6 +497,7 @@ const createWindow = () => {
                             cypress.open()
                             break;
                     }
+                    event.reply('yes-first-time','ok');
                 })
             }
         })
